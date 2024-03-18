@@ -146,7 +146,7 @@ func (s *UsersServer) Delete(ctx context.Context, req *connect.Request[usersv1.D
 	}
 
 	res := connect.NewResponse(&usersv1.DeleteResponse{
-		Message: "User deleted successfully",
+		Success: true,
 	})
 
 	res.Header().Set("Users-Version", "v1")
