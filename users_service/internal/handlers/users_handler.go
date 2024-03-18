@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
+	usersv1 "github.com/X3ne/ds_ms/api/gen/users_service/users/v1"
 	api_errors "github.com/X3ne/ds_ms/users_service/internal/errors"
-	usersv1 "github.com/X3ne/ds_ms/users_service/internal/gen/users/v1"
 	"github.com/X3ne/ds_ms/users_service/internal/models"
 	"github.com/X3ne/ds_ms/users_service/internal/repositories"
 	"github.com/X3ne/ds_ms/users_service/internal/validator"

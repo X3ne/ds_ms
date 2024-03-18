@@ -17,6 +17,7 @@ require (
 )
 
 require (
+	github.com/X3ne/ds_ms v0.0.0-20240318173419-43521bead5eb // indirect
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/google/cel-go v0.20.1 // indirect

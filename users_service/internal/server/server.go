@@ -16,8 +16,8 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"gorm.io/gorm"
 
+	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
 	"github.com/X3ne/ds_ms/users_service/config"
-	"github.com/X3ne/ds_ms/users_service/internal/gen/users/v1/usersv1connect"
 	"github.com/X3ne/ds_ms/users_service/internal/handlers"
 	"github.com/X3ne/ds_ms/users_service/internal/interceptors"
 	"github.com/X3ne/ds_ms/users_service/internal/repositories"
