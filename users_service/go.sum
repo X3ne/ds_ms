@@ -6,6 +6,10 @@ connectrpc.com/grpcreflect v1.2.0 h1:Q6og1S7HinmtbEuBvARLNwYmTbhEGRpHDhqrPNlmK+U
 connectrpc.com/grpcreflect v1.2.0/go.mod h1:nwSOKmE8nU5u/CidgHtPYk1PFI3U9ignz7iDMxOYkSY=
 github.com/X3ne/ds_ms v0.0.0-20240318173419-43521bead5eb h1:C8j1//BdPiXPBPaFm9WKa/3puD1dbhVbtzR+OpyNcZQ=
 github.com/X3ne/ds_ms v0.0.0-20240318173419-43521bead5eb/go.mod h1:+7+FypMn8f8u1jJkshj4GekuR+REA696Em/TFsSLZBM=
+github.com/X3ne/ds_ms v0.0.0-20240318180002-cca5d78701b9 h1:47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+github.com/X3ne/ds_ms v0.0.0-20240318180002-cca5d78701b9/go.mod h1:+7+FypMn8f8u1jJkshj4GekuR+REA696Em/TFsSLZBM=
+github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9 h1:5ZbaJNkuyL4AM4/dmyJGfs98BDeyBA4/FWsLtdbhHJE=
+github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9/go.mod h1:jNvgzL4EUjzv++3mQ42rHBhOXjpiP9u1xfMegOFnCRI=
 github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9 h1:goHVqTbFX3AIo0tzGr14pgfAW2ZfPChKO21Z9MGf/gk=
 github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230512164433-5d1fd1a340c9/go.mod h1:pSwJ0fSY5KhvocuWSx4fz3BA8OrA1bQn+K1Eli3BRwM=
 github.com/antlr4-go/antlr/v4 v4.13.0 h1:lxCg3LAv+EUK6t1i0y1V6/SLeUi0eKEKdhQAlS8TVTI=
