@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guilds-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: guilds-service
+  template:
+    metadata:
+      labels:
+        app: guilds-service
+    spec:
+      containers:
+        - name: guilds-service
+          image: guilds-service
+          ports:
+            - containerPort: 8080

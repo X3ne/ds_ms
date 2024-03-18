@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package guilds.v1;
+
+import "buf/validate/validate.proto";
+
+service GuildsService {
+  rpc Create (CreateRequest) returns (CreateResponse) {}
+  rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+}
+
+message Guild {
+  int64   id = 1;
+  string  name = 2;
+  string  icon = 3;
+  string  splash = 4;
+  string  banner = 5;
+  string  description = 6;
+  int64   owner_id = 7;
+  repeated int64 roles = 8;
+  int64   created_at = 9;
+  int64   updated_at = 10;
+}
+
+message CreateRequest {
+  string  name = 1 [(buf.validate.field).string.min_len = 2, (buf.validate.field).string.max_len = 100];
+  string  icon = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^data:image/(jpeg|png|gif);base64,[A-Za-z0-9+/=]+$",
+    }
+    ignore_empty: true,
+  }]; // TODO limit size
+  int64   owner_id = 3 [(buf.validate.field).int64.gt = 0];
+}
+
+message CreateResponse {
+  Guild guild = 1;
+}
+
+message GetByIdRequest {
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetByIdResponse {
+  Guild guild = 1;
+}
+
+message UpdateRequest {
+  int64   id = 2 [(buf.validate.field).int64.gt = 0];
+  string  name = 3 [(buf.validate.field) = {
+    string: {
+      min_len: 2,
+      max_len: 100,
+    }
+  }];
+  string  icon = 4 [(buf.validate.field) = {
+    string: {
+      pattern: "^data:image/(jpeg|png|gif);base64,[A-Za-z0-9+/=]+$",
+    }
+    ignore_empty: true,
+  }]; // TODO limit size
+  string  splash = 5 [(buf.validate.field) = {
+    string: {
+      pattern: "^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$",
+    }
+    ignore_empty: true,
+  }]; // TODO limit size
+  string  banner = 6 [(buf.validate.field) = {
+    string: {
+      pattern: "^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$",
+    }
+    ignore_empty: true,
+  }]; // TODO limit size
+  string  description = 7 [(buf.validate.field) = {
+    string: {
+      min_len: 2,
+      max_len: 1000,
+    }
+    ignore_empty: true,
+  }];
+  int64   owner_id = 8 [(buf.validate.field) = {
+    int64: {
+      gt: 0,
+    }
+    ignore_empty: true,
+  }];
+}
+
+message UpdateResponse {
+  Guild guild = 1;
+}
+
+message DeleteRequest {
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeleteResponse {
+  bool  success = 1;
+}

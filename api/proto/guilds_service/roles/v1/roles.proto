@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package roles.v1;
+
+import "buf/validate/validate.proto";
+
+service RolesService {
+  rpc Create (CreateRequest) returns (CreateResponse) {}
+  rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+}
+
+message Role {
+  int64   id = 1;
+  string  name = 2;
+  int64   color = 3;
+  int32   position = 4;
+  string  permissions = 5;
+  bool    mentionable = 6;
+  int64   created_at = 7;
+  int64   updated_at = 8;
+}
+
+message CreateRequest {
+  string           name = 1 [(buf.validate.field).string.min_len = 2, (buf.validate.field).string.max_len = 100];
+  optional int64   color = 2 [(buf.validate.field).int64.gt = 0];
+  optional string  permissions = 3 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 100];
+  optional string  mentionable = 4;
+}
+
+message CreateResponse {
+  Role  role = 1;
+}
+
+message GetByIdRequest {
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetByIdResponse {
+  Role  role = 1;
+}
+
+message UpdateRequest {
+  int64   id = 1 [(buf.validate.field).int64.gt = 0];
+  string  name = 2 [(buf.validate.field).string.min_len = 2, (buf.validate.field).string.max_len = 100];
+  int64   color = 3 [(buf.validate.field).int64.gt = 0];
+  string  permissions = 4 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 100];
+  string  mentionable = 5;
+}
+
+message UpdateResponse {
+  Role  role = 1;
+}
+
+message DeleteRequest {
+  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeleteResponse {
+  bool  success = 1;
+}
