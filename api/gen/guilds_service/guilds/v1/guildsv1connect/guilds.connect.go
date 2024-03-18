@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/X3ne/ds_ms/api/guilds_service/guilds/v1"
+	v1 "github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1"
 	http "net/http"
 	strings "strings"
 )

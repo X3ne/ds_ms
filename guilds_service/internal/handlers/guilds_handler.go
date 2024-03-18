@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	guildsv1 "github.com/X3ne/ds_ms/api/gen/guilds/v1"
+	guildsv1 "github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1"
 	api_errors "github.com/X3ne/ds_ms/guilds_service/internal/errors"
 	"github.com/X3ne/ds_ms/guilds_service/internal/models"
 	"github.com/X3ne/ds_ms/guilds_service/internal/repositories"
