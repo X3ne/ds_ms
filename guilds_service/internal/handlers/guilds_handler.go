@@ -4,8 +4,11 @@ import (
 	"context"
 	"database/sql"
 
+	usersv1 "github.com/X3ne/ds_ms/api/gen/users_service/users/v1"
+
 	guildsv1 "github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1"
-	api_errors "github.com/X3ne/ds_ms/guilds_service/internal/errors"
+	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
+	apiErrors "github.com/X3ne/ds_ms/guilds_service/internal/errors"
 	"github.com/X3ne/ds_ms/guilds_service/internal/models"
 	"github.com/X3ne/ds_ms/guilds_service/internal/repositories"
 	"github.com/X3ne/ds_ms/guilds_service/internal/validator"
@@ -13,15 +16,16 @@ import (
 	"connectrpc.com/connect"
 )
 
-type GuildsServer struct{
-	Repository	*repositories.GuildRepository
+type GuildsServer struct {
+	Repository *repositories.GuildRepository
+	UserClient usersv1connect.UsersServiceClient
 }
 
 func createGuildResponse(guild *models.Guild) (retGuild *guildsv1.Guild) {
 	retGuild = &guildsv1.Guild{
-		Id: guild.ID,
-		Name: guild.Name,
-		OwnerId: guild.OwnerID,
+		Id:        guild.ID,
+		Name:      guild.Name,
+		OwnerId:   guild.OwnerID,
 		CreatedAt: guild.CreatedAt.Unix(),
 		UpdatedAt: guild.UpdatedAt.Unix(),
 	}
@@ -53,9 +57,18 @@ func (s *GuildsServer) Create(ctx context.Context, req *connect.Request[guildsv1
 	if err := validator.Validate(req.Msg); err != nil {
 		return nil, err
 	}
+	_, err := s.UserClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
+		Msg: &usersv1.GetByIdRequest{
+			Id: req.Msg.OwnerId,
+		},
+	})
+
+	if err != nil {
+		return nil, err
+	}
 
 	newGuild := &models.Guild{
-		Name: req.Msg.Name,
+		Name:    req.Msg.Name,
 		OwnerID: req.Msg.OwnerId,
 	}
 
@@ -63,7 +76,7 @@ func (s *GuildsServer) Create(ctx context.Context, req *connect.Request[guildsv1
 		newGuild.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
 	}
 
-	err := s.Repository.CreateGuild(ctx, newGuild)
+	err = s.Repository.CreateGuild(ctx, newGuild)
 	if err != nil {
 		return nil, err
 	}
@@ -79,12 +92,12 @@ func (s *GuildsServer) Create(ctx context.Context, req *connect.Request[guildsv1
 
 func (s *GuildsServer) GetById(ctx context.Context, req *connect.Request[guildsv1.GetByIdRequest]) (*connect.Response[guildsv1.GetByIdResponse], error) {
 	if err := ctx.Err(); err != nil {
-    return nil, err
-  }
+		return nil, err
+	}
 
 	if err := validator.Validate(req.Msg); err != nil {
-    return nil, err
-  }
+		return nil, err
+	}
 
 	guild, err := s.Repository.GetGuildByID(ctx, req.Msg.Id)
 	if err != nil {
@@ -109,15 +122,15 @@ func (s *GuildsServer) Update(ctx context.Context, req *connect.Request[guildsv1
 		return nil, err
 	}
 
-	guild, err := s.Repository.GetGuildByID(ctx, req.Msg.Id);
+	guild, err := s.Repository.GetGuildByID(ctx, req.Msg.Id)
 	if err != nil {
 		return nil, err
 	} else if guild == nil {
-		return nil, api_errors.ErrGuildNotFound
+		return nil, apiErrors.ErrGuildNotFound
 	}
 
 	newGuild := &models.Guild{
-		ID: req.Msg.Id,
+		ID:        req.Msg.Id,
 		CreatedAt: guild.CreatedAt,
 	}
 
@@ -171,7 +184,7 @@ func (s *GuildsServer) Delete(ctx context.Context, req *connect.Request[guildsv1
 	if user, err := s.Repository.GetGuildByID(ctx, req.Msg.Id); err != nil {
 		return nil, err
 	} else if user == nil {
-		return nil, api_errors.ErrGuildNotFound
+		return nil, apiErrors.ErrGuildNotFound
 	}
 
 	err := s.Repository.DeleteGuild(ctx, req.Msg.Id)
