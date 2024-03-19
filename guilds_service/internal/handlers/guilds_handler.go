@@ -57,6 +57,7 @@ func (s *GuildsServer) Create(ctx context.Context, req *connect.Request[guildsv1
 	if err := validator.Validate(req.Msg); err != nil {
 		return nil, err
 	}
+
 	_, err := s.UserClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
 		Msg: &usersv1.GetByIdRequest{
 			Id: req.Msg.OwnerId,
@@ -155,6 +156,14 @@ func (s *GuildsServer) Update(ctx context.Context, req *connect.Request[guildsv1
 	}
 
 	if req.Msg.OwnerId != 0 {
+		_, err := s.UserClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
+			Msg: &usersv1.GetByIdRequest{
+				Id: req.Msg.OwnerId,
+			},
+		})
+		if err != nil {
+			return nil, err
+		}
 		newGuild.OwnerID = req.Msg.OwnerId
 	}
 
