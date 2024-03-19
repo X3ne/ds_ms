@@ -23,7 +23,7 @@ import (
 	"github.com/X3ne/ds_ms/users_service/internal/repositories"
 )
 
-type Server struct {}
+type Server struct{}
 
 func LaunchServer(cfg *config.Config, db *gorm.DB) {
 	errorsInterceptor := connect.WithInterceptors(interceptors.NewErrorInterceptor())
@@ -37,15 +37,15 @@ func LaunchServer(cfg *config.Config, db *gorm.DB) {
 
 	reflector := grpcreflect.NewStaticReflector(
 		"users.v1.UsersService",
-  )
-  mux.Handle(grpcreflect.NewHandlerV1(reflector))
-  mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
+	)
+	mux.Handle(grpcreflect.NewHandlerV1(reflector))
+	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
 
 	mux.Handle("/", api)
 
 	srv := &http.Server{
-		Addr: cfg.SERVER.Host + ":" + cfg.SERVER.Port,
-		Handler: h2c.NewHandler(mux, &http2.Server{}),
+		Addr:              cfg.SERVER.Host + ":" + cfg.SERVER.Port,
+		Handler:           h2c.NewHandler(mux, &http2.Server{}),
 		ReadHeaderTimeout: time.Second,
 		ReadTimeout:       5 * time.Minute,
 		WriteTimeout:      5 * time.Minute,

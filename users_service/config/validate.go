@@ -8,24 +8,24 @@ import (
 )
 
 func ValidateEnvs() map[string]string {
-	err:= godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
 	logLevels := map[string]bool{
-		"DEBUG": true,
-		"INFO": true,
+		"DEBUG":   true,
+		"INFO":    true,
 		"WARNING": true,
-		"ERROR": true,
-		"FATAL": true,
+		"ERROR":   true,
+		"FATAL":   true,
 	}
 
 	envs := map[string]string{
 		"LOG_LEVEL": os.Getenv("LOG_LEVEL"),
-		"HOST": os.Getenv("HOST"),
-		"PORT": os.Getenv("PORT"),
-		"DB_PATH": os.Getenv("DB_PATH"),
+		"HOST":      os.Getenv("HOST"),
+		"PORT":      os.Getenv("PORT"),
+		"DB_PATH":   os.Getenv("DB_PATH"),
 	}
 
 	for key, value := range envs {

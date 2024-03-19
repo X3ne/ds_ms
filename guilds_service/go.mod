@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	connectrpc.com/connect v1.15.0
 	connectrpc.com/grpcreflect v1.2.0
-	github.com/X3ne/ds_ms v0.0.0-20240318180002-cca5d78701b9
+	github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9
 	github.com/bufbuild/protovalidate-go v0.6.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/joho/godotenv v1.5.1
@@ -18,7 +18,6 @@ require (
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.33.0-20240221180331-f05a6f4403ce.1 // indirect
-	github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/google/cel-go v0.20.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

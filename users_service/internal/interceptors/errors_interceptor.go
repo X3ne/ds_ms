@@ -2,9 +2,9 @@ package interceptors
 
 import (
 	"context"
+	apiErrors "github.com/X3ne/ds_ms/users_service/internal/errors"
 	"log"
 
-	api_errors "github.com/X3ne/ds_ms/users_service/internal/errors"
 	"github.com/bufbuild/protovalidate-go"
 	"gorm.io/gorm"
 
@@ -23,23 +23,23 @@ func handleErrors(ctx context.Context, err error) error {
 		return err
 	default:
 		switch e {
-			case gorm.ErrRecordNotFound:
-				return connect.NewError(connect.CodeNotFound, api_errors.ErrUserNotFound)
-			case gorm.ErrInvalidDB:
-				return connect.NewError(connect.CodeInternal, api_errors.ErrInternalServer)
-			case gorm.ErrDuplicatedKey:
-				return connect.NewError(connect.CodeAlreadyExists, api_errors.ErrUserAlreadyExists)
-			case err, gorm.ErrInvalidTransaction:
-				return connect.NewError(connect.CodeInternal, api_errors.ErrInternalServer)
-			default:
-				return connect.NewError(connect.CodeUnknown, api_errors.ErrInternalServer)
+		case gorm.ErrRecordNotFound:
+			return connect.NewError(connect.CodeNotFound, apiErrors.ErrUserNotFound)
+		case gorm.ErrInvalidDB:
+			return connect.NewError(connect.CodeInternal, apiErrors.ErrInternalServer)
+		case gorm.ErrDuplicatedKey:
+			return connect.NewError(connect.CodeAlreadyExists, apiErrors.ErrUserAlreadyExists)
+		case err, gorm.ErrInvalidTransaction:
+			return connect.NewError(connect.CodeInternal, apiErrors.ErrInternalServer)
+		default:
+			return connect.NewError(connect.CodeUnknown, apiErrors.ErrInternalServer)
 		}
 	}
 }
 
 func NewErrorInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
-		return connect.UnaryFunc(func(
+		return func(
 			ctx context.Context,
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
@@ -54,7 +54,7 @@ func NewErrorInterceptor() connect.UnaryInterceptorFunc {
 			}
 
 			return res, nil
-		})
+		}
 	}
-	return connect.UnaryInterceptorFunc(interceptor)
+	return interceptor
 }

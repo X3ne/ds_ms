@@ -17,13 +17,14 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1/guildsv1connect"
+	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
 	"github.com/X3ne/ds_ms/guilds_service/config"
 	"github.com/X3ne/ds_ms/guilds_service/internal/handlers"
 	"github.com/X3ne/ds_ms/guilds_service/internal/interceptors"
 	"github.com/X3ne/ds_ms/guilds_service/internal/repositories"
 )
 
-type Server struct {}
+type Server struct{}
 
 func LaunchServer(cfg *config.Config, db *gorm.DB) {
 	errorsInterceptor := connect.WithInterceptors(interceptors.NewErrorInterceptor())
@@ -31,21 +32,22 @@ func LaunchServer(cfg *config.Config, db *gorm.DB) {
 
 	api.Handle(guildsv1connect.NewGuildsServiceHandler(&handlers.GuildsServer{
 		Repository: repositories.NewGuildRepository(db),
+		UserClient: usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
 	}, errorsInterceptor))
 
 	mux := http.NewServeMux()
 
 	reflector := grpcreflect.NewStaticReflector(
 		"guilds.v1.GuildsService",
-  )
-  mux.Handle(grpcreflect.NewHandlerV1(reflector))
-  mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
+	)
+	mux.Handle(grpcreflect.NewHandlerV1(reflector))
+	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
 
 	mux.Handle("/", api)
 
 	srv := &http.Server{
-		Addr: cfg.SERVER.Host + ":" + cfg.SERVER.Port,
-		Handler: h2c.NewHandler(mux, &http2.Server{}),
+		Addr:              cfg.SERVER.Host + ":" + cfg.SERVER.Port,
+		Handler:           h2c.NewHandler(mux, &http2.Server{}),
 		ReadHeaderTimeout: time.Second,
 		ReadTimeout:       5 * time.Minute,
 		WriteTimeout:      5 * time.Minute,

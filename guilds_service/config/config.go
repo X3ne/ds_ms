@@ -1,9 +1,9 @@
 package config
 
 type Config struct {
-	LogLevel	string
-	SERVER		ServerConfig
-	DB				DatabaseConfig
+	LogLevel string
+	SERVER   ServerConfig
+	DB       DatabaseConfig
 }
 
 func NewConfig() *Config {
@@ -11,7 +11,7 @@ func NewConfig() *Config {
 
 	return &Config{
 		LogLevel: envs["LOG_LEVEL"],
-		SERVER: LoadServerConfig(envs),
-		DB: LoadDatabaseConfig(envs),
+		SERVER:   LoadServerConfig(envs),
+		DB:       LoadDatabaseConfig(envs),
 	}
 }

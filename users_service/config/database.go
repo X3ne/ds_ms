@@ -1,7 +1,7 @@
 package config
 
 type DatabaseConfig struct {
-	Path	string
+	Path string
 }
 
 func LoadDatabaseConfig(envs map[string]string) DatabaseConfig {

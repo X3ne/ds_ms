@@ -27,7 +27,7 @@ var (
 func HashPassword(password string, p *Params) (encodedHash string, err error) {
 	salt, err := generateRandomBytes(p.SaltLength)
 	if err != nil {
-			return "", err
+		return "", err
 	}
 
 	hash := argon2.IDKey([]byte(password), salt, p.Iterations, p.Memory, p.Parallelism, p.KeyLength)
@@ -44,7 +44,7 @@ func generateRandomBytes(n uint32) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := rand.Read(b)
 	if err != nil {
-			return nil, err
+		return nil, err
 	}
 
 	return b, nil
@@ -53,13 +53,13 @@ func generateRandomBytes(n uint32) ([]byte, error) {
 func ComparePasswordAndHash(password, encodedHash string) (match bool, err error) {
 	p, salt, hash, err := decodeHash(encodedHash)
 	if err != nil {
-			return false, err
+		return false, err
 	}
 
 	otherHash := argon2.IDKey([]byte(password), salt, p.Iterations, p.Memory, p.Parallelism, p.KeyLength)
 
 	if subtle.ConstantTimeCompare(hash, otherHash) == 1 {
-			return true, nil
+		return true, nil
 	}
 	return false, nil
 }
@@ -67,33 +67,33 @@ func ComparePasswordAndHash(password, encodedHash string) (match bool, err error
 func decodeHash(encodedHash string) (p *Params, salt, hash []byte, err error) {
 	vals := strings.Split(encodedHash, "$")
 	if len(vals) != 6 {
-			return nil, nil, nil, ErrInvalidHash
+		return nil, nil, nil, ErrInvalidHash
 	}
 
 	var version int
 	_, err = fmt.Sscanf(vals[2], "v=%d", &version)
 	if err != nil {
-			return nil, nil, nil, err
+		return nil, nil, nil, err
 	}
 	if version != argon2.Version {
-			return nil, nil, nil, ErrIncompatibleVersion
+		return nil, nil, nil, ErrIncompatibleVersion
 	}
 
 	p = &Params{}
 	_, err = fmt.Sscanf(vals[3], "m=%d,t=%d,p=%d", &p.Memory, &p.Iterations, &p.Parallelism)
 	if err != nil {
-			return nil, nil, nil, err
+		return nil, nil, nil, err
 	}
 
 	salt, err = base64.RawStdEncoding.Strict().DecodeString(vals[4])
 	if err != nil {
-			return nil, nil, nil, err
+		return nil, nil, nil, err
 	}
 	p.SaltLength = uint32(len(salt))
 
 	hash, err = base64.RawStdEncoding.Strict().DecodeString(vals[5])
 	if err != nil {
-			return nil, nil, nil, err
+		return nil, nil, nil, err
 	}
 	p.KeyLength = uint32(len(hash))
 
