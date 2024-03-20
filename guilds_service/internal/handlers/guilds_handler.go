@@ -190,9 +190,9 @@ func (s *GuildsServer) Delete(ctx context.Context, req *connect.Request[guildsv1
 		return nil, err
 	}
 
-	if user, err := s.Repository.GetGuildByID(ctx, req.Msg.Id); err != nil {
+	if guild, err := s.Repository.GetGuildByID(ctx, req.Msg.Id); err != nil {
 		return nil, err
-	} else if user == nil {
+	} else if guild == nil {
 		return nil, apiErrors.ErrGuildNotFound
 	}
 

@@ -15,7 +15,7 @@ type User struct {
 	Username  string         `db:"username" gorm:"unique;not null"`
 	Email     string         `db:"email" gorm:"unique;not null"`
 	Password  sql.NullString `db:"password"`
-	CreatedAt time.Time      `db:"created_at" gorm:"autoCreateTime"` // TODO: This value seems to be reset when updating the record
+	CreatedAt time.Time      `db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time      `db:"updated_at" gorm:"autoUpdateTime"`
 }
 
