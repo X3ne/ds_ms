@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: channels-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: channels-service
+  template:
+    metadata:
+      labels:
+        app: channels-service
+    spec:
+      containers:
+        - name: channels-service
+          image: channels-service
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,21 @@
+FROM golang:1.22.1-alpine AS build
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+COPY . .
+
+RUN go build -o channels-service ./cmd/main.go
+
+FROM alpine:latest
+
+WORKDIR /root/
+
+COPY --from=build /app/channels-service .
+
+EXPOSE 8080
+
+CMD ["./channels-service"]
