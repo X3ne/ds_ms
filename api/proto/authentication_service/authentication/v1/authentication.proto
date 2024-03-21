@@ -8,16 +8,23 @@ service AuthenticationService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc AuthenticateUser(AuthenticateUserRequest) returns (AuthenticateUserResponse);
   rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 }
 
 message RegisterUserRequest {
-  string  username = 1 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  username = 1 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
   string  email = 2 [(buf.validate.field).cel = {
     id: "valid_email",
     message: "email must be a valid email",
     expression: "this.isEmail()"
   }];
-  string  password = 3 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  password = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
 }
 
 message RegisterUserResponse {
@@ -31,7 +38,10 @@ message AuthenticateUserRequest {
     message: "email must be a valid email",
     expression: "this.isEmail()"
   }];
-  string password = 2 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string password = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
 }
 
 message AuthenticateUserResponse {
@@ -41,10 +51,23 @@ message AuthenticateUserResponse {
 }
 
 message ValidateTokenRequest {
-  string token = 1 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string token = 1 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 1000
+  }];
 }
 
 message ValidateTokenResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UpdateUserRequest {
+  int64 id = 1;
+  string password = 4 [(buf.validate.field).string.min_len = 1];
+}
+
+message UpdateUserResponse {
   bool success = 1;
   string message = 2;
 }

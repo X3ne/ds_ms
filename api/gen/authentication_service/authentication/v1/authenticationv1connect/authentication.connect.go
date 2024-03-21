@@ -42,6 +42,9 @@ const (
 	// AuthenticationServiceValidateTokenProcedure is the fully-qualified name of the
 	// AuthenticationService's ValidateToken RPC.
 	AuthenticationServiceValidateTokenProcedure = "/authentication.v1.AuthenticationService/ValidateToken"
+	// AuthenticationServiceUpdateUserProcedure is the fully-qualified name of the
+	// AuthenticationService's UpdateUser RPC.
+	AuthenticationServiceUpdateUserProcedure = "/authentication.v1.AuthenticationService/UpdateUser"
 )
 
 // AuthenticationServiceClient is a client for the authentication.v1.AuthenticationService service.
@@ -49,6 +52,7 @@ type AuthenticationServiceClient interface {
 	RegisterUser(context.Context, *connect.Request[v1.RegisterUserRequest]) (*connect.Response[v1.RegisterUserResponse], error)
 	AuthenticateUser(context.Context, *connect.Request[v1.AuthenticateUserRequest]) (*connect.Response[v1.AuthenticateUserResponse], error)
 	ValidateToken(context.Context, *connect.Request[v1.ValidateTokenRequest]) (*connect.Response[v1.ValidateTokenResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
 }
 
 // NewAuthenticationServiceClient constructs a client for the
@@ -76,6 +80,11 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			baseURL+AuthenticationServiceValidateTokenProcedure,
 			opts...,
 		),
+		updateUser: connect.NewClient[v1.UpdateUserRequest, v1.UpdateUserResponse](
+			httpClient,
+			baseURL+AuthenticationServiceUpdateUserProcedure,
+			opts...,
+		),
 	}
 }
 
@@ -84,6 +93,7 @@ type authenticationServiceClient struct {
 	registerUser     *connect.Client[v1.RegisterUserRequest, v1.RegisterUserResponse]
 	authenticateUser *connect.Client[v1.AuthenticateUserRequest, v1.AuthenticateUserResponse]
 	validateToken    *connect.Client[v1.ValidateTokenRequest, v1.ValidateTokenResponse]
+	updateUser       *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
 }
 
 // RegisterUser calls authentication.v1.AuthenticationService.RegisterUser.
@@ -101,12 +111,18 @@ func (c *authenticationServiceClient) ValidateToken(ctx context.Context, req *co
 	return c.validateToken.CallUnary(ctx, req)
 }
 
+// UpdateUser calls authentication.v1.AuthenticationService.UpdateUser.
+func (c *authenticationServiceClient) UpdateUser(ctx context.Context, req *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
+	return c.updateUser.CallUnary(ctx, req)
+}
+
 // AuthenticationServiceHandler is an implementation of the authentication.v1.AuthenticationService
 // service.
 type AuthenticationServiceHandler interface {
 	RegisterUser(context.Context, *connect.Request[v1.RegisterUserRequest]) (*connect.Response[v1.RegisterUserResponse], error)
 	AuthenticateUser(context.Context, *connect.Request[v1.AuthenticateUserRequest]) (*connect.Response[v1.AuthenticateUserResponse], error)
 	ValidateToken(context.Context, *connect.Request[v1.ValidateTokenRequest]) (*connect.Response[v1.ValidateTokenResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
 }
 
 // NewAuthenticationServiceHandler builds an HTTP handler from the service implementation. It
@@ -130,6 +146,11 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		svc.ValidateToken,
 		opts...,
 	)
+	authenticationServiceUpdateUserHandler := connect.NewUnaryHandler(
+		AuthenticationServiceUpdateUserProcedure,
+		svc.UpdateUser,
+		opts...,
+	)
 	return "/authentication.v1.AuthenticationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AuthenticationServiceRegisterUserProcedure:
@@ -138,6 +159,8 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 			authenticationServiceAuthenticateUserHandler.ServeHTTP(w, r)
 		case AuthenticationServiceValidateTokenProcedure:
 			authenticationServiceValidateTokenHandler.ServeHTTP(w, r)
+		case AuthenticationServiceUpdateUserProcedure:
+			authenticationServiceUpdateUserHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -157,4 +180,8 @@ func (UnimplementedAuthenticationServiceHandler) AuthenticateUser(context.Contex
 
 func (UnimplementedAuthenticationServiceHandler) ValidateToken(context.Context, *connect.Request[v1.ValidateTokenRequest]) (*connect.Response[v1.ValidateTokenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("authentication.v1.AuthenticationService.ValidateToken is not implemented"))
+}
+
+func (UnimplementedAuthenticationServiceHandler) UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("authentication.v1.AuthenticationService.UpdateUser is not implemented"))
 }
