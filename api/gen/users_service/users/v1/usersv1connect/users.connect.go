@@ -37,6 +37,8 @@ const (
 	UsersServiceCreateProcedure = "/users.v1.UsersService/Create"
 	// UsersServiceGetByIdProcedure is the fully-qualified name of the UsersService's GetById RPC.
 	UsersServiceGetByIdProcedure = "/users.v1.UsersService/GetById"
+	// UsersServiceGetByEmailProcedure is the fully-qualified name of the UsersService's GetByEmail RPC.
+	UsersServiceGetByEmailProcedure = "/users.v1.UsersService/GetByEmail"
 	// UsersServiceUpdateProcedure is the fully-qualified name of the UsersService's Update RPC.
 	UsersServiceUpdateProcedure = "/users.v1.UsersService/Update"
 	// UsersServiceDeleteProcedure is the fully-qualified name of the UsersService's Delete RPC.
@@ -47,6 +49,7 @@ const (
 type UsersServiceClient interface {
 	Create(context.Context, *connect.Request[v1.CreateRequest]) (*connect.Response[v1.CreateResponse], error)
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
+	GetByEmail(context.Context, *connect.Request[v1.GetByEmailRequest]) (*connect.Response[v1.GetByEmailResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
 }
@@ -71,6 +74,11 @@ func NewUsersServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 			baseURL+UsersServiceGetByIdProcedure,
 			opts...,
 		),
+		getByEmail: connect.NewClient[v1.GetByEmailRequest, v1.GetByEmailResponse](
+			httpClient,
+			baseURL+UsersServiceGetByEmailProcedure,
+			opts...,
+		),
 		update: connect.NewClient[v1.UpdateRequest, v1.UpdateResponse](
 			httpClient,
 			baseURL+UsersServiceUpdateProcedure,
@@ -86,10 +94,11 @@ func NewUsersServiceClient(httpClient connect.HTTPClient, baseURL string, opts .
 
 // usersServiceClient implements UsersServiceClient.
 type usersServiceClient struct {
-	create  *connect.Client[v1.CreateRequest, v1.CreateResponse]
-	getById *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
-	update  *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
-	delete  *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
+	create     *connect.Client[v1.CreateRequest, v1.CreateResponse]
+	getById    *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
+	getByEmail *connect.Client[v1.GetByEmailRequest, v1.GetByEmailResponse]
+	update     *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
+	delete     *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
 }
 
 // Create calls users.v1.UsersService.Create.
@@ -100,6 +109,11 @@ func (c *usersServiceClient) Create(ctx context.Context, req *connect.Request[v1
 // GetById calls users.v1.UsersService.GetById.
 func (c *usersServiceClient) GetById(ctx context.Context, req *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error) {
 	return c.getById.CallUnary(ctx, req)
+}
+
+// GetByEmail calls users.v1.UsersService.GetByEmail.
+func (c *usersServiceClient) GetByEmail(ctx context.Context, req *connect.Request[v1.GetByEmailRequest]) (*connect.Response[v1.GetByEmailResponse], error) {
+	return c.getByEmail.CallUnary(ctx, req)
 }
 
 // Update calls users.v1.UsersService.Update.
@@ -116,6 +130,7 @@ func (c *usersServiceClient) Delete(ctx context.Context, req *connect.Request[v1
 type UsersServiceHandler interface {
 	Create(context.Context, *connect.Request[v1.CreateRequest]) (*connect.Response[v1.CreateResponse], error)
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
+	GetByEmail(context.Context, *connect.Request[v1.GetByEmailRequest]) (*connect.Response[v1.GetByEmailResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
 }
@@ -136,6 +151,11 @@ func NewUsersServiceHandler(svc UsersServiceHandler, opts ...connect.HandlerOpti
 		svc.GetById,
 		opts...,
 	)
+	usersServiceGetByEmailHandler := connect.NewUnaryHandler(
+		UsersServiceGetByEmailProcedure,
+		svc.GetByEmail,
+		opts...,
+	)
 	usersServiceUpdateHandler := connect.NewUnaryHandler(
 		UsersServiceUpdateProcedure,
 		svc.Update,
@@ -152,6 +172,8 @@ func NewUsersServiceHandler(svc UsersServiceHandler, opts ...connect.HandlerOpti
 			usersServiceCreateHandler.ServeHTTP(w, r)
 		case UsersServiceGetByIdProcedure:
 			usersServiceGetByIdHandler.ServeHTTP(w, r)
+		case UsersServiceGetByEmailProcedure:
+			usersServiceGetByEmailHandler.ServeHTTP(w, r)
 		case UsersServiceUpdateProcedure:
 			usersServiceUpdateHandler.ServeHTTP(w, r)
 		case UsersServiceDeleteProcedure:
@@ -171,6 +193,10 @@ func (UnimplementedUsersServiceHandler) Create(context.Context, *connect.Request
 
 func (UnimplementedUsersServiceHandler) GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("users.v1.UsersService.GetById is not implemented"))
+}
+
+func (UnimplementedUsersServiceHandler) GetByEmail(context.Context, *connect.Request[v1.GetByEmailRequest]) (*connect.Response[v1.GetByEmailResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("users.v1.UsersService.GetByEmail is not implemented"))
 }
 
 func (UnimplementedUsersServiceHandler) Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error) {

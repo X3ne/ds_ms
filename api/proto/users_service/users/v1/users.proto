@@ -7,6 +7,7 @@ import "buf/validate/validate.proto";
 service UsersService {
   rpc Create (CreateRequest) returns (CreateResponse) {}
   rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
+  rpc GetByEmail (GetByEmailRequest) returns (GetByEmailResponse) {}
   rpc Update (UpdateRequest) returns (UpdateResponse) {}
   rpc Delete (DeleteRequest) returns (DeleteResponse) {}
 }
@@ -45,6 +46,18 @@ message GetByIdRequest {
 }
 
 message GetByIdResponse {
+  User  user = 1;
+}
+
+message GetByEmailRequest {
+  string email = 1 [(buf.validate.field).cel = {
+    id: "valid_email",
+    message: "email must be a valid email",
+    expression: "this.isEmail()"
+  }];
+}
+
+message GetByEmailResponse {
   User  user = 1;
 }
 
