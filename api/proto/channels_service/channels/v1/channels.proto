@@ -90,8 +90,14 @@ message CreateRequest {
     ignore_empty: true,
   }];
   repeated int64 recipients = 12 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+    repeated: {
+      unique: true,
+      max_items: 100,
+      items: {
+        int64: {
+          gt: 0,
+        }
+      }
     }
     ignore_empty: true,
   }];
@@ -151,24 +157,24 @@ message UpdateRequest {
     ignore_empty: true,
   }];
   repeated int64 recipients = 11 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+    repeated: {
+      unique: true,
+      max_items: 100,
+      items: {
+        int64: {
+          gt: 0,
+        }
+      }
     }
     ignore_empty: true,
   }];
-  string icon = 12 [(buf.validate.field) = {
+  string permissions = 12 [(buf.validate.field) = {
     string: {
       max_len: 1024,
     }
     ignore_empty: true,
   }];
-  string permissions = 13 [(buf.validate.field) = {
-    string: {
-      max_len: 1024,
-    }
-    ignore_empty: true,
-  }];
-  int64 last_message_id = 14 [(buf.validate.field).int64.gt = 0];
+  int64 last_message_id = 13 [(buf.validate.field).int64.gt = 0];
 }
 
 message UpdateResponse {
