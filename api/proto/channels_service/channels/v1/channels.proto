@@ -174,7 +174,13 @@ message UpdateRequest {
     }
     ignore_empty: true,
   }];
-  int64 last_message_id = 13 [(buf.validate.field).int64.gt = 0];
+  int64   last_message_id = 13 [(buf.validate.field).int64.gt = 0];
+  string  icon = 14 [(buf.validate.field) = {
+    string: {
+      pattern: "^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$",
+    }
+    ignore_empty: true,
+  }]; // TODO limit size
 }
 
 message UpdateResponse {
