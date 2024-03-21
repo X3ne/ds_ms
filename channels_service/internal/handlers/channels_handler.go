@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"context"
-	"database/sql"
 	channelsv1 "github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1"
-	"github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1/channelsv1connect"
+	guildsv1 "github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1"
+	"github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1/guildsv1connect"
 	usersv1 "github.com/X3ne/ds_ms/api/gen/users_service/users/v1"
 	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
 	apiErrors "github.com/X3ne/ds_ms/channels_service/internal/errors"
@@ -17,7 +17,7 @@ import (
 
 type ChannelsServer struct {
 	Repository   *repositories.ChannelsRepository
-	GuildsClient channelsv1connect.ChannelsServiceClient
+	GuildsClient guildsv1connect.GuildsServiceClient
 	UsersClient  usersv1connect.UsersServiceClient
 }
 
@@ -44,8 +44,8 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 	}
 
 	if req.Msg.GuildId != 0 {
-		if _, err := s.GuildsClient.GetById(ctx, &connect.Request[channelsv1.GetByIdRequest]{
-			Msg: &channelsv1.GetByIdRequest{
+		if _, err := s.GuildsClient.GetById(ctx, &connect.Request[guildsv1.GetByIdRequest]{
+			Msg: &guildsv1.GetByIdRequest{
 				Id: req.Msg.GuildId,
 			},
 		}); err != nil {
@@ -139,9 +139,9 @@ func (s *ChannelsServer) Update(ctx context.Context, req *connect.Request[channe
 		newChannel.Name = req.Msg.Name
 	}
 
-	if req.Msg.Icon != "" {
-		newChannel.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
-	}
+	//if req.Msg.Icon != "" {
+	//	newChannel.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
+	//}
 
 	err = s.Repository.UpdateChannel(ctx, newChannel)
 	if err != nil {

@@ -5,6 +5,8 @@ import (
 	"context"
 	"errors"
 	"github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1/channelsv1connect"
+	"github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1/guildsv1connect"
+	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
 	"github.com/X3ne/ds_ms/channels_service/internal/handlers"
 	"github.com/X3ne/ds_ms/channels_service/internal/interceptors"
 	"github.com/X3ne/ds_ms/channels_service/internal/repositories"
@@ -30,13 +32,15 @@ func LaunchServer(cfg *config.Config, db *gorm.DB) {
 	api := http.NewServeMux()
 
 	api.Handle(channelsv1connect.NewChannelsServiceHandler(&handlers.ChannelsServer{
-		Repository: repositories.NewChannelsRepository(db),
+		Repository:   repositories.NewChannelsRepository(db),
+		GuildsClient: guildsv1connect.NewGuildsServiceClient(http.DefaultClient, "http://127.0.0.1:8081"),
+		UsersClient:  usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
 	}, errorsInterceptor))
 
 	mux := http.NewServeMux()
 
 	reflector := grpcreflect.NewStaticReflector(
-		"guilds.v1.GuildsService",
+		"channels.v1.ChannelsService",
 	)
 	mux.Handle(grpcreflect.NewHandlerV1(reflector))
 	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
