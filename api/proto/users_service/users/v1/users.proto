@@ -20,13 +20,20 @@ message User {
 }
 
 message CreateRequest {
-  string  username = 1 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  username = 1 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50,
+    pattern: "^[a-zA-Z0-9_]+$"
+  }];
   string  email = 2 [(buf.validate.field).cel = {
     id: "valid_email",
     message: "email must be a valid email",
     expression: "this.isEmail()"
   }];
-  string  password = 3 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  password = 3 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
 }
 
 message CreateResponse {
@@ -43,13 +50,20 @@ message GetByIdResponse {
 
 message UpdateRequest {
   int64   id = 1 [(buf.validate.field).int64.gt = 0];
-  string  username = 2 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  username = 2 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50,
+    pattern: "^[a-zA-Z0-9_]+$"
+  }];
   string  email = 3 [(buf.validate.field).cel = {
     id: "valid_email",
     message: "email must be a valid email",
     expression: "this.isEmail()"
   }];
-  string  password = 4 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 50];
+  string  password = 4 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 50
+  }];
 }
 
 message UpdateResponse {

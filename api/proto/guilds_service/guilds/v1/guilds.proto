@@ -25,7 +25,10 @@ message Guild {
 }
 
 message CreateRequest {
-  string  name = 1 [(buf.validate.field).string.min_len = 2, (buf.validate.field).string.max_len = 100];
+  string  name = 1 [(buf.validate.field).string = {
+    min_len: 2,
+    max_len: 100,
+  }];
   string  icon = 2 [(buf.validate.field) = {
     string: {
       pattern: "^data:image/(jpeg|png|gif);base64,[A-Za-z0-9+/=]+$",
