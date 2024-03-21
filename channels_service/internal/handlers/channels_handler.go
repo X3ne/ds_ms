@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"database/sql"
 	channelsv1 "github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1"
 	guildsv1 "github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1"
 	"github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1/guildsv1connect"
@@ -139,9 +140,9 @@ func (s *ChannelsServer) Update(ctx context.Context, req *connect.Request[channe
 		newChannel.Name = req.Msg.Name
 	}
 
-	//if req.Msg.Icon != "" {
-	//	newChannel.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
-	//}
+	if req.Msg.Icon != "" {
+		newChannel.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
+	}
 
 	err = s.Repository.UpdateChannel(ctx, newChannel)
 	if err != nil {
