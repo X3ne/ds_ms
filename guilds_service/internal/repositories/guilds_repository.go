@@ -22,7 +22,7 @@ func (gr *GuildRepository) CreateGuild(ctx context.Context, guild *models.Guild)
 	return nil
 }
 
-func (gr *GuildRepository) GetGuildByID(ctx context.Context, guildID int64) (*models.Guild, error) {
+func (gr *GuildRepository) GetGuildByID(ctx context.Context, guildID string) (*models.Guild, error) {
 	var guild models.Guild
 	if err := gr.db.First(&guild, guildID).Error; err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (gr *GuildRepository) UpdateGuild(ctx context.Context, guild *models.Guild)
 	return nil
 }
 
-func (gr *GuildRepository) DeleteGuild(ctx context.Context, guildID int64) error {
+func (gr *GuildRepository) DeleteGuild(ctx context.Context, guildID string) error {
 	if err := gr.db.Delete(&models.Guild{}, guildID).Error; err != nil {
 		return err
 	}

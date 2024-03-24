@@ -23,27 +23,15 @@ type GuildsServer struct {
 
 func createGuildResponse(guild *models.Guild) (retGuild *guildsv1.Guild) {
 	retGuild = &guildsv1.Guild{
-		Id:        guild.ID,
-		Name:      guild.Name,
-		OwnerId:   guild.OwnerID,
-		CreatedAt: guild.CreatedAt.Unix(),
-		UpdatedAt: guild.UpdatedAt.Unix(),
-	}
-
-	if guild.Icon.Valid {
-		retGuild.Icon = guild.Icon.String
-	}
-
-	if guild.Splash.Valid {
-		retGuild.Splash = guild.Splash.String
-	}
-
-	if guild.Banner.Valid {
-		retGuild.Banner = guild.Banner.String
-	}
-
-	if guild.Description.Valid {
-		retGuild.Description = guild.Description.String
+		Id:          guild.ID,
+		Name:        guild.Name,
+		OwnerId:     guild.OwnerID,
+		Icon:        guild.Icon.String,
+		Splash:      guild.Splash.String,
+		Banner:      guild.Banner.String,
+		Description: guild.Description.String,
+		CreatedAt:   guild.CreatedAt.Unix(),
+		UpdatedAt:   guild.UpdatedAt.Unix(),
 	}
 
 	return
@@ -155,7 +143,7 @@ func (s *GuildsServer) Update(ctx context.Context, req *connect.Request[guildsv1
 		newGuild.Description = sql.NullString{String: req.Msg.Description, Valid: true}
 	}
 
-	if req.Msg.OwnerId != 0 {
+	if req.Msg.OwnerId != "" {
 		_, err := s.UserClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
 			Msg: &usersv1.GetByIdRequest{
 				Id: req.Msg.OwnerId,
