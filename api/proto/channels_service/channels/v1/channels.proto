@@ -3,12 +3,29 @@ syntax = "proto3";
 package channels.v1;
 
 import "buf/validate/validate.proto";
+import "users_service/users/v1/users.proto";
+import "guilds_service/roles/v1/roles.proto";
+import "channels_service/embeds/v1/embeds.proto";
 
 service ChannelsService {
   rpc Create (CreateRequest) returns (CreateResponse) {}
   rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
   rpc Update (UpdateRequest) returns (UpdateResponse) {}
   rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+  rpc GetChannelMessages (GetChannelMessagesRequest) returns (GetChannelMessagesResponse) {}
+  rpc GetChannelMessage (GetChannelMessageRequest) returns (GetChannelMessageResponse) {}
+  rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse) {}
+  rpc UpdateMessage (UpdateMessageRequest) returns (UpdateMessageResponse) {}
+  rpc DeleteMessage (DeleteMessageRequest) returns (DeleteMessageResponse) {}
+  rpc BulkDeleteMessages (BulkDeleteMessagesRequest) returns (BulkDeleteMessagesResponse) {}
+  rpc EditChannelPermissions (EditChannelPermissionsRequest) returns (EditChannelPermissionsResponse) {}
+  rpc DeleteChannelPermission (DeleteChannelPermissionRequest) returns (DeleteChannelPermissionResponse) {}
+  rpc TriggerTypingIndicator (TriggerTypingIndicatorRequest) returns (TriggerTypingIndicatorResponse) {}
+  rpc GetPinnedMessages (GetPinnedMessagesRequest) returns (GetPinnedMessagesResponse) {}
+  rpc AddPinnedMessage (AddPinnedMessageRequest) returns (AddPinnedMessageResponse) {}
+  rpc DeletePinnedMessage (DeletePinnedMessageRequest) returns (DeletePinnedMessageResponse) {}
+  rpc GroupDMAddRecipient (GroupDMAddRecipientRequest) returns (GroupDMAddRecipientResponse) {}
+  rpc GroupDMRemoveRecipient (GroupDMRemoveRecipientRequest) returns (GroupDMRemoveRecipientResponse) {}
 }
 
 enum ChannelType {
@@ -17,6 +34,17 @@ enum ChannelType {
   GUILD_VOICE = 2;
   GROUP_DM = 3;
   GUILD_CATEGORY = 4;
+}
+
+enum MessageType {
+  DEFAULT = 0;
+  RECIPIENT_ADD = 1;
+  RECIPIENT_REMOVE = 2;
+  CALL = 3;
+  CHANNEL_NAME_CHANGE = 4;
+  CHANNEL_ICON_CHANGE = 5;
+  CHANNEL_PINNED_MESSAGE = 6;
+  USER_JOIN = 7;
 }
 
 message Channel {
@@ -37,6 +65,60 @@ message Channel {
   bool            is_voice = 15;
   int64           created_at = 16;
   int64           updated_at = 17;
+}
+
+message ChannelMention {
+  int64 id = 1;
+  string name = 2;
+  ChannelType type = 3;
+  int64 guild_id = 4;
+}
+
+message Attachment {
+  int64 id = 1;
+  string filename = 2;
+  string description = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 1024,
+    }
+    ignore_empty: true,
+  }];
+  string content_type = 4 [(buf.validate.field) = {
+    string: {
+      max_len: 100,
+    }
+    ignore_empty: true,
+  }];
+  int64 size = 5 [(buf.validate.field).int64.gt = 0];
+  string url = 6;
+  string proxy_url = 7;
+  int64 height = 8;
+  int64 width = 9;
+}
+
+message Reaction {
+  int32 count = 1;
+  bool me = 3;
+//  TODO add emoji
+}
+
+message Message {
+  int64 id = 1;
+  int64 channel_id = 2;
+  users.v1.User author = 3;
+  string content = 4;
+  int64 timestamp = 5;
+  int64 edited_timestamp = 6;
+  bool mention_everyone = 7;
+  repeated users.v1.User mentions = 8;
+  repeated roles.v1.Role mention_roles = 9;
+  repeated ChannelMention mention_channels = 10;
+  repeated Attachment attachments = 11;
+  repeated embeds.v1.Embed embeds = 12;
+  repeated Reaction reactions = 13;
+  int64 nonce = 14;
+  bool pinned = 15;
+  MessageType type = 16;
 }
 
 message ChannelPosition {
@@ -205,4 +287,178 @@ message DeleteRequest {
 
 message DeleteResponse {
   bool  success = 1;
+}
+
+message GetChannelMessagesRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int32 limit = 2 [(buf.validate.field) = {
+    int32: {
+      gte: 1,
+      lte: 100,
+    }
+  }];
+  int64 before = 3 [(buf.validate.field).int64.gt = 0];
+  int64 after = 4 [(buf.validate.field).int64.gt = 0];
+  int64 around = 5 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetChannelMessagesResponse {
+  repeated Message messages = 1;
+}
+
+message GetChannelMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetChannelMessageResponse {
+  Message message = 1;
+}
+
+message CreateMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  string content = 2 [(buf.validate.field) = {
+    string: {
+      max_len: 2000,
+    }
+  }];
+  int64 nonce = 3 [(buf.validate.field).int64.gt = 0];
+  repeated embeds.v1.Embed embeds = 4;
+  // TODO add multipart form data for attachments
+}
+
+message CreateMessageResponse {
+  Message message = 1;
+}
+
+message UpdateMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string content = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 2000,
+    }
+  }];
+  int64 nonce = 4 [(buf.validate.field).int64.gt = 0];
+  repeated embeds.v1.Embed embeds = 5;
+  // TODO add multipart form data for attachments
+}
+
+message UpdateMessageResponse {
+  Message message = 1;
+}
+
+message DeleteMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeleteMessageResponse {
+  bool success = 1;
+}
+
+message BulkDeleteMessagesRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  repeated int64 messages = 2 [(buf.validate.field) = {
+    repeated: {
+      unique: true,
+      max_items: 100,
+      items: {
+        int64: {
+          gt: 0,
+        }
+      }
+    }
+  }];
+}
+
+message BulkDeleteMessagesResponse {
+  bool success = 1;
+}
+
+message EditChannelPermissionsRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 overwrite_id = 2 [(buf.validate.field).int64.gt = 0];
+  int64 allow = 3 [(buf.validate.field).int64.gt = 0];
+  int64 deny = 4 [(buf.validate.field).int64.gt = 0];
+  int32 type = 5 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 1,
+  }];
+}
+
+message EditChannelPermissionsResponse {
+  bool success = 1;
+}
+
+message DeleteChannelPermissionRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 overwrite_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeleteChannelPermissionResponse {
+  bool success = 1;
+}
+
+message TriggerTypingIndicatorRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message TriggerTypingIndicatorResponse {
+  bool success = 1;
+}
+
+message GetPinnedMessagesRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+}
+
+message GetPinnedMessagesResponse {
+  repeated Message messages = 1;
+}
+
+message AddPinnedMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message AddPinnedMessageResponse {
+  bool success = 1;
+}
+
+message DeletePinnedMessageRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message DeletePinnedMessageResponse {
+  bool success = 1;
+}
+
+message GroupDMAddRecipientRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string access_token = 3 [(buf.validate.field) = {
+    string: {
+      min_len: 1,
+    }
+  }];
+  string nick = 4 [(buf.validate.field) = {
+    string: {
+      max_len: 32,
+    }
+    ignore_empty: true,
+  }];
+}
+
+message GroupDMAddRecipientResponse {
+  bool success = 1;
+}
+
+message GroupDMRemoveRecipientRequest {
+  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+}
+
+message GroupDMRemoveRecipientResponse {
+  bool success = 1;
 }

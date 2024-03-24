@@ -41,6 +41,48 @@ const (
 	ChannelsServiceUpdateProcedure = "/channels.v1.ChannelsService/Update"
 	// ChannelsServiceDeleteProcedure is the fully-qualified name of the ChannelsService's Delete RPC.
 	ChannelsServiceDeleteProcedure = "/channels.v1.ChannelsService/Delete"
+	// ChannelsServiceGetChannelMessagesProcedure is the fully-qualified name of the ChannelsService's
+	// GetChannelMessages RPC.
+	ChannelsServiceGetChannelMessagesProcedure = "/channels.v1.ChannelsService/GetChannelMessages"
+	// ChannelsServiceGetChannelMessageProcedure is the fully-qualified name of the ChannelsService's
+	// GetChannelMessage RPC.
+	ChannelsServiceGetChannelMessageProcedure = "/channels.v1.ChannelsService/GetChannelMessage"
+	// ChannelsServiceCreateMessageProcedure is the fully-qualified name of the ChannelsService's
+	// CreateMessage RPC.
+	ChannelsServiceCreateMessageProcedure = "/channels.v1.ChannelsService/CreateMessage"
+	// ChannelsServiceUpdateMessageProcedure is the fully-qualified name of the ChannelsService's
+	// UpdateMessage RPC.
+	ChannelsServiceUpdateMessageProcedure = "/channels.v1.ChannelsService/UpdateMessage"
+	// ChannelsServiceDeleteMessageProcedure is the fully-qualified name of the ChannelsService's
+	// DeleteMessage RPC.
+	ChannelsServiceDeleteMessageProcedure = "/channels.v1.ChannelsService/DeleteMessage"
+	// ChannelsServiceBulkDeleteMessagesProcedure is the fully-qualified name of the ChannelsService's
+	// BulkDeleteMessages RPC.
+	ChannelsServiceBulkDeleteMessagesProcedure = "/channels.v1.ChannelsService/BulkDeleteMessages"
+	// ChannelsServiceEditChannelPermissionsProcedure is the fully-qualified name of the
+	// ChannelsService's EditChannelPermissions RPC.
+	ChannelsServiceEditChannelPermissionsProcedure = "/channels.v1.ChannelsService/EditChannelPermissions"
+	// ChannelsServiceDeleteChannelPermissionProcedure is the fully-qualified name of the
+	// ChannelsService's DeleteChannelPermission RPC.
+	ChannelsServiceDeleteChannelPermissionProcedure = "/channels.v1.ChannelsService/DeleteChannelPermission"
+	// ChannelsServiceTriggerTypingIndicatorProcedure is the fully-qualified name of the
+	// ChannelsService's TriggerTypingIndicator RPC.
+	ChannelsServiceTriggerTypingIndicatorProcedure = "/channels.v1.ChannelsService/TriggerTypingIndicator"
+	// ChannelsServiceGetPinnedMessagesProcedure is the fully-qualified name of the ChannelsService's
+	// GetPinnedMessages RPC.
+	ChannelsServiceGetPinnedMessagesProcedure = "/channels.v1.ChannelsService/GetPinnedMessages"
+	// ChannelsServiceAddPinnedMessageProcedure is the fully-qualified name of the ChannelsService's
+	// AddPinnedMessage RPC.
+	ChannelsServiceAddPinnedMessageProcedure = "/channels.v1.ChannelsService/AddPinnedMessage"
+	// ChannelsServiceDeletePinnedMessageProcedure is the fully-qualified name of the ChannelsService's
+	// DeletePinnedMessage RPC.
+	ChannelsServiceDeletePinnedMessageProcedure = "/channels.v1.ChannelsService/DeletePinnedMessage"
+	// ChannelsServiceGroupDMAddRecipientProcedure is the fully-qualified name of the ChannelsService's
+	// GroupDMAddRecipient RPC.
+	ChannelsServiceGroupDMAddRecipientProcedure = "/channels.v1.ChannelsService/GroupDMAddRecipient"
+	// ChannelsServiceGroupDMRemoveRecipientProcedure is the fully-qualified name of the
+	// ChannelsService's GroupDMRemoveRecipient RPC.
+	ChannelsServiceGroupDMRemoveRecipientProcedure = "/channels.v1.ChannelsService/GroupDMRemoveRecipient"
 )
 
 // ChannelsServiceClient is a client for the channels.v1.ChannelsService service.
@@ -49,6 +91,20 @@ type ChannelsServiceClient interface {
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
+	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
+	GetChannelMessage(context.Context, *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error)
+	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
+	UpdateMessage(context.Context, *connect.Request[v1.UpdateMessageRequest]) (*connect.Response[v1.UpdateMessageResponse], error)
+	DeleteMessage(context.Context, *connect.Request[v1.DeleteMessageRequest]) (*connect.Response[v1.DeleteMessageResponse], error)
+	BulkDeleteMessages(context.Context, *connect.Request[v1.BulkDeleteMessagesRequest]) (*connect.Response[v1.BulkDeleteMessagesResponse], error)
+	EditChannelPermissions(context.Context, *connect.Request[v1.EditChannelPermissionsRequest]) (*connect.Response[v1.EditChannelPermissionsResponse], error)
+	DeleteChannelPermission(context.Context, *connect.Request[v1.DeleteChannelPermissionRequest]) (*connect.Response[v1.DeleteChannelPermissionResponse], error)
+	TriggerTypingIndicator(context.Context, *connect.Request[v1.TriggerTypingIndicatorRequest]) (*connect.Response[v1.TriggerTypingIndicatorResponse], error)
+	GetPinnedMessages(context.Context, *connect.Request[v1.GetPinnedMessagesRequest]) (*connect.Response[v1.GetPinnedMessagesResponse], error)
+	AddPinnedMessage(context.Context, *connect.Request[v1.AddPinnedMessageRequest]) (*connect.Response[v1.AddPinnedMessageResponse], error)
+	DeletePinnedMessage(context.Context, *connect.Request[v1.DeletePinnedMessageRequest]) (*connect.Response[v1.DeletePinnedMessageResponse], error)
+	GroupDMAddRecipient(context.Context, *connect.Request[v1.GroupDMAddRecipientRequest]) (*connect.Response[v1.GroupDMAddRecipientResponse], error)
+	GroupDMRemoveRecipient(context.Context, *connect.Request[v1.GroupDMRemoveRecipientRequest]) (*connect.Response[v1.GroupDMRemoveRecipientResponse], error)
 }
 
 // NewChannelsServiceClient constructs a client for the channels.v1.ChannelsService service. By
@@ -81,15 +137,99 @@ func NewChannelsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			baseURL+ChannelsServiceDeleteProcedure,
 			opts...,
 		),
+		getChannelMessages: connect.NewClient[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse](
+			httpClient,
+			baseURL+ChannelsServiceGetChannelMessagesProcedure,
+			opts...,
+		),
+		getChannelMessage: connect.NewClient[v1.GetChannelMessageRequest, v1.GetChannelMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceGetChannelMessageProcedure,
+			opts...,
+		),
+		createMessage: connect.NewClient[v1.CreateMessageRequest, v1.CreateMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceCreateMessageProcedure,
+			opts...,
+		),
+		updateMessage: connect.NewClient[v1.UpdateMessageRequest, v1.UpdateMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceUpdateMessageProcedure,
+			opts...,
+		),
+		deleteMessage: connect.NewClient[v1.DeleteMessageRequest, v1.DeleteMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceDeleteMessageProcedure,
+			opts...,
+		),
+		bulkDeleteMessages: connect.NewClient[v1.BulkDeleteMessagesRequest, v1.BulkDeleteMessagesResponse](
+			httpClient,
+			baseURL+ChannelsServiceBulkDeleteMessagesProcedure,
+			opts...,
+		),
+		editChannelPermissions: connect.NewClient[v1.EditChannelPermissionsRequest, v1.EditChannelPermissionsResponse](
+			httpClient,
+			baseURL+ChannelsServiceEditChannelPermissionsProcedure,
+			opts...,
+		),
+		deleteChannelPermission: connect.NewClient[v1.DeleteChannelPermissionRequest, v1.DeleteChannelPermissionResponse](
+			httpClient,
+			baseURL+ChannelsServiceDeleteChannelPermissionProcedure,
+			opts...,
+		),
+		triggerTypingIndicator: connect.NewClient[v1.TriggerTypingIndicatorRequest, v1.TriggerTypingIndicatorResponse](
+			httpClient,
+			baseURL+ChannelsServiceTriggerTypingIndicatorProcedure,
+			opts...,
+		),
+		getPinnedMessages: connect.NewClient[v1.GetPinnedMessagesRequest, v1.GetPinnedMessagesResponse](
+			httpClient,
+			baseURL+ChannelsServiceGetPinnedMessagesProcedure,
+			opts...,
+		),
+		addPinnedMessage: connect.NewClient[v1.AddPinnedMessageRequest, v1.AddPinnedMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceAddPinnedMessageProcedure,
+			opts...,
+		),
+		deletePinnedMessage: connect.NewClient[v1.DeletePinnedMessageRequest, v1.DeletePinnedMessageResponse](
+			httpClient,
+			baseURL+ChannelsServiceDeletePinnedMessageProcedure,
+			opts...,
+		),
+		groupDMAddRecipient: connect.NewClient[v1.GroupDMAddRecipientRequest, v1.GroupDMAddRecipientResponse](
+			httpClient,
+			baseURL+ChannelsServiceGroupDMAddRecipientProcedure,
+			opts...,
+		),
+		groupDMRemoveRecipient: connect.NewClient[v1.GroupDMRemoveRecipientRequest, v1.GroupDMRemoveRecipientResponse](
+			httpClient,
+			baseURL+ChannelsServiceGroupDMRemoveRecipientProcedure,
+			opts...,
+		),
 	}
 }
 
 // channelsServiceClient implements ChannelsServiceClient.
 type channelsServiceClient struct {
-	create  *connect.Client[v1.CreateRequest, v1.CreateResponse]
-	getById *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
-	update  *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
-	delete  *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
+	create                  *connect.Client[v1.CreateRequest, v1.CreateResponse]
+	getById                 *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
+	update                  *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
+	delete                  *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
+	getChannelMessages      *connect.Client[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse]
+	getChannelMessage       *connect.Client[v1.GetChannelMessageRequest, v1.GetChannelMessageResponse]
+	createMessage           *connect.Client[v1.CreateMessageRequest, v1.CreateMessageResponse]
+	updateMessage           *connect.Client[v1.UpdateMessageRequest, v1.UpdateMessageResponse]
+	deleteMessage           *connect.Client[v1.DeleteMessageRequest, v1.DeleteMessageResponse]
+	bulkDeleteMessages      *connect.Client[v1.BulkDeleteMessagesRequest, v1.BulkDeleteMessagesResponse]
+	editChannelPermissions  *connect.Client[v1.EditChannelPermissionsRequest, v1.EditChannelPermissionsResponse]
+	deleteChannelPermission *connect.Client[v1.DeleteChannelPermissionRequest, v1.DeleteChannelPermissionResponse]
+	triggerTypingIndicator  *connect.Client[v1.TriggerTypingIndicatorRequest, v1.TriggerTypingIndicatorResponse]
+	getPinnedMessages       *connect.Client[v1.GetPinnedMessagesRequest, v1.GetPinnedMessagesResponse]
+	addPinnedMessage        *connect.Client[v1.AddPinnedMessageRequest, v1.AddPinnedMessageResponse]
+	deletePinnedMessage     *connect.Client[v1.DeletePinnedMessageRequest, v1.DeletePinnedMessageResponse]
+	groupDMAddRecipient     *connect.Client[v1.GroupDMAddRecipientRequest, v1.GroupDMAddRecipientResponse]
+	groupDMRemoveRecipient  *connect.Client[v1.GroupDMRemoveRecipientRequest, v1.GroupDMRemoveRecipientResponse]
 }
 
 // Create calls channels.v1.ChannelsService.Create.
@@ -112,12 +252,96 @@ func (c *channelsServiceClient) Delete(ctx context.Context, req *connect.Request
 	return c.delete.CallUnary(ctx, req)
 }
 
+// GetChannelMessages calls channels.v1.ChannelsService.GetChannelMessages.
+func (c *channelsServiceClient) GetChannelMessages(ctx context.Context, req *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error) {
+	return c.getChannelMessages.CallUnary(ctx, req)
+}
+
+// GetChannelMessage calls channels.v1.ChannelsService.GetChannelMessage.
+func (c *channelsServiceClient) GetChannelMessage(ctx context.Context, req *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error) {
+	return c.getChannelMessage.CallUnary(ctx, req)
+}
+
+// CreateMessage calls channels.v1.ChannelsService.CreateMessage.
+func (c *channelsServiceClient) CreateMessage(ctx context.Context, req *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error) {
+	return c.createMessage.CallUnary(ctx, req)
+}
+
+// UpdateMessage calls channels.v1.ChannelsService.UpdateMessage.
+func (c *channelsServiceClient) UpdateMessage(ctx context.Context, req *connect.Request[v1.UpdateMessageRequest]) (*connect.Response[v1.UpdateMessageResponse], error) {
+	return c.updateMessage.CallUnary(ctx, req)
+}
+
+// DeleteMessage calls channels.v1.ChannelsService.DeleteMessage.
+func (c *channelsServiceClient) DeleteMessage(ctx context.Context, req *connect.Request[v1.DeleteMessageRequest]) (*connect.Response[v1.DeleteMessageResponse], error) {
+	return c.deleteMessage.CallUnary(ctx, req)
+}
+
+// BulkDeleteMessages calls channels.v1.ChannelsService.BulkDeleteMessages.
+func (c *channelsServiceClient) BulkDeleteMessages(ctx context.Context, req *connect.Request[v1.BulkDeleteMessagesRequest]) (*connect.Response[v1.BulkDeleteMessagesResponse], error) {
+	return c.bulkDeleteMessages.CallUnary(ctx, req)
+}
+
+// EditChannelPermissions calls channels.v1.ChannelsService.EditChannelPermissions.
+func (c *channelsServiceClient) EditChannelPermissions(ctx context.Context, req *connect.Request[v1.EditChannelPermissionsRequest]) (*connect.Response[v1.EditChannelPermissionsResponse], error) {
+	return c.editChannelPermissions.CallUnary(ctx, req)
+}
+
+// DeleteChannelPermission calls channels.v1.ChannelsService.DeleteChannelPermission.
+func (c *channelsServiceClient) DeleteChannelPermission(ctx context.Context, req *connect.Request[v1.DeleteChannelPermissionRequest]) (*connect.Response[v1.DeleteChannelPermissionResponse], error) {
+	return c.deleteChannelPermission.CallUnary(ctx, req)
+}
+
+// TriggerTypingIndicator calls channels.v1.ChannelsService.TriggerTypingIndicator.
+func (c *channelsServiceClient) TriggerTypingIndicator(ctx context.Context, req *connect.Request[v1.TriggerTypingIndicatorRequest]) (*connect.Response[v1.TriggerTypingIndicatorResponse], error) {
+	return c.triggerTypingIndicator.CallUnary(ctx, req)
+}
+
+// GetPinnedMessages calls channels.v1.ChannelsService.GetPinnedMessages.
+func (c *channelsServiceClient) GetPinnedMessages(ctx context.Context, req *connect.Request[v1.GetPinnedMessagesRequest]) (*connect.Response[v1.GetPinnedMessagesResponse], error) {
+	return c.getPinnedMessages.CallUnary(ctx, req)
+}
+
+// AddPinnedMessage calls channels.v1.ChannelsService.AddPinnedMessage.
+func (c *channelsServiceClient) AddPinnedMessage(ctx context.Context, req *connect.Request[v1.AddPinnedMessageRequest]) (*connect.Response[v1.AddPinnedMessageResponse], error) {
+	return c.addPinnedMessage.CallUnary(ctx, req)
+}
+
+// DeletePinnedMessage calls channels.v1.ChannelsService.DeletePinnedMessage.
+func (c *channelsServiceClient) DeletePinnedMessage(ctx context.Context, req *connect.Request[v1.DeletePinnedMessageRequest]) (*connect.Response[v1.DeletePinnedMessageResponse], error) {
+	return c.deletePinnedMessage.CallUnary(ctx, req)
+}
+
+// GroupDMAddRecipient calls channels.v1.ChannelsService.GroupDMAddRecipient.
+func (c *channelsServiceClient) GroupDMAddRecipient(ctx context.Context, req *connect.Request[v1.GroupDMAddRecipientRequest]) (*connect.Response[v1.GroupDMAddRecipientResponse], error) {
+	return c.groupDMAddRecipient.CallUnary(ctx, req)
+}
+
+// GroupDMRemoveRecipient calls channels.v1.ChannelsService.GroupDMRemoveRecipient.
+func (c *channelsServiceClient) GroupDMRemoveRecipient(ctx context.Context, req *connect.Request[v1.GroupDMRemoveRecipientRequest]) (*connect.Response[v1.GroupDMRemoveRecipientResponse], error) {
+	return c.groupDMRemoveRecipient.CallUnary(ctx, req)
+}
+
 // ChannelsServiceHandler is an implementation of the channels.v1.ChannelsService service.
 type ChannelsServiceHandler interface {
 	Create(context.Context, *connect.Request[v1.CreateRequest]) (*connect.Response[v1.CreateResponse], error)
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
+	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
+	GetChannelMessage(context.Context, *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error)
+	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
+	UpdateMessage(context.Context, *connect.Request[v1.UpdateMessageRequest]) (*connect.Response[v1.UpdateMessageResponse], error)
+	DeleteMessage(context.Context, *connect.Request[v1.DeleteMessageRequest]) (*connect.Response[v1.DeleteMessageResponse], error)
+	BulkDeleteMessages(context.Context, *connect.Request[v1.BulkDeleteMessagesRequest]) (*connect.Response[v1.BulkDeleteMessagesResponse], error)
+	EditChannelPermissions(context.Context, *connect.Request[v1.EditChannelPermissionsRequest]) (*connect.Response[v1.EditChannelPermissionsResponse], error)
+	DeleteChannelPermission(context.Context, *connect.Request[v1.DeleteChannelPermissionRequest]) (*connect.Response[v1.DeleteChannelPermissionResponse], error)
+	TriggerTypingIndicator(context.Context, *connect.Request[v1.TriggerTypingIndicatorRequest]) (*connect.Response[v1.TriggerTypingIndicatorResponse], error)
+	GetPinnedMessages(context.Context, *connect.Request[v1.GetPinnedMessagesRequest]) (*connect.Response[v1.GetPinnedMessagesResponse], error)
+	AddPinnedMessage(context.Context, *connect.Request[v1.AddPinnedMessageRequest]) (*connect.Response[v1.AddPinnedMessageResponse], error)
+	DeletePinnedMessage(context.Context, *connect.Request[v1.DeletePinnedMessageRequest]) (*connect.Response[v1.DeletePinnedMessageResponse], error)
+	GroupDMAddRecipient(context.Context, *connect.Request[v1.GroupDMAddRecipientRequest]) (*connect.Response[v1.GroupDMAddRecipientResponse], error)
+	GroupDMRemoveRecipient(context.Context, *connect.Request[v1.GroupDMRemoveRecipientRequest]) (*connect.Response[v1.GroupDMRemoveRecipientResponse], error)
 }
 
 // NewChannelsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -146,6 +370,76 @@ func NewChannelsServiceHandler(svc ChannelsServiceHandler, opts ...connect.Handl
 		svc.Delete,
 		opts...,
 	)
+	channelsServiceGetChannelMessagesHandler := connect.NewUnaryHandler(
+		ChannelsServiceGetChannelMessagesProcedure,
+		svc.GetChannelMessages,
+		opts...,
+	)
+	channelsServiceGetChannelMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceGetChannelMessageProcedure,
+		svc.GetChannelMessage,
+		opts...,
+	)
+	channelsServiceCreateMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceCreateMessageProcedure,
+		svc.CreateMessage,
+		opts...,
+	)
+	channelsServiceUpdateMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceUpdateMessageProcedure,
+		svc.UpdateMessage,
+		opts...,
+	)
+	channelsServiceDeleteMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceDeleteMessageProcedure,
+		svc.DeleteMessage,
+		opts...,
+	)
+	channelsServiceBulkDeleteMessagesHandler := connect.NewUnaryHandler(
+		ChannelsServiceBulkDeleteMessagesProcedure,
+		svc.BulkDeleteMessages,
+		opts...,
+	)
+	channelsServiceEditChannelPermissionsHandler := connect.NewUnaryHandler(
+		ChannelsServiceEditChannelPermissionsProcedure,
+		svc.EditChannelPermissions,
+		opts...,
+	)
+	channelsServiceDeleteChannelPermissionHandler := connect.NewUnaryHandler(
+		ChannelsServiceDeleteChannelPermissionProcedure,
+		svc.DeleteChannelPermission,
+		opts...,
+	)
+	channelsServiceTriggerTypingIndicatorHandler := connect.NewUnaryHandler(
+		ChannelsServiceTriggerTypingIndicatorProcedure,
+		svc.TriggerTypingIndicator,
+		opts...,
+	)
+	channelsServiceGetPinnedMessagesHandler := connect.NewUnaryHandler(
+		ChannelsServiceGetPinnedMessagesProcedure,
+		svc.GetPinnedMessages,
+		opts...,
+	)
+	channelsServiceAddPinnedMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceAddPinnedMessageProcedure,
+		svc.AddPinnedMessage,
+		opts...,
+	)
+	channelsServiceDeletePinnedMessageHandler := connect.NewUnaryHandler(
+		ChannelsServiceDeletePinnedMessageProcedure,
+		svc.DeletePinnedMessage,
+		opts...,
+	)
+	channelsServiceGroupDMAddRecipientHandler := connect.NewUnaryHandler(
+		ChannelsServiceGroupDMAddRecipientProcedure,
+		svc.GroupDMAddRecipient,
+		opts...,
+	)
+	channelsServiceGroupDMRemoveRecipientHandler := connect.NewUnaryHandler(
+		ChannelsServiceGroupDMRemoveRecipientProcedure,
+		svc.GroupDMRemoveRecipient,
+		opts...,
+	)
 	return "/channels.v1.ChannelsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ChannelsServiceCreateProcedure:
@@ -156,6 +450,34 @@ func NewChannelsServiceHandler(svc ChannelsServiceHandler, opts ...connect.Handl
 			channelsServiceUpdateHandler.ServeHTTP(w, r)
 		case ChannelsServiceDeleteProcedure:
 			channelsServiceDeleteHandler.ServeHTTP(w, r)
+		case ChannelsServiceGetChannelMessagesProcedure:
+			channelsServiceGetChannelMessagesHandler.ServeHTTP(w, r)
+		case ChannelsServiceGetChannelMessageProcedure:
+			channelsServiceGetChannelMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceCreateMessageProcedure:
+			channelsServiceCreateMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceUpdateMessageProcedure:
+			channelsServiceUpdateMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceDeleteMessageProcedure:
+			channelsServiceDeleteMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceBulkDeleteMessagesProcedure:
+			channelsServiceBulkDeleteMessagesHandler.ServeHTTP(w, r)
+		case ChannelsServiceEditChannelPermissionsProcedure:
+			channelsServiceEditChannelPermissionsHandler.ServeHTTP(w, r)
+		case ChannelsServiceDeleteChannelPermissionProcedure:
+			channelsServiceDeleteChannelPermissionHandler.ServeHTTP(w, r)
+		case ChannelsServiceTriggerTypingIndicatorProcedure:
+			channelsServiceTriggerTypingIndicatorHandler.ServeHTTP(w, r)
+		case ChannelsServiceGetPinnedMessagesProcedure:
+			channelsServiceGetPinnedMessagesHandler.ServeHTTP(w, r)
+		case ChannelsServiceAddPinnedMessageProcedure:
+			channelsServiceAddPinnedMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceDeletePinnedMessageProcedure:
+			channelsServiceDeletePinnedMessageHandler.ServeHTTP(w, r)
+		case ChannelsServiceGroupDMAddRecipientProcedure:
+			channelsServiceGroupDMAddRecipientHandler.ServeHTTP(w, r)
+		case ChannelsServiceGroupDMRemoveRecipientProcedure:
+			channelsServiceGroupDMRemoveRecipientHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -179,4 +501,60 @@ func (UnimplementedChannelsServiceHandler) Update(context.Context, *connect.Requ
 
 func (UnimplementedChannelsServiceHandler) Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.Delete is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GetChannelMessages is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) GetChannelMessage(context.Context, *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GetChannelMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.CreateMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) UpdateMessage(context.Context, *connect.Request[v1.UpdateMessageRequest]) (*connect.Response[v1.UpdateMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.UpdateMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) DeleteMessage(context.Context, *connect.Request[v1.DeleteMessageRequest]) (*connect.Response[v1.DeleteMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.DeleteMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) BulkDeleteMessages(context.Context, *connect.Request[v1.BulkDeleteMessagesRequest]) (*connect.Response[v1.BulkDeleteMessagesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.BulkDeleteMessages is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) EditChannelPermissions(context.Context, *connect.Request[v1.EditChannelPermissionsRequest]) (*connect.Response[v1.EditChannelPermissionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.EditChannelPermissions is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) DeleteChannelPermission(context.Context, *connect.Request[v1.DeleteChannelPermissionRequest]) (*connect.Response[v1.DeleteChannelPermissionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.DeleteChannelPermission is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) TriggerTypingIndicator(context.Context, *connect.Request[v1.TriggerTypingIndicatorRequest]) (*connect.Response[v1.TriggerTypingIndicatorResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.TriggerTypingIndicator is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) GetPinnedMessages(context.Context, *connect.Request[v1.GetPinnedMessagesRequest]) (*connect.Response[v1.GetPinnedMessagesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GetPinnedMessages is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) AddPinnedMessage(context.Context, *connect.Request[v1.AddPinnedMessageRequest]) (*connect.Response[v1.AddPinnedMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.AddPinnedMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) DeletePinnedMessage(context.Context, *connect.Request[v1.DeletePinnedMessageRequest]) (*connect.Response[v1.DeletePinnedMessageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.DeletePinnedMessage is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) GroupDMAddRecipient(context.Context, *connect.Request[v1.GroupDMAddRecipientRequest]) (*connect.Response[v1.GroupDMAddRecipientResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GroupDMAddRecipient is not implemented"))
+}
+
+func (UnimplementedChannelsServiceHandler) GroupDMRemoveRecipient(context.Context, *connect.Request[v1.GroupDMRemoveRecipientRequest]) (*connect.Response[v1.GroupDMRemoveRecipientResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GroupDMRemoveRecipient is not implemented"))
 }
