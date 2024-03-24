@@ -35,14 +35,14 @@ service GuildsService {
 }
 
 message Guild {
-  int64   id = 1;
+  string  id = 1;
   string  name = 2;
   string  icon = 3;
   string  splash = 4;
   string  banner = 5;
   string  description = 6;
-  int64   owner_id = 7;
-  repeated int64 roles = 8;
+  string  owner_id = 7;
+  repeated string roles = 8;
   int64   created_at = 9;
   int64   updated_at = 10;
 }
@@ -74,7 +74,11 @@ message CreateRequest {
     }
     ignore_empty: true,
   }]; // TODO limit size
-  int64   owner_id = 3 [(buf.validate.field).int64.gt = 0];
+  string   owner_id = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message CreateResponse {
@@ -82,7 +86,11 @@ message CreateResponse {
 }
 
 message GetByIdRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetByIdResponse {
@@ -90,7 +98,11 @@ message GetByIdResponse {
 }
 
 message UpdateRequest {
-  int64   id = 2 [(buf.validate.field).int64.gt = 0];
+  string   id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string  name = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -122,10 +134,10 @@ message UpdateRequest {
     }
     ignore_empty: true,
   }];
-  int64   owner_id = 8 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
-    }
+  string   owner_id = 8 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    },
     ignore_empty: true,
   }];
 }
@@ -135,7 +147,11 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeleteResponse {
@@ -143,7 +159,11 @@ message DeleteResponse {
 }
 
 message GetGuildChannelsRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetGuildChannelsResponse {
@@ -151,7 +171,11 @@ message GetGuildChannelsResponse {
 }
 
 message CreateGuildChannelRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string name = 2 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -179,9 +203,9 @@ message CreateGuildChannelRequest {
     bool: {}
     ignore_empty: true,
   }];
-  int64   parent_id = 9 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+  string   parent_id = 9 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
     }
     ignore_empty: true,
   }];
@@ -205,7 +229,11 @@ message CreateGuildChannelResponse {
 }
 
 message ModifyGuildChannelPositionsRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   repeated channels.v1.ChannelPosition positions = 2;
 }
 
@@ -214,8 +242,16 @@ message ModifyGuildChannelPositionsResponse {
 }
 
 message GetGuildMemberRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetGuildMemberResponse {
@@ -223,9 +259,18 @@ message GetGuildMemberResponse {
 }
 
 message ListGuildMembersRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   int32 limit = 2 [(buf.validate.field).int32.gt = 0];
-  int64 after = 3 [(buf.validate.field).int64.gt = 0];
+  string after = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+    ignore_empty: true,
+  }];
 }
 
 message ListGuildMembersResponse {
@@ -233,7 +278,11 @@ message ListGuildMembersResponse {
 }
 
 message SearchGuildMembersRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string query = 2 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -253,8 +302,16 @@ message SearchGuildMembersResponse {
 }
 
 message AddGuildMemberRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string access_token = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -268,7 +325,7 @@ message AddGuildMemberRequest {
     }
     ignore_empty: true,
   }];
-  repeated int64 roles = 5;
+  repeated string roles = 5;
   bool deaf = 6;
   bool mute = 7;
 }
@@ -278,8 +335,16 @@ message AddGuildMemberResponse {
 }
 
 message ModifyGuildMemberRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string nick = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -287,10 +352,15 @@ message ModifyGuildMemberRequest {
     }
     ignore_empty: true,
   }];
-  repeated int64 roles = 4;
+  repeated string roles = 4;
   bool deaf = 5;
   bool mute = 6;
-  int64 channel_id = 7 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 7 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+    ignore_empty: true,
+  }];
 }
 
 message ModifyGuildMemberResponse {
@@ -298,9 +368,21 @@ message ModifyGuildMemberResponse {
 }
 
 message AddGuildMemberRoleRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
-  int64 role_id = 3 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string role_id = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message AddGuildMemberRoleResponse {
@@ -308,9 +390,21 @@ message AddGuildMemberRoleResponse {
 }
 
 message RemoveGuildMemberRoleRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
-  int64 role_id = 3 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string role_id = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message RemoveGuildMemberRoleResponse {
@@ -318,8 +412,16 @@ message RemoveGuildMemberRoleResponse {
 }
 
 message RemoveGuildMemberRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message RemoveGuildMemberResponse {
@@ -327,10 +429,24 @@ message RemoveGuildMemberResponse {
 }
 
 message GetGuildBansRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   int32 limit = 2 [(buf.validate.field).int32.gt = 0];
-  int64 before = 4 [(buf.validate.field).int64.gt = 0];
-  int64 after = 3 [(buf.validate.field).int64.gt = 0];
+  string before = 4 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+    ignore_empty: true,
+  }];
+  string after = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+    ignore_empty: true,
+  }];
 }
 
 message GetGuildBansResponse {
@@ -338,8 +454,16 @@ message GetGuildBansResponse {
 }
 
 message GetGuildBanRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetGuildBanResponse {
@@ -347,8 +471,16 @@ message GetGuildBanResponse {
 }
 
 message CreateGuildBanRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string reason = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -370,8 +502,16 @@ message CreateGuildBanResponse {
 }
 
 message RemoveGuildBanRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message RemoveGuildBanResponse {
@@ -379,7 +519,11 @@ message RemoveGuildBanResponse {
 }
 
 message GetGuildRolesRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetGuildRolesResponse {
@@ -387,7 +531,11 @@ message GetGuildRolesResponse {
 }
 
 message CreateGuildRoleRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string name = 2 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -422,7 +570,11 @@ message CreateGuildRoleResponse {
 }
 
 message ModifyGuildRolePositionsRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   repeated roles.v1.RolePosition positions = 2;
 }
 
@@ -431,8 +583,16 @@ message ModifyGuildRolePositionsResponse {
 }
 
 message ModifyGuildRoleRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 role_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string role_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string name = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -468,8 +628,16 @@ message ModifyGuildRoleResponse {
 }
 
 message DeleteGuildRoleRequest {
-  int64 guild_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 role_id = 2 [(buf.validate.field).int64.gt = 0];
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string role_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeleteGuildRoleResponse {

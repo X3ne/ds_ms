@@ -13,7 +13,7 @@ service UsersService {
 }
 
 message User {
-  int64   id = 1;
+  string  id = 1;
   string  username = 2;
   string  email = 3;
   int64   created_at = 4;
@@ -42,7 +42,9 @@ message CreateResponse {
 }
 
 message GetByIdRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field).string = {
+    pattern: "^[0-9]+$"
+  }];
 }
 
 message GetByIdResponse {
@@ -62,7 +64,9 @@ message GetByEmailResponse {
 }
 
 message UpdateRequest {
-  int64   id = 1 [(buf.validate.field).int64.gt = 0];
+  string  id = 1 [(buf.validate.field).string = {
+    pattern: "^[0-9]+$"
+  }];
   string  username = 2 [(buf.validate.field).string = {
     min_len: 1,
     max_len: 50,
@@ -84,7 +88,9 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field).string = {
+    pattern: "^[0-9]+$"
+  }];
 }
 
 message DeleteResponse {

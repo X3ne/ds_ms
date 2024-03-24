@@ -48,7 +48,7 @@ enum MessageType {
 }
 
 message Channel {
-  int64           id = 1;
+  string           id = 1;
   string          name = 2;
   ChannelType     type = 3;
   int64           guild_id = 4;
@@ -68,14 +68,14 @@ message Channel {
 }
 
 message ChannelMention {
-  int64 id = 1;
+  string id = 1;
   string name = 2;
   ChannelType type = 3;
   int64 guild_id = 4;
 }
 
 message Attachment {
-  int64 id = 1;
+  string id = 1;
   string filename = 2;
   string description = 3 [(buf.validate.field) = {
     string: {
@@ -103,8 +103,8 @@ message Reaction {
 }
 
 message Message {
-  int64 id = 1;
-  int64 channel_id = 2;
+  string id = 1;
+  string channel_id = 2;
   users.v1.User author = 3;
   string content = 4;
   int64 timestamp = 5;
@@ -122,7 +122,7 @@ message Message {
 }
 
 message ChannelPosition {
-  int64 id = 1;
+  string id = 1;
   int32 position = 2;
   bool  lock_permissions = 3;
   int64 parent_id = 4;
@@ -133,16 +133,15 @@ message CreateRequest {
     min_len: 2,
     max_len: 100,
   }];
-  int64   owner_id = 3 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+  string   owner_id = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
     }
   }];
-  int64   guild_id = 4 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+  string   guild_id = 4 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
     }
-    ignore_empty: true,
   }];
   ChannelType type = 5 [(buf.validate.field) = {
     enum: {
@@ -169,9 +168,9 @@ message CreateRequest {
     bool: {}
     ignore_empty: true,
   }];
-  int64   parent_id = 10 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+  string   parent_id = 10 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
     }
     ignore_empty: true,
   }];
@@ -182,13 +181,13 @@ message CreateRequest {
     }
     ignore_empty: true,
   }];
-  repeated int64 recipients = 12 [(buf.validate.field) = {
+  repeated string recipients = 12 [(buf.validate.field) = {
     repeated: {
       unique: true,
       max_items: 100,
       items: {
-        int64: {
-          gt: 0,
+        string: {
+          pattern: "^[0-9]+$",
         }
       }
     }
@@ -201,7 +200,11 @@ message CreateResponse {
 }
 
 message GetByIdRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetByIdResponse {
@@ -209,7 +212,11 @@ message GetByIdResponse {
 }
 
 message UpdateRequest {
-  int64   id = 2 [(buf.validate.field).int64.gt = 0];
+  string   id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string  name = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
@@ -250,13 +257,13 @@ message UpdateRequest {
     }
     ignore_empty: true,
   }];
-  repeated int64 recipients = 11 [(buf.validate.field) = {
+  repeated string recipients = 11 [(buf.validate.field) = {
     repeated: {
       unique: true,
       max_items: 100,
       items: {
-        int64: {
-          gt: 0,
+        string: {
+          pattern: "^[0-9]+$",
         }
       }
     }
@@ -268,7 +275,12 @@ message UpdateRequest {
     }
     ignore_empty: true,
   }];
-  int64   last_message_id = 13 [(buf.validate.field).int64.gt = 0];
+  string   last_message_id = 13 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+    ignore_empty: true,
+  }];
   string  icon = 14 [(buf.validate.field) = {
     string: {
       pattern: "^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$",
@@ -282,7 +294,11 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeleteResponse {
@@ -290,16 +306,32 @@ message DeleteResponse {
 }
 
 message GetChannelMessagesRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   int32 limit = 2 [(buf.validate.field) = {
     int32: {
       gte: 1,
       lte: 100,
     }
   }];
-  int64 before = 3 [(buf.validate.field).int64.gt = 0];
-  int64 after = 4 [(buf.validate.field).int64.gt = 0];
-  int64 around = 5 [(buf.validate.field).int64.gt = 0];
+  string before = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string after = 4 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string around = 5 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetChannelMessagesResponse {
@@ -307,8 +339,16 @@ message GetChannelMessagesResponse {
 }
 
 message GetChannelMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string message_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetChannelMessageResponse {
@@ -316,7 +356,11 @@ message GetChannelMessageResponse {
 }
 
 message CreateMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string content = 2 [(buf.validate.field) = {
     string: {
       max_len: 2000,
@@ -332,8 +376,16 @@ message CreateMessageResponse {
 }
 
 message UpdateMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string message_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string content = 3 [(buf.validate.field) = {
     string: {
       max_len: 2000,
@@ -349,8 +401,16 @@ message UpdateMessageResponse {
 }
 
 message DeleteMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string message_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeleteMessageResponse {
@@ -358,14 +418,18 @@ message DeleteMessageResponse {
 }
 
 message BulkDeleteMessagesRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  repeated int64 messages = 2 [(buf.validate.field) = {
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  repeated string messages = 2 [(buf.validate.field) = {
     repeated: {
       unique: true,
       max_items: 100,
       items: {
-        int64: {
-          gt: 0,
+        string: {
+          pattern: "^[0-9]+$",
         }
       }
     }
@@ -377,8 +441,16 @@ message BulkDeleteMessagesResponse {
 }
 
 message EditChannelPermissionsRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 overwrite_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string overwrite_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   int64 allow = 3 [(buf.validate.field).int64.gt = 0];
   int64 deny = 4 [(buf.validate.field).int64.gt = 0];
   int32 type = 5 [(buf.validate.field).int32 = {
@@ -392,8 +464,16 @@ message EditChannelPermissionsResponse {
 }
 
 message DeleteChannelPermissionRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 overwrite_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string overwrite_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeleteChannelPermissionResponse {
@@ -401,7 +481,11 @@ message DeleteChannelPermissionResponse {
 }
 
 message TriggerTypingIndicatorRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message TriggerTypingIndicatorResponse {
@@ -409,7 +493,11 @@ message TriggerTypingIndicatorResponse {
 }
 
 message GetPinnedMessagesRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GetPinnedMessagesResponse {
@@ -417,8 +505,16 @@ message GetPinnedMessagesResponse {
 }
 
 message AddPinnedMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string message_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message AddPinnedMessageResponse {
@@ -426,8 +522,16 @@ message AddPinnedMessageResponse {
 }
 
 message DeletePinnedMessageRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 message_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string message_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message DeletePinnedMessageResponse {
@@ -435,8 +539,16 @@ message DeletePinnedMessageResponse {
 }
 
 message GroupDMAddRecipientRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
   string access_token = 3 [(buf.validate.field) = {
     string: {
       min_len: 1,
@@ -455,8 +567,16 @@ message GroupDMAddRecipientResponse {
 }
 
 message GroupDMRemoveRecipientRequest {
-  int64 channel_id = 1 [(buf.validate.field).int64.gt = 0];
-  int64 user_id = 2 [(buf.validate.field).int64.gt = 0];
+  string channel_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message GroupDMRemoveRecipientResponse {

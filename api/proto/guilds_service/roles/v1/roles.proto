@@ -12,7 +12,7 @@ service RolesService {
 }
 
 message Role {
-  int64   id = 1;
+  string  id = 1;
   string  name = 2;
   int64   color = 3;
   int32   position = 4;
@@ -23,7 +23,7 @@ message Role {
 }
 
 message RolePosition {
-  int64   id = 1;
+  string  id = 1;
   int32   position = 2;
 }
 
@@ -39,7 +39,11 @@ message CreateResponse {
 }
 
 message GetByIdRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$"
+    }
+  }];
 }
 
 message GetByIdResponse {
@@ -47,7 +51,11 @@ message GetByIdResponse {
 }
 
 message UpdateRequest {
-  int64   id = 1 [(buf.validate.field).int64.gt = 0];
+  string  id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$"
+    }
+  }];
   string  name = 2 [(buf.validate.field).string.min_len = 2, (buf.validate.field).string.max_len = 100];
   int64   color = 3 [(buf.validate.field).int64.gt = 0];
   string  permissions = 4 [(buf.validate.field).string.min_len = 1, (buf.validate.field).string.max_len = 100];
@@ -59,7 +67,11 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  int64 id = 1 [(buf.validate.field).int64.gt = 0];
+  string id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$"
+    }
+  }];
 }
 
 message DeleteResponse {
