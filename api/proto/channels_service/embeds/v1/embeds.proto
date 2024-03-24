@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+package embeds.v1;
+
+import "buf/validate/validate.proto";
+
+enum EmbedType {
+  RICH = 0;
+  IMAGE = 1;
+  VIDEO = 2;
+  GIFV = 3;
+  ARTICLE = 4;
+  LINK = 5;
+}
+
+message EmbedFooter {
+  string text = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 2048,
+    },
+    ignore_empty: true,
+  }];
+  string icon_url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string proxy_icon_url = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedImage {
+  string url = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string proxy_url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  int32 height = 3 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+  int32 width = 4 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedThumbnail {
+  string url = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string proxy_url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  int32 height = 3 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+  int32 width = 4 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedVideo {
+  string url = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string proxy_url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  int32 height = 3 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+  int32 width = 4 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedProvider {
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 256,
+    },
+    ignore_empty: true,
+  }];
+  string url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedAuthor {
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 256,
+    },
+    ignore_empty: true,
+  }];
+  string url = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string icon_url = 3 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+  string proxy_icon_url = 4 [(buf.validate.field) = {
+    string: {
+      pattern: "^https ?: ?//.*$",
+    },
+    ignore_empty: true,
+  }];
+}
+
+message EmbedField {
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 256,
+    },
+    ignore_empty: true,
+  }];
+  string value = 2 [(buf.validate.field) = {
+    string: {
+      max_len: 1024,
+    },
+    ignore_empty: true,
+  }];
+  bool inline = 3 [(buf.validate.field) = {
+    ignore_empty: true,
+  }];
+}
+
+message Embed {
+  string title = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 256,
+    },
+    ignore_empty: true,
+  }];
+  EmbedType type = 2 [(buf.validate.field) = {
+    enum: {
+      defined_only: true,
+    },
+    ignore_empty: true,
+  }];
+  string description = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 1024,
+    },
+    ignore_empty: true,
+  }];
+  string url = 4 [(buf.validate.field) = {
+    ignore_empty: true,
+  }];
+  int64 timestamp = 5 [(buf.validate.field) = {
+    int64: {
+      gt: 0,
+    },
+    ignore_empty: true,
+  }];
+  int32 color = 6 [(buf.validate.field) = {
+    int32: {
+      gte: 0,
+      lte: 16777215,
+    },
+    ignore_empty: true,
+  }];
+  EmbedFooter footer = 7;
+  EmbedImage image = 8;
+  EmbedThumbnail thumbnail = 9;
+  EmbedVideo video = 10;
+  EmbedProvider provider = 11;
+  EmbedAuthor author = 12;
+  repeated EmbedField fields = 13;
+}
