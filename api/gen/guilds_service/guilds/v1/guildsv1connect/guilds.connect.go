@@ -41,6 +41,66 @@ const (
 	GuildsServiceUpdateProcedure = "/guilds.v1.GuildsService/Update"
 	// GuildsServiceDeleteProcedure is the fully-qualified name of the GuildsService's Delete RPC.
 	GuildsServiceDeleteProcedure = "/guilds.v1.GuildsService/Delete"
+	// GuildsServiceGetGuildChannelsProcedure is the fully-qualified name of the GuildsService's
+	// GetGuildChannels RPC.
+	GuildsServiceGetGuildChannelsProcedure = "/guilds.v1.GuildsService/GetGuildChannels"
+	// GuildsServiceCreateGuildChannelProcedure is the fully-qualified name of the GuildsService's
+	// CreateGuildChannel RPC.
+	GuildsServiceCreateGuildChannelProcedure = "/guilds.v1.GuildsService/CreateGuildChannel"
+	// GuildsServiceModifyGuildChannelPositionsProcedure is the fully-qualified name of the
+	// GuildsService's ModifyGuildChannelPositions RPC.
+	GuildsServiceModifyGuildChannelPositionsProcedure = "/guilds.v1.GuildsService/ModifyGuildChannelPositions"
+	// GuildsServiceGetGuildMemberProcedure is the fully-qualified name of the GuildsService's
+	// GetGuildMember RPC.
+	GuildsServiceGetGuildMemberProcedure = "/guilds.v1.GuildsService/GetGuildMember"
+	// GuildsServiceListGuildMembersProcedure is the fully-qualified name of the GuildsService's
+	// ListGuildMembers RPC.
+	GuildsServiceListGuildMembersProcedure = "/guilds.v1.GuildsService/ListGuildMembers"
+	// GuildsServiceSearchGuildMembersProcedure is the fully-qualified name of the GuildsService's
+	// SearchGuildMembers RPC.
+	GuildsServiceSearchGuildMembersProcedure = "/guilds.v1.GuildsService/SearchGuildMembers"
+	// GuildsServiceAddGuildMemberProcedure is the fully-qualified name of the GuildsService's
+	// AddGuildMember RPC.
+	GuildsServiceAddGuildMemberProcedure = "/guilds.v1.GuildsService/AddGuildMember"
+	// GuildsServiceModifyGuildMemberProcedure is the fully-qualified name of the GuildsService's
+	// ModifyGuildMember RPC.
+	GuildsServiceModifyGuildMemberProcedure = "/guilds.v1.GuildsService/ModifyGuildMember"
+	// GuildsServiceAddGuildMemberRoleProcedure is the fully-qualified name of the GuildsService's
+	// AddGuildMemberRole RPC.
+	GuildsServiceAddGuildMemberRoleProcedure = "/guilds.v1.GuildsService/AddGuildMemberRole"
+	// GuildsServiceRemoveGuildMemberRoleProcedure is the fully-qualified name of the GuildsService's
+	// RemoveGuildMemberRole RPC.
+	GuildsServiceRemoveGuildMemberRoleProcedure = "/guilds.v1.GuildsService/RemoveGuildMemberRole"
+	// GuildsServiceRemoveGuildMemberProcedure is the fully-qualified name of the GuildsService's
+	// RemoveGuildMember RPC.
+	GuildsServiceRemoveGuildMemberProcedure = "/guilds.v1.GuildsService/RemoveGuildMember"
+	// GuildsServiceGetGuildBansProcedure is the fully-qualified name of the GuildsService's
+	// GetGuildBans RPC.
+	GuildsServiceGetGuildBansProcedure = "/guilds.v1.GuildsService/GetGuildBans"
+	// GuildsServiceGetGuildBanProcedure is the fully-qualified name of the GuildsService's GetGuildBan
+	// RPC.
+	GuildsServiceGetGuildBanProcedure = "/guilds.v1.GuildsService/GetGuildBan"
+	// GuildsServiceCreateGuildBanProcedure is the fully-qualified name of the GuildsService's
+	// CreateGuildBan RPC.
+	GuildsServiceCreateGuildBanProcedure = "/guilds.v1.GuildsService/CreateGuildBan"
+	// GuildsServiceRemoveGuildBanProcedure is the fully-qualified name of the GuildsService's
+	// RemoveGuildBan RPC.
+	GuildsServiceRemoveGuildBanProcedure = "/guilds.v1.GuildsService/RemoveGuildBan"
+	// GuildsServiceGetGuildRolesProcedure is the fully-qualified name of the GuildsService's
+	// GetGuildRoles RPC.
+	GuildsServiceGetGuildRolesProcedure = "/guilds.v1.GuildsService/GetGuildRoles"
+	// GuildsServiceCreateGuildRoleProcedure is the fully-qualified name of the GuildsService's
+	// CreateGuildRole RPC.
+	GuildsServiceCreateGuildRoleProcedure = "/guilds.v1.GuildsService/CreateGuildRole"
+	// GuildsServiceModifyGuildRolePositionsProcedure is the fully-qualified name of the GuildsService's
+	// ModifyGuildRolePositions RPC.
+	GuildsServiceModifyGuildRolePositionsProcedure = "/guilds.v1.GuildsService/ModifyGuildRolePositions"
+	// GuildsServiceModifyGuildRoleProcedure is the fully-qualified name of the GuildsService's
+	// ModifyGuildRole RPC.
+	GuildsServiceModifyGuildRoleProcedure = "/guilds.v1.GuildsService/ModifyGuildRole"
+	// GuildsServiceDeleteGuildRoleProcedure is the fully-qualified name of the GuildsService's
+	// DeleteGuildRole RPC.
+	GuildsServiceDeleteGuildRoleProcedure = "/guilds.v1.GuildsService/DeleteGuildRole"
 )
 
 // GuildsServiceClient is a client for the guilds.v1.GuildsService service.
@@ -49,6 +109,26 @@ type GuildsServiceClient interface {
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
+	GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error)
+	CreateGuildChannel(context.Context, *connect.Request[v1.CreateGuildChannelRequest]) (*connect.Response[v1.CreateGuildChannelResponse], error)
+	ModifyGuildChannelPositions(context.Context, *connect.Request[v1.ModifyGuildChannelPositionsRequest]) (*connect.Response[v1.ModifyGuildChannelPositionsResponse], error)
+	GetGuildMember(context.Context, *connect.Request[v1.GetGuildMemberRequest]) (*connect.Response[v1.GetGuildMemberResponse], error)
+	ListGuildMembers(context.Context, *connect.Request[v1.ListGuildMembersRequest]) (*connect.Response[v1.ListGuildMembersResponse], error)
+	SearchGuildMembers(context.Context, *connect.Request[v1.SearchGuildMembersRequest]) (*connect.Response[v1.SearchGuildMembersResponse], error)
+	AddGuildMember(context.Context, *connect.Request[v1.AddGuildMemberRequest]) (*connect.Response[v1.AddGuildMemberResponse], error)
+	ModifyGuildMember(context.Context, *connect.Request[v1.ModifyGuildMemberRequest]) (*connect.Response[v1.ModifyGuildMemberResponse], error)
+	AddGuildMemberRole(context.Context, *connect.Request[v1.AddGuildMemberRoleRequest]) (*connect.Response[v1.AddGuildMemberRoleResponse], error)
+	RemoveGuildMemberRole(context.Context, *connect.Request[v1.RemoveGuildMemberRoleRequest]) (*connect.Response[v1.RemoveGuildMemberRoleResponse], error)
+	RemoveGuildMember(context.Context, *connect.Request[v1.RemoveGuildMemberRequest]) (*connect.Response[v1.RemoveGuildMemberResponse], error)
+	GetGuildBans(context.Context, *connect.Request[v1.GetGuildBansRequest]) (*connect.Response[v1.GetGuildBansResponse], error)
+	GetGuildBan(context.Context, *connect.Request[v1.GetGuildBanRequest]) (*connect.Response[v1.GetGuildBanResponse], error)
+	CreateGuildBan(context.Context, *connect.Request[v1.CreateGuildBanRequest]) (*connect.Response[v1.CreateGuildBanResponse], error)
+	RemoveGuildBan(context.Context, *connect.Request[v1.RemoveGuildBanRequest]) (*connect.Response[v1.RemoveGuildBanResponse], error)
+	GetGuildRoles(context.Context, *connect.Request[v1.GetGuildRolesRequest]) (*connect.Response[v1.GetGuildRolesResponse], error)
+	CreateGuildRole(context.Context, *connect.Request[v1.CreateGuildRoleRequest]) (*connect.Response[v1.CreateGuildRoleResponse], error)
+	ModifyGuildRolePositions(context.Context, *connect.Request[v1.ModifyGuildRolePositionsRequest]) (*connect.Response[v1.ModifyGuildRolePositionsResponse], error)
+	ModifyGuildRole(context.Context, *connect.Request[v1.ModifyGuildRoleRequest]) (*connect.Response[v1.ModifyGuildRoleResponse], error)
+	DeleteGuildRole(context.Context, *connect.Request[v1.DeleteGuildRoleRequest]) (*connect.Response[v1.DeleteGuildRoleResponse], error)
 }
 
 // NewGuildsServiceClient constructs a client for the guilds.v1.GuildsService service. By default,
@@ -81,15 +161,135 @@ func NewGuildsServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			baseURL+GuildsServiceDeleteProcedure,
 			opts...,
 		),
+		getGuildChannels: connect.NewClient[v1.GetGuildChannelsRequest, v1.GetGuildChannelsResponse](
+			httpClient,
+			baseURL+GuildsServiceGetGuildChannelsProcedure,
+			opts...,
+		),
+		createGuildChannel: connect.NewClient[v1.CreateGuildChannelRequest, v1.CreateGuildChannelResponse](
+			httpClient,
+			baseURL+GuildsServiceCreateGuildChannelProcedure,
+			opts...,
+		),
+		modifyGuildChannelPositions: connect.NewClient[v1.ModifyGuildChannelPositionsRequest, v1.ModifyGuildChannelPositionsResponse](
+			httpClient,
+			baseURL+GuildsServiceModifyGuildChannelPositionsProcedure,
+			opts...,
+		),
+		getGuildMember: connect.NewClient[v1.GetGuildMemberRequest, v1.GetGuildMemberResponse](
+			httpClient,
+			baseURL+GuildsServiceGetGuildMemberProcedure,
+			opts...,
+		),
+		listGuildMembers: connect.NewClient[v1.ListGuildMembersRequest, v1.ListGuildMembersResponse](
+			httpClient,
+			baseURL+GuildsServiceListGuildMembersProcedure,
+			opts...,
+		),
+		searchGuildMembers: connect.NewClient[v1.SearchGuildMembersRequest, v1.SearchGuildMembersResponse](
+			httpClient,
+			baseURL+GuildsServiceSearchGuildMembersProcedure,
+			opts...,
+		),
+		addGuildMember: connect.NewClient[v1.AddGuildMemberRequest, v1.AddGuildMemberResponse](
+			httpClient,
+			baseURL+GuildsServiceAddGuildMemberProcedure,
+			opts...,
+		),
+		modifyGuildMember: connect.NewClient[v1.ModifyGuildMemberRequest, v1.ModifyGuildMemberResponse](
+			httpClient,
+			baseURL+GuildsServiceModifyGuildMemberProcedure,
+			opts...,
+		),
+		addGuildMemberRole: connect.NewClient[v1.AddGuildMemberRoleRequest, v1.AddGuildMemberRoleResponse](
+			httpClient,
+			baseURL+GuildsServiceAddGuildMemberRoleProcedure,
+			opts...,
+		),
+		removeGuildMemberRole: connect.NewClient[v1.RemoveGuildMemberRoleRequest, v1.RemoveGuildMemberRoleResponse](
+			httpClient,
+			baseURL+GuildsServiceRemoveGuildMemberRoleProcedure,
+			opts...,
+		),
+		removeGuildMember: connect.NewClient[v1.RemoveGuildMemberRequest, v1.RemoveGuildMemberResponse](
+			httpClient,
+			baseURL+GuildsServiceRemoveGuildMemberProcedure,
+			opts...,
+		),
+		getGuildBans: connect.NewClient[v1.GetGuildBansRequest, v1.GetGuildBansResponse](
+			httpClient,
+			baseURL+GuildsServiceGetGuildBansProcedure,
+			opts...,
+		),
+		getGuildBan: connect.NewClient[v1.GetGuildBanRequest, v1.GetGuildBanResponse](
+			httpClient,
+			baseURL+GuildsServiceGetGuildBanProcedure,
+			opts...,
+		),
+		createGuildBan: connect.NewClient[v1.CreateGuildBanRequest, v1.CreateGuildBanResponse](
+			httpClient,
+			baseURL+GuildsServiceCreateGuildBanProcedure,
+			opts...,
+		),
+		removeGuildBan: connect.NewClient[v1.RemoveGuildBanRequest, v1.RemoveGuildBanResponse](
+			httpClient,
+			baseURL+GuildsServiceRemoveGuildBanProcedure,
+			opts...,
+		),
+		getGuildRoles: connect.NewClient[v1.GetGuildRolesRequest, v1.GetGuildRolesResponse](
+			httpClient,
+			baseURL+GuildsServiceGetGuildRolesProcedure,
+			opts...,
+		),
+		createGuildRole: connect.NewClient[v1.CreateGuildRoleRequest, v1.CreateGuildRoleResponse](
+			httpClient,
+			baseURL+GuildsServiceCreateGuildRoleProcedure,
+			opts...,
+		),
+		modifyGuildRolePositions: connect.NewClient[v1.ModifyGuildRolePositionsRequest, v1.ModifyGuildRolePositionsResponse](
+			httpClient,
+			baseURL+GuildsServiceModifyGuildRolePositionsProcedure,
+			opts...,
+		),
+		modifyGuildRole: connect.NewClient[v1.ModifyGuildRoleRequest, v1.ModifyGuildRoleResponse](
+			httpClient,
+			baseURL+GuildsServiceModifyGuildRoleProcedure,
+			opts...,
+		),
+		deleteGuildRole: connect.NewClient[v1.DeleteGuildRoleRequest, v1.DeleteGuildRoleResponse](
+			httpClient,
+			baseURL+GuildsServiceDeleteGuildRoleProcedure,
+			opts...,
+		),
 	}
 }
 
 // guildsServiceClient implements GuildsServiceClient.
 type guildsServiceClient struct {
-	create  *connect.Client[v1.CreateRequest, v1.CreateResponse]
-	getById *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
-	update  *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
-	delete  *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
+	create                      *connect.Client[v1.CreateRequest, v1.CreateResponse]
+	getById                     *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
+	update                      *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
+	delete                      *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
+	getGuildChannels            *connect.Client[v1.GetGuildChannelsRequest, v1.GetGuildChannelsResponse]
+	createGuildChannel          *connect.Client[v1.CreateGuildChannelRequest, v1.CreateGuildChannelResponse]
+	modifyGuildChannelPositions *connect.Client[v1.ModifyGuildChannelPositionsRequest, v1.ModifyGuildChannelPositionsResponse]
+	getGuildMember              *connect.Client[v1.GetGuildMemberRequest, v1.GetGuildMemberResponse]
+	listGuildMembers            *connect.Client[v1.ListGuildMembersRequest, v1.ListGuildMembersResponse]
+	searchGuildMembers          *connect.Client[v1.SearchGuildMembersRequest, v1.SearchGuildMembersResponse]
+	addGuildMember              *connect.Client[v1.AddGuildMemberRequest, v1.AddGuildMemberResponse]
+	modifyGuildMember           *connect.Client[v1.ModifyGuildMemberRequest, v1.ModifyGuildMemberResponse]
+	addGuildMemberRole          *connect.Client[v1.AddGuildMemberRoleRequest, v1.AddGuildMemberRoleResponse]
+	removeGuildMemberRole       *connect.Client[v1.RemoveGuildMemberRoleRequest, v1.RemoveGuildMemberRoleResponse]
+	removeGuildMember           *connect.Client[v1.RemoveGuildMemberRequest, v1.RemoveGuildMemberResponse]
+	getGuildBans                *connect.Client[v1.GetGuildBansRequest, v1.GetGuildBansResponse]
+	getGuildBan                 *connect.Client[v1.GetGuildBanRequest, v1.GetGuildBanResponse]
+	createGuildBan              *connect.Client[v1.CreateGuildBanRequest, v1.CreateGuildBanResponse]
+	removeGuildBan              *connect.Client[v1.RemoveGuildBanRequest, v1.RemoveGuildBanResponse]
+	getGuildRoles               *connect.Client[v1.GetGuildRolesRequest, v1.GetGuildRolesResponse]
+	createGuildRole             *connect.Client[v1.CreateGuildRoleRequest, v1.CreateGuildRoleResponse]
+	modifyGuildRolePositions    *connect.Client[v1.ModifyGuildRolePositionsRequest, v1.ModifyGuildRolePositionsResponse]
+	modifyGuildRole             *connect.Client[v1.ModifyGuildRoleRequest, v1.ModifyGuildRoleResponse]
+	deleteGuildRole             *connect.Client[v1.DeleteGuildRoleRequest, v1.DeleteGuildRoleResponse]
 }
 
 // Create calls guilds.v1.GuildsService.Create.
@@ -112,12 +312,132 @@ func (c *guildsServiceClient) Delete(ctx context.Context, req *connect.Request[v
 	return c.delete.CallUnary(ctx, req)
 }
 
+// GetGuildChannels calls guilds.v1.GuildsService.GetGuildChannels.
+func (c *guildsServiceClient) GetGuildChannels(ctx context.Context, req *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error) {
+	return c.getGuildChannels.CallUnary(ctx, req)
+}
+
+// CreateGuildChannel calls guilds.v1.GuildsService.CreateGuildChannel.
+func (c *guildsServiceClient) CreateGuildChannel(ctx context.Context, req *connect.Request[v1.CreateGuildChannelRequest]) (*connect.Response[v1.CreateGuildChannelResponse], error) {
+	return c.createGuildChannel.CallUnary(ctx, req)
+}
+
+// ModifyGuildChannelPositions calls guilds.v1.GuildsService.ModifyGuildChannelPositions.
+func (c *guildsServiceClient) ModifyGuildChannelPositions(ctx context.Context, req *connect.Request[v1.ModifyGuildChannelPositionsRequest]) (*connect.Response[v1.ModifyGuildChannelPositionsResponse], error) {
+	return c.modifyGuildChannelPositions.CallUnary(ctx, req)
+}
+
+// GetGuildMember calls guilds.v1.GuildsService.GetGuildMember.
+func (c *guildsServiceClient) GetGuildMember(ctx context.Context, req *connect.Request[v1.GetGuildMemberRequest]) (*connect.Response[v1.GetGuildMemberResponse], error) {
+	return c.getGuildMember.CallUnary(ctx, req)
+}
+
+// ListGuildMembers calls guilds.v1.GuildsService.ListGuildMembers.
+func (c *guildsServiceClient) ListGuildMembers(ctx context.Context, req *connect.Request[v1.ListGuildMembersRequest]) (*connect.Response[v1.ListGuildMembersResponse], error) {
+	return c.listGuildMembers.CallUnary(ctx, req)
+}
+
+// SearchGuildMembers calls guilds.v1.GuildsService.SearchGuildMembers.
+func (c *guildsServiceClient) SearchGuildMembers(ctx context.Context, req *connect.Request[v1.SearchGuildMembersRequest]) (*connect.Response[v1.SearchGuildMembersResponse], error) {
+	return c.searchGuildMembers.CallUnary(ctx, req)
+}
+
+// AddGuildMember calls guilds.v1.GuildsService.AddGuildMember.
+func (c *guildsServiceClient) AddGuildMember(ctx context.Context, req *connect.Request[v1.AddGuildMemberRequest]) (*connect.Response[v1.AddGuildMemberResponse], error) {
+	return c.addGuildMember.CallUnary(ctx, req)
+}
+
+// ModifyGuildMember calls guilds.v1.GuildsService.ModifyGuildMember.
+func (c *guildsServiceClient) ModifyGuildMember(ctx context.Context, req *connect.Request[v1.ModifyGuildMemberRequest]) (*connect.Response[v1.ModifyGuildMemberResponse], error) {
+	return c.modifyGuildMember.CallUnary(ctx, req)
+}
+
+// AddGuildMemberRole calls guilds.v1.GuildsService.AddGuildMemberRole.
+func (c *guildsServiceClient) AddGuildMemberRole(ctx context.Context, req *connect.Request[v1.AddGuildMemberRoleRequest]) (*connect.Response[v1.AddGuildMemberRoleResponse], error) {
+	return c.addGuildMemberRole.CallUnary(ctx, req)
+}
+
+// RemoveGuildMemberRole calls guilds.v1.GuildsService.RemoveGuildMemberRole.
+func (c *guildsServiceClient) RemoveGuildMemberRole(ctx context.Context, req *connect.Request[v1.RemoveGuildMemberRoleRequest]) (*connect.Response[v1.RemoveGuildMemberRoleResponse], error) {
+	return c.removeGuildMemberRole.CallUnary(ctx, req)
+}
+
+// RemoveGuildMember calls guilds.v1.GuildsService.RemoveGuildMember.
+func (c *guildsServiceClient) RemoveGuildMember(ctx context.Context, req *connect.Request[v1.RemoveGuildMemberRequest]) (*connect.Response[v1.RemoveGuildMemberResponse], error) {
+	return c.removeGuildMember.CallUnary(ctx, req)
+}
+
+// GetGuildBans calls guilds.v1.GuildsService.GetGuildBans.
+func (c *guildsServiceClient) GetGuildBans(ctx context.Context, req *connect.Request[v1.GetGuildBansRequest]) (*connect.Response[v1.GetGuildBansResponse], error) {
+	return c.getGuildBans.CallUnary(ctx, req)
+}
+
+// GetGuildBan calls guilds.v1.GuildsService.GetGuildBan.
+func (c *guildsServiceClient) GetGuildBan(ctx context.Context, req *connect.Request[v1.GetGuildBanRequest]) (*connect.Response[v1.GetGuildBanResponse], error) {
+	return c.getGuildBan.CallUnary(ctx, req)
+}
+
+// CreateGuildBan calls guilds.v1.GuildsService.CreateGuildBan.
+func (c *guildsServiceClient) CreateGuildBan(ctx context.Context, req *connect.Request[v1.CreateGuildBanRequest]) (*connect.Response[v1.CreateGuildBanResponse], error) {
+	return c.createGuildBan.CallUnary(ctx, req)
+}
+
+// RemoveGuildBan calls guilds.v1.GuildsService.RemoveGuildBan.
+func (c *guildsServiceClient) RemoveGuildBan(ctx context.Context, req *connect.Request[v1.RemoveGuildBanRequest]) (*connect.Response[v1.RemoveGuildBanResponse], error) {
+	return c.removeGuildBan.CallUnary(ctx, req)
+}
+
+// GetGuildRoles calls guilds.v1.GuildsService.GetGuildRoles.
+func (c *guildsServiceClient) GetGuildRoles(ctx context.Context, req *connect.Request[v1.GetGuildRolesRequest]) (*connect.Response[v1.GetGuildRolesResponse], error) {
+	return c.getGuildRoles.CallUnary(ctx, req)
+}
+
+// CreateGuildRole calls guilds.v1.GuildsService.CreateGuildRole.
+func (c *guildsServiceClient) CreateGuildRole(ctx context.Context, req *connect.Request[v1.CreateGuildRoleRequest]) (*connect.Response[v1.CreateGuildRoleResponse], error) {
+	return c.createGuildRole.CallUnary(ctx, req)
+}
+
+// ModifyGuildRolePositions calls guilds.v1.GuildsService.ModifyGuildRolePositions.
+func (c *guildsServiceClient) ModifyGuildRolePositions(ctx context.Context, req *connect.Request[v1.ModifyGuildRolePositionsRequest]) (*connect.Response[v1.ModifyGuildRolePositionsResponse], error) {
+	return c.modifyGuildRolePositions.CallUnary(ctx, req)
+}
+
+// ModifyGuildRole calls guilds.v1.GuildsService.ModifyGuildRole.
+func (c *guildsServiceClient) ModifyGuildRole(ctx context.Context, req *connect.Request[v1.ModifyGuildRoleRequest]) (*connect.Response[v1.ModifyGuildRoleResponse], error) {
+	return c.modifyGuildRole.CallUnary(ctx, req)
+}
+
+// DeleteGuildRole calls guilds.v1.GuildsService.DeleteGuildRole.
+func (c *guildsServiceClient) DeleteGuildRole(ctx context.Context, req *connect.Request[v1.DeleteGuildRoleRequest]) (*connect.Response[v1.DeleteGuildRoleResponse], error) {
+	return c.deleteGuildRole.CallUnary(ctx, req)
+}
+
 // GuildsServiceHandler is an implementation of the guilds.v1.GuildsService service.
 type GuildsServiceHandler interface {
 	Create(context.Context, *connect.Request[v1.CreateRequest]) (*connect.Response[v1.CreateResponse], error)
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
+	GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error)
+	CreateGuildChannel(context.Context, *connect.Request[v1.CreateGuildChannelRequest]) (*connect.Response[v1.CreateGuildChannelResponse], error)
+	ModifyGuildChannelPositions(context.Context, *connect.Request[v1.ModifyGuildChannelPositionsRequest]) (*connect.Response[v1.ModifyGuildChannelPositionsResponse], error)
+	GetGuildMember(context.Context, *connect.Request[v1.GetGuildMemberRequest]) (*connect.Response[v1.GetGuildMemberResponse], error)
+	ListGuildMembers(context.Context, *connect.Request[v1.ListGuildMembersRequest]) (*connect.Response[v1.ListGuildMembersResponse], error)
+	SearchGuildMembers(context.Context, *connect.Request[v1.SearchGuildMembersRequest]) (*connect.Response[v1.SearchGuildMembersResponse], error)
+	AddGuildMember(context.Context, *connect.Request[v1.AddGuildMemberRequest]) (*connect.Response[v1.AddGuildMemberResponse], error)
+	ModifyGuildMember(context.Context, *connect.Request[v1.ModifyGuildMemberRequest]) (*connect.Response[v1.ModifyGuildMemberResponse], error)
+	AddGuildMemberRole(context.Context, *connect.Request[v1.AddGuildMemberRoleRequest]) (*connect.Response[v1.AddGuildMemberRoleResponse], error)
+	RemoveGuildMemberRole(context.Context, *connect.Request[v1.RemoveGuildMemberRoleRequest]) (*connect.Response[v1.RemoveGuildMemberRoleResponse], error)
+	RemoveGuildMember(context.Context, *connect.Request[v1.RemoveGuildMemberRequest]) (*connect.Response[v1.RemoveGuildMemberResponse], error)
+	GetGuildBans(context.Context, *connect.Request[v1.GetGuildBansRequest]) (*connect.Response[v1.GetGuildBansResponse], error)
+	GetGuildBan(context.Context, *connect.Request[v1.GetGuildBanRequest]) (*connect.Response[v1.GetGuildBanResponse], error)
+	CreateGuildBan(context.Context, *connect.Request[v1.CreateGuildBanRequest]) (*connect.Response[v1.CreateGuildBanResponse], error)
+	RemoveGuildBan(context.Context, *connect.Request[v1.RemoveGuildBanRequest]) (*connect.Response[v1.RemoveGuildBanResponse], error)
+	GetGuildRoles(context.Context, *connect.Request[v1.GetGuildRolesRequest]) (*connect.Response[v1.GetGuildRolesResponse], error)
+	CreateGuildRole(context.Context, *connect.Request[v1.CreateGuildRoleRequest]) (*connect.Response[v1.CreateGuildRoleResponse], error)
+	ModifyGuildRolePositions(context.Context, *connect.Request[v1.ModifyGuildRolePositionsRequest]) (*connect.Response[v1.ModifyGuildRolePositionsResponse], error)
+	ModifyGuildRole(context.Context, *connect.Request[v1.ModifyGuildRoleRequest]) (*connect.Response[v1.ModifyGuildRoleResponse], error)
+	DeleteGuildRole(context.Context, *connect.Request[v1.DeleteGuildRoleRequest]) (*connect.Response[v1.DeleteGuildRoleResponse], error)
 }
 
 // NewGuildsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -146,6 +466,106 @@ func NewGuildsServiceHandler(svc GuildsServiceHandler, opts ...connect.HandlerOp
 		svc.Delete,
 		opts...,
 	)
+	guildsServiceGetGuildChannelsHandler := connect.NewUnaryHandler(
+		GuildsServiceGetGuildChannelsProcedure,
+		svc.GetGuildChannels,
+		opts...,
+	)
+	guildsServiceCreateGuildChannelHandler := connect.NewUnaryHandler(
+		GuildsServiceCreateGuildChannelProcedure,
+		svc.CreateGuildChannel,
+		opts...,
+	)
+	guildsServiceModifyGuildChannelPositionsHandler := connect.NewUnaryHandler(
+		GuildsServiceModifyGuildChannelPositionsProcedure,
+		svc.ModifyGuildChannelPositions,
+		opts...,
+	)
+	guildsServiceGetGuildMemberHandler := connect.NewUnaryHandler(
+		GuildsServiceGetGuildMemberProcedure,
+		svc.GetGuildMember,
+		opts...,
+	)
+	guildsServiceListGuildMembersHandler := connect.NewUnaryHandler(
+		GuildsServiceListGuildMembersProcedure,
+		svc.ListGuildMembers,
+		opts...,
+	)
+	guildsServiceSearchGuildMembersHandler := connect.NewUnaryHandler(
+		GuildsServiceSearchGuildMembersProcedure,
+		svc.SearchGuildMembers,
+		opts...,
+	)
+	guildsServiceAddGuildMemberHandler := connect.NewUnaryHandler(
+		GuildsServiceAddGuildMemberProcedure,
+		svc.AddGuildMember,
+		opts...,
+	)
+	guildsServiceModifyGuildMemberHandler := connect.NewUnaryHandler(
+		GuildsServiceModifyGuildMemberProcedure,
+		svc.ModifyGuildMember,
+		opts...,
+	)
+	guildsServiceAddGuildMemberRoleHandler := connect.NewUnaryHandler(
+		GuildsServiceAddGuildMemberRoleProcedure,
+		svc.AddGuildMemberRole,
+		opts...,
+	)
+	guildsServiceRemoveGuildMemberRoleHandler := connect.NewUnaryHandler(
+		GuildsServiceRemoveGuildMemberRoleProcedure,
+		svc.RemoveGuildMemberRole,
+		opts...,
+	)
+	guildsServiceRemoveGuildMemberHandler := connect.NewUnaryHandler(
+		GuildsServiceRemoveGuildMemberProcedure,
+		svc.RemoveGuildMember,
+		opts...,
+	)
+	guildsServiceGetGuildBansHandler := connect.NewUnaryHandler(
+		GuildsServiceGetGuildBansProcedure,
+		svc.GetGuildBans,
+		opts...,
+	)
+	guildsServiceGetGuildBanHandler := connect.NewUnaryHandler(
+		GuildsServiceGetGuildBanProcedure,
+		svc.GetGuildBan,
+		opts...,
+	)
+	guildsServiceCreateGuildBanHandler := connect.NewUnaryHandler(
+		GuildsServiceCreateGuildBanProcedure,
+		svc.CreateGuildBan,
+		opts...,
+	)
+	guildsServiceRemoveGuildBanHandler := connect.NewUnaryHandler(
+		GuildsServiceRemoveGuildBanProcedure,
+		svc.RemoveGuildBan,
+		opts...,
+	)
+	guildsServiceGetGuildRolesHandler := connect.NewUnaryHandler(
+		GuildsServiceGetGuildRolesProcedure,
+		svc.GetGuildRoles,
+		opts...,
+	)
+	guildsServiceCreateGuildRoleHandler := connect.NewUnaryHandler(
+		GuildsServiceCreateGuildRoleProcedure,
+		svc.CreateGuildRole,
+		opts...,
+	)
+	guildsServiceModifyGuildRolePositionsHandler := connect.NewUnaryHandler(
+		GuildsServiceModifyGuildRolePositionsProcedure,
+		svc.ModifyGuildRolePositions,
+		opts...,
+	)
+	guildsServiceModifyGuildRoleHandler := connect.NewUnaryHandler(
+		GuildsServiceModifyGuildRoleProcedure,
+		svc.ModifyGuildRole,
+		opts...,
+	)
+	guildsServiceDeleteGuildRoleHandler := connect.NewUnaryHandler(
+		GuildsServiceDeleteGuildRoleProcedure,
+		svc.DeleteGuildRole,
+		opts...,
+	)
 	return "/guilds.v1.GuildsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case GuildsServiceCreateProcedure:
@@ -156,6 +576,46 @@ func NewGuildsServiceHandler(svc GuildsServiceHandler, opts ...connect.HandlerOp
 			guildsServiceUpdateHandler.ServeHTTP(w, r)
 		case GuildsServiceDeleteProcedure:
 			guildsServiceDeleteHandler.ServeHTTP(w, r)
+		case GuildsServiceGetGuildChannelsProcedure:
+			guildsServiceGetGuildChannelsHandler.ServeHTTP(w, r)
+		case GuildsServiceCreateGuildChannelProcedure:
+			guildsServiceCreateGuildChannelHandler.ServeHTTP(w, r)
+		case GuildsServiceModifyGuildChannelPositionsProcedure:
+			guildsServiceModifyGuildChannelPositionsHandler.ServeHTTP(w, r)
+		case GuildsServiceGetGuildMemberProcedure:
+			guildsServiceGetGuildMemberHandler.ServeHTTP(w, r)
+		case GuildsServiceListGuildMembersProcedure:
+			guildsServiceListGuildMembersHandler.ServeHTTP(w, r)
+		case GuildsServiceSearchGuildMembersProcedure:
+			guildsServiceSearchGuildMembersHandler.ServeHTTP(w, r)
+		case GuildsServiceAddGuildMemberProcedure:
+			guildsServiceAddGuildMemberHandler.ServeHTTP(w, r)
+		case GuildsServiceModifyGuildMemberProcedure:
+			guildsServiceModifyGuildMemberHandler.ServeHTTP(w, r)
+		case GuildsServiceAddGuildMemberRoleProcedure:
+			guildsServiceAddGuildMemberRoleHandler.ServeHTTP(w, r)
+		case GuildsServiceRemoveGuildMemberRoleProcedure:
+			guildsServiceRemoveGuildMemberRoleHandler.ServeHTTP(w, r)
+		case GuildsServiceRemoveGuildMemberProcedure:
+			guildsServiceRemoveGuildMemberHandler.ServeHTTP(w, r)
+		case GuildsServiceGetGuildBansProcedure:
+			guildsServiceGetGuildBansHandler.ServeHTTP(w, r)
+		case GuildsServiceGetGuildBanProcedure:
+			guildsServiceGetGuildBanHandler.ServeHTTP(w, r)
+		case GuildsServiceCreateGuildBanProcedure:
+			guildsServiceCreateGuildBanHandler.ServeHTTP(w, r)
+		case GuildsServiceRemoveGuildBanProcedure:
+			guildsServiceRemoveGuildBanHandler.ServeHTTP(w, r)
+		case GuildsServiceGetGuildRolesProcedure:
+			guildsServiceGetGuildRolesHandler.ServeHTTP(w, r)
+		case GuildsServiceCreateGuildRoleProcedure:
+			guildsServiceCreateGuildRoleHandler.ServeHTTP(w, r)
+		case GuildsServiceModifyGuildRolePositionsProcedure:
+			guildsServiceModifyGuildRolePositionsHandler.ServeHTTP(w, r)
+		case GuildsServiceModifyGuildRoleProcedure:
+			guildsServiceModifyGuildRoleHandler.ServeHTTP(w, r)
+		case GuildsServiceDeleteGuildRoleProcedure:
+			guildsServiceDeleteGuildRoleHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -179,4 +639,84 @@ func (UnimplementedGuildsServiceHandler) Update(context.Context, *connect.Reques
 
 func (UnimplementedGuildsServiceHandler) Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.Delete is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.GetGuildChannels is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) CreateGuildChannel(context.Context, *connect.Request[v1.CreateGuildChannelRequest]) (*connect.Response[v1.CreateGuildChannelResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.CreateGuildChannel is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) ModifyGuildChannelPositions(context.Context, *connect.Request[v1.ModifyGuildChannelPositionsRequest]) (*connect.Response[v1.ModifyGuildChannelPositionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.ModifyGuildChannelPositions is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) GetGuildMember(context.Context, *connect.Request[v1.GetGuildMemberRequest]) (*connect.Response[v1.GetGuildMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.GetGuildMember is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) ListGuildMembers(context.Context, *connect.Request[v1.ListGuildMembersRequest]) (*connect.Response[v1.ListGuildMembersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.ListGuildMembers is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) SearchGuildMembers(context.Context, *connect.Request[v1.SearchGuildMembersRequest]) (*connect.Response[v1.SearchGuildMembersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.SearchGuildMembers is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) AddGuildMember(context.Context, *connect.Request[v1.AddGuildMemberRequest]) (*connect.Response[v1.AddGuildMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.AddGuildMember is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) ModifyGuildMember(context.Context, *connect.Request[v1.ModifyGuildMemberRequest]) (*connect.Response[v1.ModifyGuildMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.ModifyGuildMember is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) AddGuildMemberRole(context.Context, *connect.Request[v1.AddGuildMemberRoleRequest]) (*connect.Response[v1.AddGuildMemberRoleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.AddGuildMemberRole is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) RemoveGuildMemberRole(context.Context, *connect.Request[v1.RemoveGuildMemberRoleRequest]) (*connect.Response[v1.RemoveGuildMemberRoleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.RemoveGuildMemberRole is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) RemoveGuildMember(context.Context, *connect.Request[v1.RemoveGuildMemberRequest]) (*connect.Response[v1.RemoveGuildMemberResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.RemoveGuildMember is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) GetGuildBans(context.Context, *connect.Request[v1.GetGuildBansRequest]) (*connect.Response[v1.GetGuildBansResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.GetGuildBans is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) GetGuildBan(context.Context, *connect.Request[v1.GetGuildBanRequest]) (*connect.Response[v1.GetGuildBanResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.GetGuildBan is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) CreateGuildBan(context.Context, *connect.Request[v1.CreateGuildBanRequest]) (*connect.Response[v1.CreateGuildBanResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.CreateGuildBan is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) RemoveGuildBan(context.Context, *connect.Request[v1.RemoveGuildBanRequest]) (*connect.Response[v1.RemoveGuildBanResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.RemoveGuildBan is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) GetGuildRoles(context.Context, *connect.Request[v1.GetGuildRolesRequest]) (*connect.Response[v1.GetGuildRolesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.GetGuildRoles is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) CreateGuildRole(context.Context, *connect.Request[v1.CreateGuildRoleRequest]) (*connect.Response[v1.CreateGuildRoleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.CreateGuildRole is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) ModifyGuildRolePositions(context.Context, *connect.Request[v1.ModifyGuildRolePositionsRequest]) (*connect.Response[v1.ModifyGuildRolePositionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.ModifyGuildRolePositions is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) ModifyGuildRole(context.Context, *connect.Request[v1.ModifyGuildRoleRequest]) (*connect.Response[v1.ModifyGuildRoleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.ModifyGuildRole is not implemented"))
+}
+
+func (UnimplementedGuildsServiceHandler) DeleteGuildRole(context.Context, *connect.Request[v1.DeleteGuildRoleRequest]) (*connect.Response[v1.DeleteGuildRoleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("guilds.v1.GuildsService.DeleteGuildRole is not implemented"))
 }
