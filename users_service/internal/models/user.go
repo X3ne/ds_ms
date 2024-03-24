@@ -11,7 +11,7 @@ import (
 )
 
 type User struct {
-	ID        int64          `db:"id" gorm:"primaryKey;autoIncrement:false"`
+	ID        string         `db:"id" gorm:"primaryKey;autoIncrement:false"`
 	Username  string         `db:"username" gorm:"unique;not null"`
 	Email     string         `db:"email" gorm:"unique;not null"`
 	Password  sql.NullString `db:"password"`
@@ -25,7 +25,7 @@ func (user *User) BeforeCreate(tx *gorm.DB) (err error) {
 		return err
 	}
 
-	user.ID = node.Generate().Int64()
+	user.ID = node.Generate().String()
 	user.Email = strings.ToLower(user.Email)
 
 	if user.Password.Valid {

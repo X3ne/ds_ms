@@ -6,6 +6,12 @@ connectrpc.com/grpcreflect v1.2.0 h1:Q6og1S7HinmtbEuBvARLNwYmTbhEGRpHDhqrPNlmK+U
 connectrpc.com/grpcreflect v1.2.0/go.mod h1:nwSOKmE8nU5u/CidgHtPYk1PFI3U9ignz7iDMxOYkSY=
 github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9 h1:5ZbaJNkuyL4AM4/dmyJGfs98BDeyBA4/FWsLtdbhHJE=
 github.com/X3ne/ds_ms/api v0.0.0-20240318180002-cca5d78701b9/go.mod h1:jNvgzL4EUjzv++3mQ42rHBhOXjpiP9u1xfMegOFnCRI=
+github.com/X3ne/ds_ms/api v0.0.0-20240321175458-9d0e926d8a8a h1:COY3gKRMGOl0ermkPnaqkcmr2jDoHPRuZk6vPIetN1w=
+github.com/X3ne/ds_ms/api v0.0.0-20240321175458-9d0e926d8a8a/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
+github.com/X3ne/ds_ms/api v0.0.0-20240321183317-91a4f0feae76 h1:uMBd8ArTogFeUeO6KewatmzQQAawg6DCibOqsQ0uSbQ=
+github.com/X3ne/ds_ms/api v0.0.0-20240321183317-91a4f0feae76/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
+github.com/X3ne/ds_ms/api v0.0.0-20240324180122-88d96772e729 h1:OH9DI26VfVyOuyJ2BDUOSA8Vu+Xg5WydErWhnWEDo6U=
+github.com/X3ne/ds_ms/api v0.0.0-20240324180122-88d96772e729/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
 github.com/antlr4-go/antlr/v4 v4.13.0 h1:lxCg3LAv+EUK6t1i0y1V6/SLeUi0eKEKdhQAlS8TVTI=
 github.com/antlr4-go/antlr/v4 v4.13.0/go.mod h1:pfChB/xh/Unjila75QW7+VU4TSnWnnk9UTnmpPaOR2g=
 github.com/bufbuild/protovalidate-go v0.6.0 h1:Jgs1kFuZ2LHvvdj8SpCLA1W/+pXS8QSM3F/E2l3InPY=

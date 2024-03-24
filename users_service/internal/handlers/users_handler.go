@@ -84,6 +84,29 @@ func (s *UsersServer) GetById(ctx context.Context, req *connect.Request[usersv1.
 	return res, nil
 }
 
+func (s *UsersServer) GetByEmail(ctx context.Context, req *connect.Request[usersv1.GetByEmailRequest]) (*connect.Response[usersv1.GetByEmailResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	user, err := s.Repository.GetUserByEmail(ctx, req.Msg.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&usersv1.GetByEmailResponse{
+		User: createUserResponse(user),
+	})
+
+	res.Header().Set("Users-Version", "v1")
+
+	return res, nil
+}
+
 func (s *UsersServer) Update(ctx context.Context, req *connect.Request[usersv1.UpdateRequest]) (*connect.Response[usersv1.UpdateResponse], error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err

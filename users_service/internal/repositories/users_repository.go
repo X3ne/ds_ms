@@ -22,12 +22,21 @@ func (ur *UserRepository) CreateUser(ctx context.Context, user *models.User) err
 	return nil
 }
 
-func (ur *UserRepository) GetUserByID(ctx context.Context, userID int64) (*models.User, error) {
+func (ur *UserRepository) GetUserByID(ctx context.Context, userID string) (*models.User, error) {
 	var user models.User
 	if err := ur.db.First(&user, userID).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (ur *UserRepository) GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
+	var user models.User
+	if err := ur.db.Where("email = ?", email).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+
 }
 
 func (ur *UserRepository) UpdateUser(ctx context.Context, user *models.User) error {
@@ -37,7 +46,7 @@ func (ur *UserRepository) UpdateUser(ctx context.Context, user *models.User) err
 	return nil
 }
 
-func (ur *UserRepository) DeleteUser(ctx context.Context, userID int64) error {
+func (ur *UserRepository) DeleteUser(ctx context.Context, userID string) error {
 	if err := ur.db.Delete(&models.User{}, userID).Error; err != nil {
 		return err
 	}
