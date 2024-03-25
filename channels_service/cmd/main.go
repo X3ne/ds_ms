@@ -28,6 +28,7 @@ func SyncDatabase(db *gorm.DB) {
 
 	err := db.AutoMigrate(
 		&models.Channel{},
+		&models.Message{},
 	)
 	if err != nil {
 		log.Fatalf("Failed to sync database: %v", err)

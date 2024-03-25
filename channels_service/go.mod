@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	connectrpc.com/connect v1.15.0
 	connectrpc.com/grpcreflect v1.2.0
-	github.com/X3ne/ds_ms/api v0.0.0-20240321143024-95dc5ac15dfa
+	github.com/X3ne/ds_ms/api v0.0.0-20240325172510-35ae707aa393
 	github.com/bufbuild/protovalidate-go v0.6.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/joho/godotenv v1.5.1
