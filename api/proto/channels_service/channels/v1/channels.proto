@@ -48,19 +48,19 @@ enum MessageType {
 }
 
 message Channel {
-  string           id = 1;
+  string          id = 1;
   string          name = 2;
   ChannelType     type = 3;
-  int64           guild_id = 4;
+  string          guild_id = 4;
   int32           position = 5;
   string          topic = 6;
   string          icon = 7;
   int32           user_limit = 8;
-  repeated int64  recipients = 9;
-  int64           owner_id = 10;
-  int64           parent_id = 11;
+  repeated string  recipients = 9;
+  string          owner_id = 10;
+  string          parent_id = 11;
   string          permissions = 12;
-  int64           last_message_id = 13;
+  string          last_message_id = 13;
   bool            is_nsfw = 14;
   bool            is_voice = 15;
   int64           created_at = 16;
@@ -71,7 +71,7 @@ message ChannelMention {
   string id = 1;
   string name = 2;
   ChannelType type = 3;
-  int64 guild_id = 4;
+  string guild_id = 4;
 }
 
 message Attachment {
@@ -125,7 +125,7 @@ message ChannelPosition {
   string id = 1;
   int32 position = 2;
   bool  lock_permissions = 3;
-  int64 parent_id = 4;
+  string parent_id = 4;
 }
 
 message CreateRequest {
@@ -244,9 +244,9 @@ message UpdateRequest {
     bool: {}
     ignore_empty: true,
   }];
-  int64   parent_id = 9 [(buf.validate.field) = {
-    int64: {
-      gt: 0,
+  string   parent_id = 9 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
     }
     ignore_empty: true,
   }];
