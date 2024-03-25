@@ -369,11 +369,24 @@ message CreateMessageRequest {
   string content = 3 [(buf.validate.field) = {
     string: {
       max_len: 2000,
-    }
+    },
+    ignore_empty: true,
   }];
   int64 nonce = 4 [(buf.validate.field).int64.gt = 0];
-  repeated embeds.v1.Embed embeds = 5;
+  repeated embeds.v1.Embed embeds = 5 [(buf.validate.field) = {
+    repeated: {
+      max_items: 10,
+    },
+    ignore_empty: true,
+  }];
+  ChannelType type = 6 [(buf.validate.field) = {
+    enum: {
+      defined_only: true,
+    }
+  }];
+
   // TODO add multipart form data for attachments
+  // TODO check if at least one of content or embeds is present
 }
 
 message CreateMessageResponse {
