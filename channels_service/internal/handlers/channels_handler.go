@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"connectrpc.com/connect"
 	"context"
 	"database/sql"
 	channelsv1 "github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1"
@@ -12,15 +13,32 @@ import (
 	"github.com/X3ne/ds_ms/channels_service/internal/models"
 	"github.com/X3ne/ds_ms/channels_service/internal/repositories"
 	"github.com/X3ne/ds_ms/channels_service/internal/validator"
+	"reflect"
 	"regexp"
-
-	"connectrpc.com/connect"
 )
 
 type ChannelsServer struct {
 	Repository   *repositories.ChannelsRepository
 	GuildsClient guildsv1connect.GuildsServiceClient
 	UsersClient  usersv1connect.UsersServiceClient
+}
+
+func mergeStruct(data interface{}, data2 interface{}) (interface{}, error) {
+	ret := reflect.New(reflect.TypeOf(data)).Interface()
+
+	retVal := reflect.ValueOf(ret).Elem()
+	dataVal := reflect.ValueOf(data)
+	data2Val := reflect.ValueOf(data2)
+
+	for i := 0; i < dataVal.NumField(); i++ {
+		retVal.Field(i).Set(dataVal.Field(i))
+	}
+
+	for i := 0; i < data2Val.NumField(); i++ {
+		retVal.Field(i).Set(data2Val.Field(i))
+	}
+
+	return ret, nil
 }
 
 func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Channel) {
@@ -30,14 +48,14 @@ func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Chan
 		Type:          channel.Type,
 		Icon:          channel.Icon.String,
 		OwnerId:       channel.OwnerID,
-		GuildId:       channel.GuildID,
-		ParentId:      channel.ParentID,
-		Position:      channel.Position,
+		GuildId:       channel.GuildID.String,
+		ParentId:      channel.ParentID.String,
+		Position:      channel.Position.Int32,
 		Topic:         channel.Topic.String,
 		UserLimit:     channel.UserLimit,
 		Recipients:    channel.Recipients,
-		Permissions:   channel.Permissions,
-		LastMessageId: channel.LastMessageID,
+		Permissions:   channel.Permissions.String,
+		LastMessageId: channel.LastMessageID.String,
 		IsNsfw:        channel.IsNSFW,
 		IsVoice:       channel.IsVoice,
 		CreatedAt:     channel.CreatedAt.Unix(),
@@ -51,7 +69,7 @@ func createMessageResponse(message *models.Message) (retMessage *channelsv1.Mess
 	retMessage = &channelsv1.Message{
 		Id:              message.ID,
 		ChannelId:       message.ChannelID,
-		Content:         message.Content,
+		Content:         message.Content.String,
 		Type:            channelsv1.MessageType(message.Type),
 		Nonce:           message.Nonce,
 		Pinned:          message.Pinned,
@@ -74,7 +92,7 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 	newChannel := &models.Channel{
 		Name:      req.Msg.Name,
 		Type:      req.Msg.Type,
-		Position:  req.Msg.Position,
+		Position:  sql.NullInt32{Int32: req.Msg.Position, Valid: true},
 		UserLimit: req.Msg.UserLimit,
 		IsNSFW:    req.Msg.IsNsfw,
 		IsVoice:   req.Msg.IsVoice,
@@ -88,7 +106,7 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 		}); err != nil {
 			return nil, err
 		}
-		newChannel.GuildID = req.Msg.GuildId
+		newChannel.GuildID = sql.NullString{String: req.Msg.GuildId, Valid: true}
 	}
 
 	if req.Msg.OwnerId != "" {
@@ -106,7 +124,7 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 		if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ParentId); err != nil {
 			return nil, err
 		}
-		newChannel.ParentID = req.Msg.ParentId
+		newChannel.ParentID = sql.NullString{String: req.Msg.ParentId, Valid: true}
 	}
 
 	if req.Msg.Topic != "" {
@@ -313,7 +331,7 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 	newMessage := &models.Message{
 		ChannelID:       req.Msg.ChannelId,
 		AuthorID:        req.Msg.AuthorId,
-		Content:         req.Msg.Content,
+		Content:         sql.NullString{String: req.Msg.Content, Valid: true},
 		Type:            channelsv1.MessageType(req.Msg.Type),
 		Mentions:        make([]string, 0),
 		MentionChannels: make([]string, 0),
@@ -344,6 +362,7 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 					case `<@(\d+)>`:
 						newMessage.Mentions = append(newMessage.Mentions, match[1])
 					case `<@&(\d+)>`:
+						// TODO: check if the role is mentionable
 						newMessage.MentionRoles = append(newMessage.MentionRoles, match[1])
 					case `<@everyone>`:
 						// TODO: check if the author has permission to mention everyone
@@ -363,6 +382,319 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 
 	res := connect.NewResponse(&channelsv1.CreateMessageResponse{
 		Message: createMessageResponse(newMessage),
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) UpdateMessage(ctx context.Context, req *connect.Request[channelsv1.UpdateMessageRequest]) (*connect.Response[channelsv1.UpdateMessageResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	message, err := s.Repository.GetMessageByID(ctx, req.Msg.MessageId)
+	if err != nil {
+		return nil, err
+	} else if message == nil {
+		return nil, apiErrors.ErrMessageNotFound
+	}
+
+	newMessage, err := mergeStruct(message, req.Msg)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.Repository.UpdateMessage(ctx, newMessage.(*models.Message))
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.UpdateMessageResponse{
+		Message: createMessageResponse(newMessage.(*models.Message)),
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) DeleteMessage(ctx context.Context, req *connect.Request[channelsv1.DeleteMessageRequest]) (*connect.Response[channelsv1.DeleteMessageResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	// TODO: check if this code is needed
+	if message, err := s.Repository.GetMessageByID(ctx, req.Msg.MessageId); err != nil {
+		return nil, err
+	} else if message == nil {
+		return nil, apiErrors.ErrMessageNotFound
+	}
+
+	err := s.Repository.DeleteMessage(ctx, req.Msg.MessageId)
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.DeleteMessageResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) BulkDeleteMessages(ctx context.Context, req *connect.Request[channelsv1.BulkDeleteMessagesRequest]) (*connect.Response[channelsv1.BulkDeleteMessagesResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	err := s.Repository.DeleteMessages(ctx, req.Msg.ChannelId, req.Msg.Messages)
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.BulkDeleteMessagesResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) EditChannelPermissions(ctx context.Context, req *connect.Request[channelsv1.EditChannelPermissionsRequest]) (*connect.Response[channelsv1.EditChannelPermissionsResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	// TODO: define new permissions here
+
+	res := connect.NewResponse(&channelsv1.EditChannelPermissionsResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) DeleteChannelPermission(ctx context.Context, req *connect.Request[channelsv1.DeleteChannelPermissionRequest]) (*connect.Response[channelsv1.DeleteChannelPermissionResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	// TODO: define new permissions here
+
+	res := connect.NewResponse(&channelsv1.DeleteChannelPermissionResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) TriggerTypingIndicator(ctx context.Context, req *connect.Request[channelsv1.TriggerTypingIndicatorRequest]) (*connect.Response[channelsv1.TriggerTypingIndicatorResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	// TODO: Send typing indicator to the channel through the gateway API
+
+	res := connect.NewResponse(&channelsv1.TriggerTypingIndicatorResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) GetPinnedMessages(ctx context.Context, req *connect.Request[channelsv1.GetPinnedMessagesRequest]) (*connect.Response[channelsv1.GetPinnedMessagesResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	messages, err := s.Repository.GetPinnedMessages(ctx, req.Msg.ChannelId)
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.GetPinnedMessagesResponse{
+		Messages: make([]*channelsv1.Message, 0, len(messages)),
+	})
+
+	for _, message := range messages {
+		res.Msg.Messages = append(res.Msg.Messages, createMessageResponse(&message))
+	}
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) AddPinnedMessage(ctx context.Context, req *connect.Request[channelsv1.AddPinnedMessageRequest]) (*connect.Response[channelsv1.AddPinnedMessageResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	if err := s.Repository.PinMessage(ctx, req.Msg.MessageId); err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.AddPinnedMessageResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) DeletePinnedMessage(ctx context.Context, req *connect.Request[channelsv1.DeletePinnedMessageRequest]) (*connect.Response[channelsv1.DeletePinnedMessageResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	if err := s.Repository.UnpinMessage(ctx, req.Msg.MessageId); err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.DeletePinnedMessageResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) GroupDMAddRecipient(ctx context.Context, req *connect.Request[channelsv1.GroupDMAddRecipientRequest]) (*connect.Response[channelsv1.GroupDMAddRecipientResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.UsersClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
+		Msg: &usersv1.GetByIdRequest{
+			Id: req.Msg.UserId,
+		},
+	}); err != nil {
+		return nil, err
+	}
+
+	//TODO: verify access_token and add user to the recipients
+
+	res := connect.NewResponse(&channelsv1.GroupDMAddRecipientResponse{
+		Success: true,
+	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) GroupDMRemoveRecipient(ctx context.Context, req *connect.Request[channelsv1.GroupDMRemoveRecipientRequest]) (*connect.Response[channelsv1.GroupDMRemoveRecipientResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
+	if _, err := s.UsersClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
+		Msg: &usersv1.GetByIdRequest{
+			Id: req.Msg.UserId,
+		},
+	}); err != nil {
+		return nil, err
+	}
+
+	if err := s.Repository.RemoveGroupDMRecipient(ctx, req.Msg.ChannelId, req.Msg.UserId); err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.GroupDMRemoveRecipientResponse{
+		Success: true,
 	})
 
 	res.Header().Set("Channels-Version", "v1")

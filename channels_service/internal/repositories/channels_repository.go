@@ -108,3 +108,60 @@ func (r *ChannelsRepository) CreateMessage(ctx context.Context, message *models.
 	}
 	return nil
 }
+
+func (r *ChannelsRepository) UpdateMessage(ctx context.Context, message *models.Message) error {
+	if err := r.db.Save(message).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) DeleteMessage(ctx context.Context, messageID string) error {
+	if err := r.db.Delete(&models.Message{}, messageID).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) DeleteMessages(ctx context.Context, channelID string, messages []string) error {
+	if err := r.db.Where("channel_id = ? AND id IN ?", channelID, messages).Delete(&models.Message{}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) GetPinnedMessages(ctx context.Context, channelID string) ([]models.Message, error) {
+	var messages []models.Message
+	if err := r.db.Where("channel_id = ? AND pinned = ?", channelID, true).Find(&messages).Error; err != nil {
+		return nil, err
+	}
+	return messages, nil
+}
+
+func (r *ChannelsRepository) PinMessage(ctx context.Context, messageID string) error {
+	if err := r.db.Model(&models.Message{}).Where("id = ?", messageID).Update("pinned", true).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) UnpinMessage(ctx context.Context, messageID string) error {
+	if err := r.db.Model(&models.Message{}).Where("id = ?", messageID).Update("pinned", false).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) AddGroupDMRecipient(ctx context.Context, channelID, userID string) error {
+	if err := r.db.Model(&models.Channel{}).Where("id = ?", channelID).Update("recipients", gorm.Expr("array_append(recipients, ?)", userID)).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ChannelsRepository) RemoveGroupDMRecipient(ctx context.Context, channelID, userID string) error {
+	if err := r.db.Model(&models.Channel{}).Where("id = ?", channelID).Update("recipients", gorm.Expr("array_remove(recipients, ?)", userID)).Error; err != nil {
+		return err
+	}
+	return nil
+}
