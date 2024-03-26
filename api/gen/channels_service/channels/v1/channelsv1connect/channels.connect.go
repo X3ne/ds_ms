@@ -41,9 +41,9 @@ const (
 	ChannelsServiceUpdateProcedure = "/channels.v1.ChannelsService/Update"
 	// ChannelsServiceDeleteProcedure is the fully-qualified name of the ChannelsService's Delete RPC.
 	ChannelsServiceDeleteProcedure = "/channels.v1.ChannelsService/Delete"
-	// ChannelsServiceGetByGuildIDProcedure is the fully-qualified name of the ChannelsService's
-	// GetByGuildID RPC.
-	ChannelsServiceGetByGuildIDProcedure = "/channels.v1.ChannelsService/GetByGuildID"
+	// ChannelsServiceGetGuildChannelsProcedure is the fully-qualified name of the ChannelsService's
+	// GetGuildChannels RPC.
+	ChannelsServiceGetGuildChannelsProcedure = "/channels.v1.ChannelsService/GetGuildChannels"
 	// ChannelsServiceGetChannelMessagesProcedure is the fully-qualified name of the ChannelsService's
 	// GetChannelMessages RPC.
 	ChannelsServiceGetChannelMessagesProcedure = "/channels.v1.ChannelsService/GetChannelMessages"
@@ -94,7 +94,7 @@ type ChannelsServiceClient interface {
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
-	GetByGuildID(context.Context, *connect.Request[v1.GetByGuildIDRequest]) (*connect.Response[v1.GetByGuildIDResponse], error)
+	GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error)
 	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
 	GetChannelMessage(context.Context, *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error)
 	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
@@ -141,9 +141,9 @@ func NewChannelsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			baseURL+ChannelsServiceDeleteProcedure,
 			opts...,
 		),
-		getByGuildID: connect.NewClient[v1.GetByGuildIDRequest, v1.GetByGuildIDResponse](
+		getGuildChannels: connect.NewClient[v1.GetGuildChannelsRequest, v1.GetGuildChannelsResponse](
 			httpClient,
-			baseURL+ChannelsServiceGetByGuildIDProcedure,
+			baseURL+ChannelsServiceGetGuildChannelsProcedure,
 			opts...,
 		),
 		getChannelMessages: connect.NewClient[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse](
@@ -225,7 +225,7 @@ type channelsServiceClient struct {
 	getById                 *connect.Client[v1.GetByIdRequest, v1.GetByIdResponse]
 	update                  *connect.Client[v1.UpdateRequest, v1.UpdateResponse]
 	delete                  *connect.Client[v1.DeleteRequest, v1.DeleteResponse]
-	getByGuildID            *connect.Client[v1.GetByGuildIDRequest, v1.GetByGuildIDResponse]
+	getGuildChannels        *connect.Client[v1.GetGuildChannelsRequest, v1.GetGuildChannelsResponse]
 	getChannelMessages      *connect.Client[v1.GetChannelMessagesRequest, v1.GetChannelMessagesResponse]
 	getChannelMessage       *connect.Client[v1.GetChannelMessageRequest, v1.GetChannelMessageResponse]
 	createMessage           *connect.Client[v1.CreateMessageRequest, v1.CreateMessageResponse]
@@ -262,9 +262,9 @@ func (c *channelsServiceClient) Delete(ctx context.Context, req *connect.Request
 	return c.delete.CallUnary(ctx, req)
 }
 
-// GetByGuildID calls channels.v1.ChannelsService.GetByGuildID.
-func (c *channelsServiceClient) GetByGuildID(ctx context.Context, req *connect.Request[v1.GetByGuildIDRequest]) (*connect.Response[v1.GetByGuildIDResponse], error) {
-	return c.getByGuildID.CallUnary(ctx, req)
+// GetGuildChannels calls channels.v1.ChannelsService.GetGuildChannels.
+func (c *channelsServiceClient) GetGuildChannels(ctx context.Context, req *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error) {
+	return c.getGuildChannels.CallUnary(ctx, req)
 }
 
 // GetChannelMessages calls channels.v1.ChannelsService.GetChannelMessages.
@@ -343,7 +343,7 @@ type ChannelsServiceHandler interface {
 	GetById(context.Context, *connect.Request[v1.GetByIdRequest]) (*connect.Response[v1.GetByIdResponse], error)
 	Update(context.Context, *connect.Request[v1.UpdateRequest]) (*connect.Response[v1.UpdateResponse], error)
 	Delete(context.Context, *connect.Request[v1.DeleteRequest]) (*connect.Response[v1.DeleteResponse], error)
-	GetByGuildID(context.Context, *connect.Request[v1.GetByGuildIDRequest]) (*connect.Response[v1.GetByGuildIDResponse], error)
+	GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error)
 	GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error)
 	GetChannelMessage(context.Context, *connect.Request[v1.GetChannelMessageRequest]) (*connect.Response[v1.GetChannelMessageResponse], error)
 	CreateMessage(context.Context, *connect.Request[v1.CreateMessageRequest]) (*connect.Response[v1.CreateMessageResponse], error)
@@ -386,9 +386,9 @@ func NewChannelsServiceHandler(svc ChannelsServiceHandler, opts ...connect.Handl
 		svc.Delete,
 		opts...,
 	)
-	channelsServiceGetByGuildIDHandler := connect.NewUnaryHandler(
-		ChannelsServiceGetByGuildIDProcedure,
-		svc.GetByGuildID,
+	channelsServiceGetGuildChannelsHandler := connect.NewUnaryHandler(
+		ChannelsServiceGetGuildChannelsProcedure,
+		svc.GetGuildChannels,
 		opts...,
 	)
 	channelsServiceGetChannelMessagesHandler := connect.NewUnaryHandler(
@@ -471,8 +471,8 @@ func NewChannelsServiceHandler(svc ChannelsServiceHandler, opts ...connect.Handl
 			channelsServiceUpdateHandler.ServeHTTP(w, r)
 		case ChannelsServiceDeleteProcedure:
 			channelsServiceDeleteHandler.ServeHTTP(w, r)
-		case ChannelsServiceGetByGuildIDProcedure:
-			channelsServiceGetByGuildIDHandler.ServeHTTP(w, r)
+		case ChannelsServiceGetGuildChannelsProcedure:
+			channelsServiceGetGuildChannelsHandler.ServeHTTP(w, r)
 		case ChannelsServiceGetChannelMessagesProcedure:
 			channelsServiceGetChannelMessagesHandler.ServeHTTP(w, r)
 		case ChannelsServiceGetChannelMessageProcedure:
@@ -526,8 +526,8 @@ func (UnimplementedChannelsServiceHandler) Delete(context.Context, *connect.Requ
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.Delete is not implemented"))
 }
 
-func (UnimplementedChannelsServiceHandler) GetByGuildID(context.Context, *connect.Request[v1.GetByGuildIDRequest]) (*connect.Response[v1.GetByGuildIDResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GetByGuildID is not implemented"))
+func (UnimplementedChannelsServiceHandler) GetGuildChannels(context.Context, *connect.Request[v1.GetGuildChannelsRequest]) (*connect.Response[v1.GetGuildChannelsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("channels.v1.ChannelsService.GetGuildChannels is not implemented"))
 }
 
 func (UnimplementedChannelsServiceHandler) GetChannelMessages(context.Context, *connect.Request[v1.GetChannelMessagesRequest]) (*connect.Response[v1.GetChannelMessagesResponse], error) {
