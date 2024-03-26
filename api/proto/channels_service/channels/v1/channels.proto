@@ -12,6 +12,7 @@ service ChannelsService {
   rpc GetById (GetByIdRequest) returns (GetByIdResponse) {}
   rpc Update (UpdateRequest) returns (UpdateResponse) {}
   rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+  rpc GetByGuildID (GetByGuildIDRequest) returns (GetByGuildIDResponse) {}
   rpc GetChannelMessages (GetChannelMessagesRequest) returns (GetChannelMessagesResponse) {}
   rpc GetChannelMessage (GetChannelMessageRequest) returns (GetChannelMessageResponse) {}
   rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse) {}
@@ -303,6 +304,18 @@ message DeleteRequest {
 
 message DeleteResponse {
   bool  success = 1;
+}
+
+message GetByGuildIDRequest {
+  string guild_id = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
+}
+
+message GetByGuildIDResponse {
+  repeated Channel channels = 1;
 }
 
 message GetChannelMessagesRequest {
