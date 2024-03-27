@@ -297,6 +297,10 @@ func (s *ChannelsServer) GetChannelMessages(ctx context.Context, req *connect.Re
 		return nil, err
 	}
 
+	if _, err := s.Repository.GetChannelByID(ctx, req.Msg.ChannelId); err != nil {
+		return nil, err
+	}
+
 	messages, err := s.Repository.GetChannelMessages(ctx, req.Msg.ChannelId, repositories.SearchRequest{
 		After:  req.Msg.After,
 		Before: req.Msg.Before,

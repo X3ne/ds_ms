@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	connectrpc.com/connect v1.15.0
 	connectrpc.com/grpcreflect v1.2.0
-	github.com/X3ne/ds_ms/api v0.0.0-20240326175118-caefb9257b20
+	github.com/X3ne/ds_ms/api v0.0.0-20240327214849-c829ad5ceaa7
 	github.com/bufbuild/protovalidate-go v0.6.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/joho/godotenv v1.5.1
@@ -22,6 +22,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
+	github.com/srikrsna/protoc-gen-gotag v0.6.2 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81 // indirect
 	golang.org/x/text v0.14.0 // indirect
