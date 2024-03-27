@@ -261,30 +261,6 @@ message UpdateRequest {
     }
     ignore_empty: true,
   }];
-  repeated string recipients = 11 [(buf.validate.field) = {
-    repeated: {
-      unique: true,
-      max_items: 100,
-      items: {
-        string: {
-          pattern: "^[0-9]+$",
-        }
-      }
-    }
-    ignore_empty: true,
-  }];
-  string permissions = 12 [(buf.validate.field) = {
-    string: {
-      max_len: 1024,
-    }
-    ignore_empty: true,
-  }];
-  string   last_message_id = 13 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-    ignore_empty: true,
-  }];
   string  icon = 14 [(buf.validate.field) = {
     string: {
       pattern: "^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$",
