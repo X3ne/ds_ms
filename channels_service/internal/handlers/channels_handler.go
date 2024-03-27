@@ -23,22 +23,42 @@ type ChannelsServer struct {
 	UsersClient  usersv1connect.UsersServiceClient
 }
 
-func mergeStruct(data interface{}, data2 interface{}) (interface{}, error) {
-	ret := reflect.New(reflect.TypeOf(data)).Interface()
+func mergeProtobufChannelToGORM(protoChannel interface{}, gormChannel *models.Channel) {
+	protoValue := reflect.ValueOf(protoChannel).Elem()
+	gormValue := reflect.ValueOf(gormChannel).Elem()
 
-	retVal := reflect.ValueOf(ret).Elem()
-	dataVal := reflect.ValueOf(data)
-	data2Val := reflect.ValueOf(data2)
+	for i := 0; i < protoValue.NumField(); i++ {
+		fieldName := protoValue.Type().Field(i).Name
 
-	for i := 0; i < dataVal.NumField(); i++ {
-		retVal.Field(i).Set(dataVal.Field(i))
+		if fieldName == "ID" {
+			continue
+		}
+
+		protoField := protoValue.Field(i)
+		gormField := gormValue.FieldByName(fieldName)
+
+		if gormField.IsValid() && gormField.CanSet() && !isEmptyValue(protoField) {
+			gormField.Set(protoField)
+		}
 	}
+}
 
-	for i := 0; i < data2Val.NumField(); i++ {
-		retVal.Field(i).Set(data2Val.Field(i))
+func isEmptyValue(v reflect.Value) bool {
+	switch v.Kind() {
+	case reflect.Ptr, reflect.Interface:
+		return v.IsNil()
+	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:
+		return v.Len() == 0
+	case reflect.Bool:
+		return !v.Bool()
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return v.Int() == 0
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		return v.Uint() == 0
+	case reflect.Float32, reflect.Float64:
+		return v.Float() == 0
 	}
-
-	return ret, nil
+	return false
 }
 
 func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Channel) {
@@ -47,12 +67,12 @@ func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Chan
 		Name:          channel.Name,
 		Type:          channel.Type,
 		Icon:          channel.Icon.String,
-		OwnerId:       channel.OwnerID,
+		OwnerId:       channel.OwnerID.String,
 		GuildId:       channel.GuildID.String,
 		ParentId:      channel.ParentID.String,
 		Position:      channel.Position.Int32,
 		Topic:         channel.Topic.String,
-		UserLimit:     channel.UserLimit,
+		UserLimit:     channel.UserLimit.Int32,
 		Recipients:    channel.Recipients,
 		Permissions:   channel.Permissions.String,
 		LastMessageId: channel.LastMessageID.String,
@@ -93,7 +113,7 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 		Name:      req.Msg.Name,
 		Type:      req.Msg.Type,
 		Position:  sql.NullInt32{Int32: req.Msg.Position, Valid: true},
-		UserLimit: req.Msg.UserLimit,
+		UserLimit: sql.NullInt32{Int32: req.Msg.UserLimit, Valid: true},
 		IsNSFW:    req.Msg.IsNsfw,
 		IsVoice:   req.Msg.IsVoice,
 	}
@@ -117,7 +137,7 @@ func (s *ChannelsServer) Create(ctx context.Context, req *connect.Request[channe
 		}); err != nil {
 			return nil, err
 		}
-		newChannel.OwnerID = req.Msg.OwnerId
+		newChannel.OwnerID = sql.NullString{String: req.Msg.OwnerId, Valid: true}
 	}
 
 	if req.Msg.ParentId != "" {
@@ -196,26 +216,15 @@ func (s *ChannelsServer) Update(ctx context.Context, req *connect.Request[channe
 		return nil, apiErrors.ErrChannelNotFound
 	}
 
-	newChannel := &models.Channel{
-		ID:        req.Msg.Id,
-		CreatedAt: channel.CreatedAt,
-	}
+	mergeProtobufChannelToGORM(req.Msg, channel)
 
-	if req.Msg.Name != "" {
-		newChannel.Name = req.Msg.Name
-	}
-
-	if req.Msg.Icon != "" {
-		newChannel.Icon = sql.NullString{String: req.Msg.Icon, Valid: true}
-	}
-
-	err = s.Repository.UpdateChannel(ctx, newChannel)
+	err = s.Repository.UpdateChannel(ctx, channel)
 	if err != nil {
 		return nil, err
 	}
 
 	res := connect.NewResponse(&channelsv1.UpdateResponse{
-		Channel: createChannelResponse(newChannel),
+		Channel: createChannelResponse(channel),
 	})
 
 	res.Header().Set("Channels-Version", "v1")
@@ -246,6 +255,33 @@ func (s *ChannelsServer) Delete(ctx context.Context, req *connect.Request[channe
 	res := connect.NewResponse(&channelsv1.DeleteResponse{
 		Success: true,
 	})
+
+	res.Header().Set("Channels-Version", "v1")
+
+	return res, nil
+}
+
+func (s *ChannelsServer) GetGuildChannels(ctx context.Context, req *connect.Request[channelsv1.GetGuildChannelsRequest]) (*connect.Response[channelsv1.GetGuildChannelsResponse], error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if err := validator.Validate(req.Msg); err != nil {
+		return nil, err
+	}
+
+	channels, err := s.Repository.GetGuildChannels(ctx, req.Msg.GuildId)
+	if err != nil {
+		return nil, err
+	}
+
+	res := connect.NewResponse(&channelsv1.GetGuildChannelsResponse{
+		Channels: make([]*channelsv1.Channel, 0, len(channels)),
+	})
+
+	for _, channel := range channels {
+		res.Msg.Channels = append(res.Msg.Channels, createChannelResponse(&channel))
+	}
 
 	res.Header().Set("Channels-Version", "v1")
 
@@ -405,18 +441,18 @@ func (s *ChannelsServer) UpdateMessage(ctx context.Context, req *connect.Request
 		return nil, apiErrors.ErrMessageNotFound
 	}
 
-	newMessage, err := mergeStruct(message, req.Msg)
-	if err != nil {
-		return nil, err
-	}
-
-	err = s.Repository.UpdateMessage(ctx, newMessage.(*models.Message))
-	if err != nil {
-		return nil, err
-	}
-
+	//newMessage, err := mergeStruct(message, req.Msg)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//err = s.Repository.UpdateMessage(ctx, newMessage.(*models.Message))
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
 	res := connect.NewResponse(&channelsv1.UpdateMessageResponse{
-		Message: createMessageResponse(newMessage.(*models.Message)),
+		Message: createMessageResponse(message),
 	})
 
 	res.Header().Set("Channels-Version", "v1")
@@ -542,7 +578,7 @@ func (s *ChannelsServer) TriggerTypingIndicator(ctx context.Context, req *connec
 		return nil, err
 	}
 
-	// TODO: Send typing indicator to the channel through the gateway API
+	// TODO: Send typing indicator to the channel through the gateway_api API
 
 	res := connect.NewResponse(&channelsv1.TriggerTypingIndicatorResponse{
 		Success: true,

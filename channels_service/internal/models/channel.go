@@ -21,9 +21,9 @@ type Channel struct {
 	Position      sql.NullInt32          `db:"position"`
 	Topic         sql.NullString         `db:"topic"`
 	Icon          sql.NullString         `db:"icon"`
-	UserLimit     int32                  `db:"user_limit" gorm:"default:-1"`
+	UserLimit     sql.NullInt32          `db:"user_limit"`
 	Recipients    StringArray            `db:"recipients" gorm:"default:[];type:VARCHAR(255)"`
-	OwnerID       string                 `db:"owner_id" gorm:"not null"`
+	OwnerID       sql.NullString         `db:"owner_id"`
 	ParentID      sql.NullString         `db:"parent_id"`
 	Permissions   sql.NullString         `db:"permissions" gorm:"not null"`
 	LastMessageID sql.NullString         `db:"last_message_id"`
@@ -44,12 +44,16 @@ func (channel *Channel) BeforeCreate(tx *gorm.DB) (err error) {
 	return nil
 }
 
-func (a *StringArray) Scan(src any) error {
-	bytes, ok := src.([]byte)
-	if !ok {
-		return errors.New("src value cannot cast to []byte")
+func (a *StringArray) Scan(value interface{}) error {
+	if value == nil {
+		*a = []string{}
+		return nil
 	}
-	*a = strings.Split(string(bytes), ",")
+	str, ok := value.(string)
+	if !ok {
+		return errors.New("failed to scan StringArray")
+	}
+	*a = strings.Split(str, ",")
 	return nil
 }
 

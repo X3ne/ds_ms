@@ -77,6 +77,14 @@ func (r *ChannelsRepository) DeleteChannel(ctx context.Context, channelID string
 	return nil
 }
 
+func (r *ChannelsRepository) GetGuildChannels(ctx context.Context, guildID string) ([]models.Channel, error) {
+	var channels []models.Channel
+	if err := r.db.Where("guild_id = ?", guildID).Find(&channels).Error; err != nil {
+		return nil, err
+	}
+	return channels, nil
+}
+
 func (r *ChannelsRepository) GetChannelMessages(ctx context.Context, channelID string, opts ...SearchRequest) ([]models.Message, error) {
 
 	if len(opts) == 0 {
