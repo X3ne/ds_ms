@@ -307,22 +307,26 @@ message GetChannelMessagesRequest {
     int32: {
       gte: 1,
       lte: 100,
-    }
+    },
+    ignore_empty: true,
   }];
   string before = 3 [(buf.validate.field) = {
     string: {
       pattern: "^[0-9]+$",
-    }
+    },
+    ignore_empty: true,
   }];
   string after = 4 [(buf.validate.field) = {
     string: {
       pattern: "^[0-9]+$",
-    }
+    },
+    ignore_empty: true,
   }];
   string around = 5 [(buf.validate.field) = {
     string: {
       pattern: "^[0-9]+$",
-    }
+    },
+    ignore_empty: true,
   }];
 }
 
