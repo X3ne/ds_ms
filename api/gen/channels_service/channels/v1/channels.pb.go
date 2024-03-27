@@ -10,8 +10,8 @@ import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v12 "github.com/X3ne/ds_ms/api/gen/channels_service/embeds/v1"
 	v11 "github.com/X3ne/ds_ms/api/gen/guilds_service/roles/v1"
-	_ "github.com/X3ne/ds_ms/api/gen/tagger"
 	v1 "github.com/X3ne/ds_ms/api/gen/users_service/users/v1"
+	_ "github.com/srikrsna/protoc-gen-gotag/tagger"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1067,7 +1067,7 @@ type UpdateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string      `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Id        string      `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty" swaggerignore:"true"`
 	Name      string      `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Type      ChannelType `protobuf:"varint,4,opt,name=type,proto3,enum=channels.v1.ChannelType" json:"type,omitempty"`
 	Topic     string      `protobuf:"bytes,5,opt,name=topic,proto3" json:"topic,omitempty"`
