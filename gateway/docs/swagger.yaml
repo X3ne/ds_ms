@@ -1,0 +1,152 @@
+definitions:
+  channelsv1.Channel:
+    properties:
+      created_at:
+        type: integer
+      guild_id:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      is_nsfw:
+        type: boolean
+      is_voice:
+        type: boolean
+      last_message_id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      parent_id:
+        type: string
+      permissions:
+        type: string
+      position:
+        type: integer
+      recipients:
+        items:
+          type: string
+        type: array
+      topic:
+        type: string
+      type:
+        $ref: '#/definitions/channelsv1.ChannelType'
+      updated_at:
+        type: integer
+      user_limit:
+        type: integer
+    type: object
+  channelsv1.ChannelType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    type: integer
+    x-enum-varnames:
+    - ChannelType_GUILD_TEXT
+    - ChannelType_DM
+    - ChannelType_GUILD_VOICE
+    - ChannelType_GROUP_DM
+    - ChannelType_GUILD_CATEGORY
+  channelsv1.UpdateRequest:
+    properties:
+      icon:
+        description: TODO limit size
+        type: string
+      is_nsfw:
+        type: boolean
+      name:
+        type: string
+      parent_id:
+        type: string
+      position:
+        type: integer
+      topic:
+        type: string
+      type:
+        $ref: '#/definitions/channelsv1.ChannelType'
+      user_limit:
+        type: integer
+    type: object
+  responses.Error:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/channels/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get channel by ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.Channel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get channel by ID
+      tags:
+      - Channels
+    patch:
+      consumes:
+      - application/json
+      description: Modify channel with given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Channel data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/channelsv1.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.Channel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Modify channel with given ID
+      tags:
+      - Channels
+swagger: "2.0"
