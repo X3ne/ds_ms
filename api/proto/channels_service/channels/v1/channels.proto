@@ -352,34 +352,49 @@ message GetChannelMessageResponse {
 }
 
 message CreateMessageRequest {
-  string channel_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
-  string author_id = 2 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string channel_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
+  string author_id = 2 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string content = 3 [(buf.validate.field) = {
     string: {
       max_len: 2000,
     },
     ignore_empty: true,
   }];
-  int64 nonce = 4 [(buf.validate.field).int64.gt = 0];
+  int64 nonce = 4 [(buf.validate.field) = {
+    int64: {
+      gt: 0,
+    },
+    ignore_empty: true,
+  }];
   repeated embeds.v1.Embed embeds = 5 [(buf.validate.field) = {
     repeated: {
       max_items: 10,
     },
     ignore_empty: true,
   }];
-  ChannelType type = 6 [(buf.validate.field) = {
-    enum: {
-      defined_only: true,
-    }
-  }];
+  MessageType type = 6 [
+    (buf.validate.field) = {
+      enum: {
+        defined_only: true,
+      },
+      ignore_empty: true,
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
 
   // TODO add multipart form data for attachments
   // TODO check if at least one of content or embeds is present
