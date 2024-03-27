@@ -6,6 +6,7 @@ import "buf/validate/validate.proto";
 import "users_service/users/v1/users.proto";
 import "guilds_service/roles/v1/roles.proto";
 import "channels_service/embeds/v1/embeds.proto";
+import "tagger/tagger.proto";
 
 service ChannelsService {
   rpc Create (CreateRequest) returns (CreateResponse) {}
@@ -217,7 +218,9 @@ message UpdateRequest {
     string: {
       pattern: "^[0-9]+$",
     }
-  }];
+  },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string  name = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
