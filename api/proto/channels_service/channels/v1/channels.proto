@@ -523,6 +523,11 @@ message TriggerTypingIndicatorRequest {
       pattern: "^[0-9]+$",
     }
   }];
+  string user_id = 2 [(buf.validate.field) = {
+    string: {
+      pattern: "^[0-9]+$",
+    }
+  }];
 }
 
 message TriggerTypingIndicatorResponse {
