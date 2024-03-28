@@ -21,7 +21,6 @@ func createUserResponse(user *models.User) (retUser *usersv1.User) {
 	retUser = &usersv1.User{
 		Id:        user.ID,
 		Username:  user.Username,
-		Email:     user.Email,
 		CreatedAt: user.CreatedAt.Unix(),
 		UpdatedAt: user.UpdatedAt.Unix(),
 	}

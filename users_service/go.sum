@@ -12,6 +12,8 @@ github.com/X3ne/ds_ms/api v0.0.0-20240321183317-91a4f0feae76 h1:uMBd8ArTogFeUeO6
 github.com/X3ne/ds_ms/api v0.0.0-20240321183317-91a4f0feae76/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
 github.com/X3ne/ds_ms/api v0.0.0-20240324180122-88d96772e729 h1:OH9DI26VfVyOuyJ2BDUOSA8Vu+Xg5WydErWhnWEDo6U=
 github.com/X3ne/ds_ms/api v0.0.0-20240324180122-88d96772e729/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
+github.com/X3ne/ds_ms/api v0.0.0-20240325180513-43990f78596d h1:t78jMIfSfh3Ba5W3nOnRrrzB1/VLlYUJBj4bHnvNqj8=
+github.com/X3ne/ds_ms/api v0.0.0-20240325180513-43990f78596d/go.mod h1:n0tSbQd/Ufe2yFVRGWv6xF+n0JvI3gY8E9AM+UiDjlg=
 github.com/antlr4-go/antlr/v4 v4.13.0 h1:lxCg3LAv+EUK6t1i0y1V6/SLeUi0eKEKdhQAlS8TVTI=
 github.com/antlr4-go/antlr/v4 v4.13.0/go.mod h1:pfChB/xh/Unjila75QW7+VU4TSnWnnk9UTnmpPaOR2g=
 github.com/bufbuild/protovalidate-go v0.6.0 h1:Jgs1kFuZ2LHvvdj8SpCLA1W/+pXS8QSM3F/E2l3InPY=
