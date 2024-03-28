@@ -57,8 +57,9 @@ func isEmptyValue(v reflect.Value) bool {
 		return v.Uint() == 0
 	case reflect.Float32, reflect.Float64:
 		return v.Float() == 0
+	default:
+		return false
 	}
-	return false
 }
 
 func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Channel) {
@@ -85,17 +86,42 @@ func createChannelResponse(channel *models.Channel) (retChannel *channelsv1.Chan
 	return
 }
 
-func createMessageResponse(message *models.Message) (retMessage *channelsv1.Message) {
+func createMessageResponse(message *models.Message, server *ChannelsServer) (retMessage *channelsv1.Message) {
 	retMessage = &channelsv1.Message{
 		Id:              message.ID,
 		ChannelId:       message.ChannelID,
 		Content:         message.Content.String,
-		Type:            channelsv1.MessageType(message.Type),
+		Type:            message.Type,
 		Nonce:           message.Nonce,
 		Pinned:          message.Pinned,
+		MentionEveryone: message.MentionEveryone,
 		Timestamp:       message.CreatedAt.Unix(),
 		EditedTimestamp: message.UpdatedAt.Time.Unix(),
 	}
+
+	if message.AuthorID != "" {
+		if userResponse, err := server.UsersClient.GetById(context.Background(), &connect.Request[usersv1.GetByIdRequest]{
+			Msg: &usersv1.GetByIdRequest{
+				Id: message.AuthorID,
+			},
+		}); err == nil {
+			retMessage.Author = userResponse.Msg.User
+		}
+	}
+
+	if message.Mentions != nil {
+		for _, mention := range message.Mentions {
+			if userResponse, err := server.UsersClient.GetById(context.Background(), &connect.Request[usersv1.GetByIdRequest]{
+				Msg: &usersv1.GetByIdRequest{
+					Id: mention,
+				},
+			}); err == nil {
+				retMessage.Mentions = append(retMessage.Mentions, userResponse.Msg.User)
+			}
+		}
+	}
+
+	// TODO: add roles mentions
 
 	return
 }
@@ -316,7 +342,7 @@ func (s *ChannelsServer) GetChannelMessages(ctx context.Context, req *connect.Re
 	})
 
 	for _, message := range messages {
-		res.Msg.Messages = append(res.Msg.Messages, createMessageResponse(&message))
+		res.Msg.Messages = append(res.Msg.Messages, createMessageResponse(&message, s))
 	}
 
 	res.Header().Set("Channels-Version", "v1")
@@ -339,7 +365,7 @@ func (s *ChannelsServer) GetChannelMessage(ctx context.Context, req *connect.Req
 	}
 
 	res := connect.NewResponse(&channelsv1.GetChannelMessageResponse{
-		Message: createMessageResponse(message),
+		Message: createMessageResponse(message, s),
 	})
 
 	res.Header().Set("Channels-Version", "v1")
@@ -372,7 +398,7 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 		ChannelID:       req.Msg.ChannelId,
 		AuthorID:        req.Msg.AuthorId,
 		Content:         sql.NullString{String: req.Msg.Content, Valid: true},
-		Type:            channelsv1.MessageType(req.Msg.Type),
+		Type:            req.Msg.Type,
 		Mentions:        make([]string, 0),
 		MentionChannels: make([]string, 0),
 		MentionRoles:    make([]string, 0),
@@ -400,7 +426,15 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 				if len(match) > 1 {
 					switch reg {
 					case `<@(\d+)>`:
-						newMessage.Mentions = append(newMessage.Mentions, match[1])
+						{
+							if _, err := s.UsersClient.GetById(ctx, &connect.Request[usersv1.GetByIdRequest]{
+								Msg: &usersv1.GetByIdRequest{
+									Id: match[1],
+								},
+							}); err == nil {
+								newMessage.Mentions = append(newMessage.Mentions, match[1])
+							}
+						}
 					case `<@&(\d+)>`:
 						// TODO: check if the role is mentionable
 						newMessage.MentionRoles = append(newMessage.MentionRoles, match[1])
@@ -421,7 +455,7 @@ func (s *ChannelsServer) CreateMessage(ctx context.Context, req *connect.Request
 	}
 
 	res := connect.NewResponse(&channelsv1.CreateMessageResponse{
-		Message: createMessageResponse(newMessage),
+		Message: createMessageResponse(newMessage, s),
 	})
 
 	res.Header().Set("Channels-Version", "v1")
@@ -456,7 +490,7 @@ func (s *ChannelsServer) UpdateMessage(ctx context.Context, req *connect.Request
 	//}
 	//
 	res := connect.NewResponse(&channelsv1.UpdateMessageResponse{
-		Message: createMessageResponse(message),
+		Message: createMessageResponse(message, s),
 	})
 
 	res.Header().Set("Channels-Version", "v1")
@@ -616,7 +650,7 @@ func (s *ChannelsServer) GetPinnedMessages(ctx context.Context, req *connect.Req
 	})
 
 	for _, message := range messages {
-		res.Msg.Messages = append(res.Msg.Messages, createMessageResponse(&message))
+		res.Msg.Messages = append(res.Msg.Messages, createMessageResponse(&message, s))
 	}
 
 	res.Header().Set("Channels-Version", "v1")
