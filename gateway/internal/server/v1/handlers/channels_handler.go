@@ -304,3 +304,40 @@ func (h *ChannelsHandler) BulkDeleteMessages(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, deleteResponse.Msg)
 }
+
+// EditChannelPermissions godoc
+// @Summary Edit channel permissions for the channel associated with the given ID
+// @Description Edit channel permissions for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param overwrite.id path string true "ID of a user or role to overwrite permissions for"
+// @Param request body channelsv1.EditChannelPermissionsRequest true "Permissions data"
+// @Success 200 {object} channelsv1.EditChannelPermissionsResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/permissions/{overwrite.id} [put]
+func (h *ChannelsHandler) EditChannelPermissions(c echo.Context) error {
+	permissionsRequest := new(channelsv1.EditChannelPermissionsRequest)
+
+	if err := c.Bind(permissionsRequest); err != nil {
+		return responses.ErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	permissionsResponse, err := h.ChannelsClient.EditChannelPermissions(c.Request().Context(), &connect.Request[channelsv1.EditChannelPermissionsRequest]{
+		Msg: &channelsv1.EditChannelPermissionsRequest{
+			ChannelId:   c.Param("channel.id"),
+			OverwriteId: c.Param("overwrite.id"),
+			Allow:       permissionsRequest.Allow,
+			Deny:        permissionsRequest.Deny,
+			Type:        permissionsRequest.Type,
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, permissionsResponse.Msg)
+}

@@ -526,6 +526,71 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/channels/{channel.id}/permissions/{overwrite.id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Edit channel permissions for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Edit channel permissions for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID of a user or role to overwrite permissions for",
+                        "name": "overwrite.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Permissions data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.EditChannelPermissionsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.EditChannelPermissionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -707,6 +772,34 @@ const docTemplate = `{
             }
         },
         "channelsv1.DeleteResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "channelsv1.EditChannelPermissionsRequest": {
+            "type": "object",
+            "properties": {
+                "allow": {
+                    "type": "integer"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "deny": {
+                    "type": "integer"
+                },
+                "overwrite_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                }
+            }
+        },
+        "channelsv1.EditChannelPermissionsResponse": {
             "type": "object",
             "properties": {
                 "success": {

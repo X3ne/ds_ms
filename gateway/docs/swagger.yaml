@@ -122,6 +122,24 @@ definitions:
       success:
         type: boolean
     type: object
+  channelsv1.EditChannelPermissionsRequest:
+    properties:
+      allow:
+        type: integer
+      channel_id:
+        type: string
+      deny:
+        type: integer
+      overwrite_id:
+        type: string
+      type:
+        type: integer
+    type: object
+  channelsv1.EditChannelPermissionsResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.GetChannelMessageResponse:
     properties:
       message:
@@ -730,6 +748,50 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Bulk delete messages for the channel associated with the given ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/permissions/{overwrite.id}:
+    put:
+      consumes:
+      - application/json
+      description: Edit channel permissions for the channel associated with the given
+        ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: ID of a user or role to overwrite permissions for
+        in: path
+        name: overwrite.id
+        required: true
+        type: string
+      - description: Permissions data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/channelsv1.EditChannelPermissionsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.EditChannelPermissionsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Edit channel permissions for the channel associated with the given
+        ID
       tags:
       - Channels
 swagger: "2.0"
