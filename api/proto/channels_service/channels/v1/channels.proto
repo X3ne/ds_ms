@@ -426,7 +426,6 @@ message UpdateMessageRequest {
       max_len: 2000,
     }
   }];
-  int64 nonce = 4 [(buf.validate.field).int64.gt = 0];
   repeated embeds.v1.Embed embeds = 5;
   // TODO add multipart form data for attachments
 }
