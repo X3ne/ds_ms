@@ -341,3 +341,30 @@ func (h *ChannelsHandler) EditChannelPermissions(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, permissionsResponse.Msg)
 }
+
+// DeleteChannelPermission godoc
+// @Summary Delete channel permissions for the channel associated with the given ID
+// @Description Delete channel permissions for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param overwrite.id path string true "ID of a user or role to overwrite permissions for"
+// @Success 200 {object} channelsv1.DeleteChannelPermissionResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/permissions/{overwrite.id} [delete]
+func (h *ChannelsHandler) DeleteChannelPermission(c echo.Context) error {
+	deleteResponse, err := h.ChannelsClient.DeleteChannelPermission(c.Request().Context(), &connect.Request[channelsv1.DeleteChannelPermissionRequest]{
+		Msg: &channelsv1.DeleteChannelPermissionRequest{
+			ChannelId:   c.Param("channel.id"),
+			OverwriteId: c.Param("overwrite.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, deleteResponse.Msg)
+}

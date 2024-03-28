@@ -112,6 +112,11 @@ definitions:
       message:
         $ref: '#/definitions/channelsv1.Message'
     type: object
+  channelsv1.DeleteChannelPermissionResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.DeleteMessageResponse:
     properties:
       success:
@@ -751,6 +756,43 @@ paths:
       tags:
       - Channels
   /v1/channels/{channel.id}/permissions/{overwrite.id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete channel permissions for the channel associated with the
+        given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: ID of a user or role to overwrite permissions for
+        in: path
+        name: overwrite.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.DeleteChannelPermissionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete channel permissions for the channel associated with the given
+        ID
+      tags:
+      - Channels
     put:
       consumes:
       - application/json

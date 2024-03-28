@@ -30,6 +30,9 @@ func ConfigureV1Routes(server *s.Server) {
 	channels.DELETE("/:channel.id/messages/:message.id", channelsHandler.DeleteMessage)
 	channels.POST("/:channel.id/messages/bulk-delete", channelsHandler.BulkDeleteMessages)
 
+	channels.PUT("/:channel.id/permission/:overwrite.id", channelsHandler.EditChannelPermissions)
+	channels.DELETE("/:channel.id/permission/:overwrite.id", channelsHandler.DeleteChannelPermission)
+
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
