@@ -28,6 +28,7 @@ func ConfigureV1Routes(server *s.Server) {
 	channels.POST("/:channel.id/messages", channelsHandler.CreateMessage)
 	channels.PATCH("/:channel.id/messages/:message.id", channelsHandler.EditMessage)
 	channels.DELETE("/:channel.id/messages/:message.id", channelsHandler.DeleteMessage)
+	channels.POST("/:channel.id/messages/bulk-delete", channelsHandler.BulkDeleteMessages)
 
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())

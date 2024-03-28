@@ -271,3 +271,36 @@ func (h *ChannelsHandler) DeleteMessage(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, deleteResponse.Msg)
 }
+
+// BulkDeleteMessages godoc
+// @Summary Bulk delete messages for the channel associated with the given ID
+// @Description Bulk delete messages for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param request body channelsv1.BulkDeleteMessagesRequest true "Message IDs array"
+// @Success 200 {object} channelsv1.BulkDeleteMessagesResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/messages/bulk-delete [post]
+func (h *ChannelsHandler) BulkDeleteMessages(c echo.Context) error {
+	bulkDeleteRequest := new(channelsv1.BulkDeleteMessagesRequest)
+
+	if err := c.Bind(bulkDeleteRequest); err != nil {
+		return responses.ErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	deleteResponse, err := h.ChannelsClient.BulkDeleteMessages(c.Request().Context(), &connect.Request[channelsv1.BulkDeleteMessagesRequest]{
+		Msg: &channelsv1.BulkDeleteMessagesRequest{
+			ChannelId: c.Param("channel.id"),
+			Messages:  bulkDeleteRequest.Messages,
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, deleteResponse.Msg)
+}

@@ -20,6 +20,18 @@ definitions:
       width:
         type: integer
     type: object
+  channelsv1.BulkDeleteMessagesRequest:
+    properties:
+      messages:
+        items:
+          type: string
+        type: array
+    type: object
+  channelsv1.BulkDeleteMessagesResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.Channel:
     properties:
       created_at:
@@ -680,6 +692,44 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Edit a message for the channel associated with the given ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/messages/bulk-delete:
+    post:
+      consumes:
+      - application/json
+      description: Bulk delete messages for the channel associated with the given
+        ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message IDs array
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/channelsv1.BulkDeleteMessagesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.BulkDeleteMessagesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Bulk delete messages for the channel associated with the given ID
       tags:
       - Channels
 swagger: "2.0"

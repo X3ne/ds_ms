@@ -285,6 +285,64 @@
                 }
             }
         },
+        "/v1/channels/{channel.id}/messages/bulk-delete": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Bulk delete messages for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Bulk delete messages for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Message IDs array",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.BulkDeleteMessagesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.BulkDeleteMessagesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/channels/{channel.id}/messages/{message.id}": {
             "get": {
                 "security": [
@@ -489,6 +547,25 @@
                 },
                 "width": {
                     "type": "integer"
+                }
+            }
+        },
+        "channelsv1.BulkDeleteMessagesRequest": {
+            "type": "object",
+            "properties": {
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "channelsv1.BulkDeleteMessagesResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
                 }
             }
         },
