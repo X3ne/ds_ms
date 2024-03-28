@@ -10,6 +10,16 @@ github.com/X3ne/ds_ms/api v0.0.0-20240327145014-c14159b8de06 h1:mnQM3FDeOAZvXw/Z
 github.com/X3ne/ds_ms/api v0.0.0-20240327145014-c14159b8de06/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/X3ne/ds_ms/api v0.0.0-20240327210446-1d5528922621 h1:c2BtgHQU7RByKy5L/THSY0WX1MD1XdJt16pJF/LCDbo=
 github.com/X3ne/ds_ms/api v0.0.0-20240327210446-1d5528922621/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240327212524-50faf5a0320b h1:NHKDUJs2J76Re74abV7sT0LqxS/IGLfWiG7WeSgeBUc=
+github.com/X3ne/ds_ms/api v0.0.0-20240327212524-50faf5a0320b/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240327220127-df0930fe8e59 h1:sJ4OxNSx8g2gQPIz4Eo84rf0cKhx84k3PNZcmojCVUU=
+github.com/X3ne/ds_ms/api v0.0.0-20240327220127-df0930fe8e59/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240327224413-0049b61390e3 h1:EM1kjM3dcm2LlWNPJXD4Bz6vk29ZhJQvVJ4RYVV4hyE=
+github.com/X3ne/ds_ms/api v0.0.0-20240327224413-0049b61390e3/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240328000219-5981ae60abc2 h1:ea1zFqsELSrQw+A2SJ9+6HCqLzTX5MuQkWZJ897wxW4=
+github.com/X3ne/ds_ms/api v0.0.0-20240328000219-5981ae60abc2/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240328130804-f7e33c62b883 h1:C7yMsa4TY3rimjSU9lwYHSbwmPhl2ZASUlnBak1qrQ4=
+github.com/X3ne/ds_ms/api v0.0.0-20240328130804-f7e33c62b883/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 h1:DklsrG3dyBCFEj5IhUbnKptjxatkF07cF2ak3yi77so=
 github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2/go.mod h1:WaHUgvxTVq04UNunO+XhnAqY/wQc+bxr74GqbsZ/Jqw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

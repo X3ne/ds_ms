@@ -18,8 +18,16 @@ func ConfigureV1Routes(server *s.Server) {
 
 	v1 := server.Echo.Group("/v1")
 
-	v1.GET("/channels/:id", channelsHandler.GetChannel)
-	v1.PATCH("/channels/:id", channelsHandler.ModifyChannel)
+	channels := v1.Group("/channels")
+	channels.GET("/:channel.id", channelsHandler.GetChannel)
+	channels.PATCH("/:channel.id", channelsHandler.ModifyChannel)
+	channels.DELETE("/:channel.id", channelsHandler.DeleteChannel)
+
+	channels.GET("/:channel.id/messages", channelsHandler.GetChannelMessages)
+	channels.GET("/:channel.id/messages/:message.id", channelsHandler.GetChannelMessage)
+	channels.POST("/:channel.id/messages", channelsHandler.CreateMessage)
+	channels.PATCH("/:channel.id/messages/:message.id", channelsHandler.EditMessage)
+	channels.DELETE("/:channel.id/messages/:message.id", channelsHandler.DeleteMessage)
 
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())

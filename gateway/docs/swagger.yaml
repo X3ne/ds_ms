@@ -1,4 +1,25 @@
 definitions:
+  channelsv1.Attachment:
+    properties:
+      content_type:
+        type: string
+      description:
+        type: string
+      filename:
+        type: string
+      height:
+        type: integer
+      id:
+        type: string
+      proxy_url:
+        type: string
+      size:
+        type: integer
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
   channelsv1.Channel:
     properties:
       created_at:
@@ -38,6 +59,17 @@ definitions:
       user_limit:
         type: integer
     type: object
+  channelsv1.ChannelMention:
+    properties:
+      guild_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        $ref: '#/definitions/channelsv1.ChannelType'
+    type: object
   channelsv1.ChannelType:
     enum:
     - 0
@@ -52,6 +84,134 @@ definitions:
     - ChannelType_GUILD_VOICE
     - ChannelType_GROUP_DM
     - ChannelType_GUILD_CATEGORY
+  channelsv1.CreateMessageRequest:
+    properties:
+      content:
+        type: string
+      embeds:
+        items:
+          $ref: '#/definitions/embedsv1.Embed'
+        type: array
+      nonce:
+        type: integer
+    type: object
+  channelsv1.CreateMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/channelsv1.Message'
+    type: object
+  channelsv1.DeleteMessageResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
+  channelsv1.DeleteResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
+  channelsv1.GetChannelMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/channelsv1.Message'
+    type: object
+  channelsv1.GetChannelMessagesResponse:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/channelsv1.Message'
+        type: array
+    type: object
+  channelsv1.Message:
+    properties:
+      attachments:
+        items:
+          $ref: '#/definitions/channelsv1.Attachment'
+        type: array
+      author:
+        $ref: '#/definitions/usersv1.User'
+      channel_id:
+        type: string
+      content:
+        type: string
+      edited_timestamp:
+        type: integer
+      embeds:
+        items:
+          $ref: '#/definitions/embedsv1.Embed'
+        type: array
+      id:
+        type: string
+      mention_channels:
+        items:
+          $ref: '#/definitions/channelsv1.ChannelMention'
+        type: array
+      mention_everyone:
+        type: boolean
+      mention_roles:
+        items:
+          $ref: '#/definitions/rolesv1.Role'
+        type: array
+      mentions:
+        items:
+          $ref: '#/definitions/usersv1.User'
+        type: array
+      nonce:
+        type: integer
+      pinned:
+        type: boolean
+      reactions:
+        items:
+          $ref: '#/definitions/channelsv1.Reaction'
+        type: array
+      timestamp:
+        type: integer
+      type:
+        $ref: '#/definitions/channelsv1.MessageType'
+    type: object
+  channelsv1.MessageType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    type: integer
+    x-enum-varnames:
+    - MessageType_DEFAULT
+    - MessageType_RECIPIENT_ADD
+    - MessageType_RECIPIENT_REMOVE
+    - MessageType_CALL
+    - MessageType_CHANNEL_NAME_CHANGE
+    - MessageType_CHANNEL_ICON_CHANGE
+    - MessageType_CHANNEL_PINNED_MESSAGE
+    - MessageType_USER_JOIN
+  channelsv1.Reaction:
+    properties:
+      count:
+        type: integer
+      me:
+        description: TODO add emoji
+        type: boolean
+    type: object
+  channelsv1.UpdateMessageRequest:
+    properties:
+      content:
+        type: string
+      embeds:
+        description: TODO add multipart form data for attachments
+        items:
+          $ref: '#/definitions/embedsv1.Embed'
+        type: array
+    type: object
+  channelsv1.UpdateMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/channelsv1.Message'
+    type: object
   channelsv1.UpdateRequest:
     properties:
       icon:
@@ -72,6 +232,122 @@ definitions:
       user_limit:
         type: integer
     type: object
+  embedsv1.Embed:
+    properties:
+      author:
+        $ref: '#/definitions/embedsv1.EmbedAuthor'
+      color:
+        type: integer
+      description:
+        type: string
+      fields:
+        items:
+          $ref: '#/definitions/embedsv1.EmbedField'
+        type: array
+      footer:
+        $ref: '#/definitions/embedsv1.EmbedFooter'
+      image:
+        $ref: '#/definitions/embedsv1.EmbedImage'
+      provider:
+        $ref: '#/definitions/embedsv1.EmbedProvider'
+      thumbnail:
+        $ref: '#/definitions/embedsv1.EmbedThumbnail'
+      timestamp:
+        type: integer
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/embedsv1.EmbedType'
+      url:
+        type: string
+      video:
+        $ref: '#/definitions/embedsv1.EmbedVideo'
+    type: object
+  embedsv1.EmbedAuthor:
+    properties:
+      icon_url:
+        type: string
+      name:
+        type: string
+      proxy_icon_url:
+        type: string
+      url:
+        type: string
+    type: object
+  embedsv1.EmbedField:
+    properties:
+      inline:
+        type: boolean
+      name:
+        type: string
+      value:
+        type: string
+    type: object
+  embedsv1.EmbedFooter:
+    properties:
+      icon_url:
+        type: string
+      proxy_icon_url:
+        type: string
+      text:
+        type: string
+    type: object
+  embedsv1.EmbedImage:
+    properties:
+      height:
+        type: integer
+      proxy_url:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  embedsv1.EmbedProvider:
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+    type: object
+  embedsv1.EmbedThumbnail:
+    properties:
+      height:
+        type: integer
+      proxy_url:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
+  embedsv1.EmbedType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    type: integer
+    x-enum-varnames:
+    - EmbedType_RICH
+    - EmbedType_IMAGE
+    - EmbedType_VIDEO
+    - EmbedType_GIFV
+    - EmbedType_ARTICLE
+    - EmbedType_LINK
+  embedsv1.EmbedVideo:
+    properties:
+      height:
+        type: integer
+      proxy_url:
+        type: string
+      url:
+        type: string
+      width:
+        type: integer
+    type: object
   responses.Error:
     properties:
       code:
@@ -79,10 +355,72 @@ definitions:
       message:
         type: string
     type: object
+  rolesv1.Role:
+    properties:
+      color:
+        type: integer
+      created_at:
+        type: integer
+      id:
+        type: string
+      mentionable:
+        type: boolean
+      name:
+        type: string
+      permissions:
+        type: string
+      position:
+        type: integer
+      updated_at:
+        type: integer
+    type: object
+  usersv1.User:
+    properties:
+      created_at:
+        type: integer
+      email:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: integer
+      username:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /v1/channels/{id}:
+  /v1/channels/{channel.id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.DeleteResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete the channel associated with the given ID
+      tags:
+      - Channels
     get:
       consumes:
       - application/json
@@ -120,7 +458,7 @@ paths:
       parameters:
       - description: Channel ID
         in: path
-        name: id
+        name: channel.id
         required: true
         type: string
       - description: Channel data
@@ -147,6 +485,201 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Modify channel with given ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/messages:
+    get:
+      consumes:
+      - application/json
+      description: Get messages for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Limit the number of messages returned
+        in: query
+        name: limit
+        type: integer
+      - description: Get messages around a specific message ID
+        in: query
+        name: around
+        type: string
+      - description: Get messages before a specific message ID
+        in: query
+        name: before
+        type: string
+      - description: Get messages after a specific message ID
+        in: query
+        name: after
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.GetChannelMessagesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get messages for the channel associated with the given ID
+      tags:
+      - Channels
+    post:
+      consumes:
+      - application/json
+      description: Create a message for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/channelsv1.CreateMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.CreateMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a message for the channel associated with the given ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/messages/{message.id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a message for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: message.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.DeleteMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a message for the channel associated with the given ID
+      tags:
+      - Channels
+    get:
+      consumes:
+      - application/json
+      description: Get message by id for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: message.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.GetChannelMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get message by id for the channel associated with the given ID
+      tags:
+      - Channels
+    patch:
+      consumes:
+      - application/json
+      description: Edit a message for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: message.id
+        required: true
+        type: string
+      - description: Message data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/channelsv1.UpdateMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.UpdateMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Edit a message for the channel associated with the given ID
       tags:
       - Channels
 swagger: "2.0"

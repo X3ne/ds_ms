@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/channels/{id}": {
+        "/v1/channels/{channel.id}": {
             "get": {
                 "security": [
                     {
@@ -63,6 +63,53 @@ const docTemplate = `{
                     }
                 }
             },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Delete the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.DeleteResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            },
             "patch": {
                 "security": [
                     {
@@ -84,7 +131,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Channel ID",
-                        "name": "id",
+                        "name": "channel.id",
                         "in": "path",
                         "required": true
                     },
@@ -119,9 +166,343 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/channels/{channel.id}/messages": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get messages for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Get messages for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit the number of messages returned",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Get messages around a specific message ID",
+                        "name": "around",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Get messages before a specific message ID",
+                        "name": "before",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Get messages after a specific message ID",
+                        "name": "after",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.GetChannelMessagesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create a message for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Create a message for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Message data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.CreateMessageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.CreateMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/channels/{channel.id}/messages/{message.id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get message by id for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Get message by id for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Message ID",
+                        "name": "message.id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.GetChannelMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete a message for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Delete a message for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Message ID",
+                        "name": "message.id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.DeleteMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Edit a message for the channel associated with the given ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Edit a message for the channel associated with the given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Message ID",
+                        "name": "message.id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Message data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.UpdateMessageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.UpdateMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "channelsv1.Attachment": {
+            "type": "object",
+            "properties": {
+                "content_type": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "proxy_url": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
         "channelsv1.Channel": {
             "type": "object",
             "properties": {
@@ -181,6 +562,23 @@ const docTemplate = `{
                 }
             }
         },
+        "channelsv1.ChannelMention": {
+            "type": "object",
+            "properties": {
+                "guild_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/channelsv1.ChannelType"
+                }
+            }
+        },
         "channelsv1.ChannelType": {
             "type": "integer",
             "enum": [
@@ -197,6 +595,195 @@ const docTemplate = `{
                 "ChannelType_GROUP_DM",
                 "ChannelType_GUILD_CATEGORY"
             ]
+        },
+        "channelsv1.CreateMessageRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "embeds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/embedsv1.Embed"
+                    }
+                },
+                "nonce": {
+                    "type": "integer"
+                }
+            }
+        },
+        "channelsv1.CreateMessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/channelsv1.Message"
+                }
+            }
+        },
+        "channelsv1.DeleteMessageResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "channelsv1.DeleteResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "channelsv1.GetChannelMessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/channelsv1.Message"
+                }
+            }
+        },
+        "channelsv1.GetChannelMessagesResponse": {
+            "type": "object",
+            "properties": {
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/channelsv1.Message"
+                    }
+                }
+            }
+        },
+        "channelsv1.Message": {
+            "type": "object",
+            "properties": {
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/channelsv1.Attachment"
+                    }
+                },
+                "author": {
+                    "$ref": "#/definitions/usersv1.User"
+                },
+                "channel_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "edited_timestamp": {
+                    "type": "integer"
+                },
+                "embeds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/embedsv1.Embed"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mention_channels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/channelsv1.ChannelMention"
+                    }
+                },
+                "mention_everyone": {
+                    "type": "boolean"
+                },
+                "mention_roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/rolesv1.Role"
+                    }
+                },
+                "mentions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/usersv1.User"
+                    }
+                },
+                "nonce": {
+                    "type": "integer"
+                },
+                "pinned": {
+                    "type": "boolean"
+                },
+                "reactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/channelsv1.Reaction"
+                    }
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "type": {
+                    "$ref": "#/definitions/channelsv1.MessageType"
+                }
+            }
+        },
+        "channelsv1.MessageType": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "x-enum-varnames": [
+                "MessageType_DEFAULT",
+                "MessageType_RECIPIENT_ADD",
+                "MessageType_RECIPIENT_REMOVE",
+                "MessageType_CALL",
+                "MessageType_CHANNEL_NAME_CHANGE",
+                "MessageType_CHANNEL_ICON_CHANGE",
+                "MessageType_CHANNEL_PINNED_MESSAGE",
+                "MessageType_USER_JOIN"
+            ]
+        },
+        "channelsv1.Reaction": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "me": {
+                    "description": "TODO add emoji",
+                    "type": "boolean"
+                }
+            }
+        },
+        "channelsv1.UpdateMessageRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "embeds": {
+                    "description": "TODO add multipart form data for attachments",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/embedsv1.Embed"
+                    }
+                }
+            }
+        },
+        "channelsv1.UpdateMessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/channelsv1.Message"
+                }
+            }
         },
         "channelsv1.UpdateRequest": {
             "type": "object",
@@ -228,6 +815,179 @@ const docTemplate = `{
                 }
             }
         },
+        "embedsv1.Embed": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "$ref": "#/definitions/embedsv1.EmbedAuthor"
+                },
+                "color": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/embedsv1.EmbedField"
+                    }
+                },
+                "footer": {
+                    "$ref": "#/definitions/embedsv1.EmbedFooter"
+                },
+                "image": {
+                    "$ref": "#/definitions/embedsv1.EmbedImage"
+                },
+                "provider": {
+                    "$ref": "#/definitions/embedsv1.EmbedProvider"
+                },
+                "thumbnail": {
+                    "$ref": "#/definitions/embedsv1.EmbedThumbnail"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/embedsv1.EmbedType"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "video": {
+                    "$ref": "#/definitions/embedsv1.EmbedVideo"
+                }
+            }
+        },
+        "embedsv1.EmbedAuthor": {
+            "type": "object",
+            "properties": {
+                "icon_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "proxy_icon_url": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "embedsv1.EmbedField": {
+            "type": "object",
+            "properties": {
+                "inline": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "embedsv1.EmbedFooter": {
+            "type": "object",
+            "properties": {
+                "icon_url": {
+                    "type": "string"
+                },
+                "proxy_icon_url": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "embedsv1.EmbedImage": {
+            "type": "object",
+            "properties": {
+                "height": {
+                    "type": "integer"
+                },
+                "proxy_url": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "embedsv1.EmbedProvider": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "embedsv1.EmbedThumbnail": {
+            "type": "object",
+            "properties": {
+                "height": {
+                    "type": "integer"
+                },
+                "proxy_url": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "embedsv1.EmbedType": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "x-enum-varnames": [
+                "EmbedType_RICH",
+                "EmbedType_IMAGE",
+                "EmbedType_VIDEO",
+                "EmbedType_GIFV",
+                "EmbedType_ARTICLE",
+                "EmbedType_LINK"
+            ]
+        },
+        "embedsv1.EmbedVideo": {
+            "type": "object",
+            "properties": {
+                "height": {
+                    "type": "integer"
+                },
+                "proxy_url": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            }
+        },
         "responses.Error": {
             "type": "object",
             "properties": {
@@ -235,6 +995,55 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "rolesv1.Role": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mentionable": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "usersv1.User": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "username": {
                     "type": "string"
                 }
             }
