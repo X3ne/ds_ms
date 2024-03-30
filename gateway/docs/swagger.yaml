@@ -613,8 +613,6 @@ definitions:
     type: object
   guildsv1.ModifyGuildChannelPositionsRequest:
     properties:
-      guild_id:
-        type: string
       positions:
         items:
           $ref: '#/definitions/channelsv1.ChannelPosition'
@@ -710,7 +708,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: Delete the channel associated with the given ID
+      description: Delete the channel by ID
       parameters:
       - description: Channel ID
         in: path
@@ -734,7 +732,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Delete the channel associated with the given ID
+      summary: Delete Channel
       tags:
       - Channels
     get:
@@ -764,13 +762,13 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get channel by ID
+      summary: Get Channel
       tags:
       - Channels
     patch:
       consumes:
       - application/json
-      description: Modify channel with given ID
+      description: Modify channel by ID
       parameters:
       - description: Channel ID
         in: path
@@ -800,14 +798,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Modify channel with given ID
+      summary: Modify Channel
       tags:
       - Channels
   /v1/channels/{channel.id}/messages:
     get:
       consumes:
       - application/json
-      description: Get messages for the channel associated with the given ID
+      description: Get messages for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -847,13 +845,13 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get messages for the channel associated with the given ID
+      summary: Get Channel Messages
       tags:
       - Channels
     post:
       consumes:
       - application/json
-      description: Create a message for the channel associated with the given ID
+      description: Create a message for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -883,14 +881,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Create a message for the channel associated with the given ID
+      summary: Create Message
       tags:
       - Channels
   /v1/channels/{channel.id}/messages/{message.id}:
     delete:
       consumes:
       - application/json
-      description: Delete a message for the channel associated with the given ID
+      description: Delete a message for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -919,13 +917,13 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Delete a message for the channel associated with the given ID
+      summary: Delete Message
       tags:
       - Channels
     get:
       consumes:
       - application/json
-      description: Get message by id for the channel associated with the given ID
+      description: Get message by id for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -954,13 +952,13 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get message by id for the channel associated with the given ID
+      summary: Get message
       tags:
       - Channels
     patch:
       consumes:
       - application/json
-      description: Edit a message for the channel associated with the given ID
+      description: Edit a message for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -995,15 +993,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Edit a message for the channel associated with the given ID
+      summary: Edit Message
       tags:
       - Channels
   /v1/channels/{channel.id}/messages/bulk-delete:
     post:
       consumes:
       - application/json
-      description: Bulk delete messages for the channel associated with the given
-        ID
+      description: Bulk delete messages for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1033,15 +1030,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Bulk delete messages for the channel associated with the given ID
+      summary: Bulk Delete sMessages
       tags:
       - Channels
   /v1/channels/{channel.id}/permissions/{overwrite.id}:
     delete:
       consumes:
       - application/json
-      description: Delete channel permissions for the channel associated with the
-        given ID
+      description: Delete channel permissions for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1070,15 +1066,13 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Delete channel permissions for the channel associated with the given
-        ID
+      summary: Delete Channel Permission
       tags:
       - Channels
     put:
       consumes:
       - application/json
-      description: Edit channel permissions for the channel associated with the given
-        ID
+      description: Edit channel permissions for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1113,15 +1107,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Edit channel permissions for the channel associated with the given
-        ID
+      summary: Edit Channel Permissions
       tags:
       - Channels
   /v1/channels/{channel.id}/pins:
     get:
       consumes:
       - application/json
-      description: Get pinned messages for the channel associated with the given ID
+      description: Get pinned messages for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1145,15 +1138,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get pinned messages for the channel associated with the given ID
+      summary: Get Pinned Messages
       tags:
       - Channels
   /v1/channels/{channel.id}/pins/{message.id}:
     delete:
       consumes:
       - application/json
-      description: Delete a pinned message for the channel associated with the given
-        ID
+      description: Delete a pinned message for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1182,7 +1174,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Delete a pinned message for the channel associated with the given ID
+      summary: Delete Pinned Message
       tags:
       - Channels
     put:
@@ -1218,7 +1210,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Add a pinned message for the channel associated with the given ID
+      summary: Add Pinned Message
       tags:
       - Channels
   /v1/channels/{channel.id}/recipients/{user.id}:
@@ -1255,7 +1247,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Remove a recipient from the group DM associated with the given ID
+      summary: Group DM Remove Recipient
       tags:
       - Channels
     put:
@@ -1296,14 +1288,14 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Add a recipient to the group DM associated with the given ID
+      summary: Group DM Add Recipient
       tags:
       - Channels
   /v1/channels/{channel.id}/typing:
     post:
       consumes:
       - application/json
-      description: Trigger the typing indicator in the given channel ID
+      description: Trigger the typing indicator for the given channel ID
       parameters:
       - description: Channel ID
         in: path
@@ -1327,7 +1319,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Trigger the typing indicator in the given channel ID
+      summary: Trigger Typing Indicator
       tags:
       - Channels
   /v1/guilds:
@@ -1359,7 +1351,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Create a new guild
+      summary: Create Guild
       tags:
       - Guilds
   /v1/guilds/{guild.id}:
@@ -1390,7 +1382,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Delete a guild by id
+      summary: Delete Guild
       tags:
       - Guilds
     get:
@@ -1420,7 +1412,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get a guild by id
+      summary: Get Guild
       tags:
       - Guilds
     patch:
@@ -1456,7 +1448,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Modify a guild by id
+      summary: Modify Guild
       tags:
       - Guilds
   /v1/guilds/{guild.id}/channels:
@@ -1487,7 +1479,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get a guild's channels by id
+      summary: Get Guild Channels
       tags:
       - Guilds
     patch:
@@ -1523,7 +1515,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Modify a guild's channel positions
+      summary: Modify Guild Channel Positions
       tags:
       - Guilds
     post:
@@ -1559,7 +1551,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Create a new guild channel
+      summary: Create Guild Channel
       tags:
       - Guilds
   /v1/guilds/{guild.id}/members:
@@ -1590,7 +1582,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: List a guild's members
+      summary: List Guild Members
       tags:
       - Guilds
   /v1/guilds/{guild.id}/members/{user.id}:
@@ -1626,7 +1618,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Get a guild member by id
+      summary: Get Guild Member
       tags:
       - Guilds
     put:
@@ -1667,7 +1659,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Add a member to a guild
+      summary: Add Guild Member
       tags:
       - Guilds
   /v1/guilds/{guild.id}/members/search:
@@ -1707,7 +1699,7 @@ paths:
             $ref: '#/definitions/responses.Error'
       security:
       - ApiKeyAuth: []
-      summary: Search a guild's members
+      summary: Search Guild Members
       tags:
       - Guilds
 securityDefinitions:

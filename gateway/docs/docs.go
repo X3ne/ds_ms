@@ -36,7 +36,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Get channel by ID",
+                "summary": "Get Channel",
                 "parameters": [
                     {
                         "type": "string",
@@ -73,7 +73,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Delete the channel associated with the given ID",
+                "description": "Delete the channel by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -83,7 +83,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Delete the channel associated with the given ID",
+                "summary": "Delete Channel",
                 "parameters": [
                     {
                         "type": "string",
@@ -120,7 +120,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Modify channel with given ID",
+                "description": "Modify channel by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -130,7 +130,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Modify channel with given ID",
+                "summary": "Modify Channel",
                 "parameters": [
                     {
                         "type": "string",
@@ -178,7 +178,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get messages for the channel associated with the given ID",
+                "description": "Get messages for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -188,7 +188,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Get messages for the channel associated with the given ID",
+                "summary": "Get Channel Messages",
                 "parameters": [
                     {
                         "type": "string",
@@ -249,7 +249,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Create a message for the channel associated with the given ID",
+                "description": "Create a message for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -259,7 +259,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Create a message for the channel associated with the given ID",
+                "summary": "Create Message",
                 "parameters": [
                     {
                         "type": "string",
@@ -307,7 +307,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Bulk delete messages for the channel associated with the given ID",
+                "description": "Bulk delete messages for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -317,7 +317,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Bulk delete messages for the channel associated with the given ID",
+                "summary": "Bulk Delete sMessages",
                 "parameters": [
                     {
                         "type": "string",
@@ -365,7 +365,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get message by id for the channel associated with the given ID",
+                "description": "Get message by id for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -375,7 +375,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Get message by id for the channel associated with the given ID",
+                "summary": "Get message",
                 "parameters": [
                     {
                         "type": "string",
@@ -419,7 +419,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Delete a message for the channel associated with the given ID",
+                "description": "Delete a message for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -429,7 +429,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Delete a message for the channel associated with the given ID",
+                "summary": "Delete Message",
                 "parameters": [
                     {
                         "type": "string",
@@ -473,7 +473,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Edit a message for the channel associated with the given ID",
+                "description": "Edit a message for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -483,7 +483,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Edit a message for the channel associated with the given ID",
+                "summary": "Edit Message",
                 "parameters": [
                     {
                         "type": "string",
@@ -538,7 +538,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Edit channel permissions for the channel associated with the given ID",
+                "description": "Edit channel permissions for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -548,7 +548,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Edit channel permissions for the channel associated with the given ID",
+                "summary": "Edit Channel Permissions",
                 "parameters": [
                     {
                         "type": "string",
@@ -601,7 +601,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Delete channel permissions for the channel associated with the given ID",
+                "description": "Delete channel permissions for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -611,7 +611,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Delete channel permissions for the channel associated with the given ID",
+                "summary": "Delete Channel Permission",
                 "parameters": [
                     {
                         "type": "string",
@@ -657,7 +657,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get pinned messages for the channel associated with the given ID",
+                "description": "Get pinned messages for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -667,7 +667,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Get pinned messages for the channel associated with the given ID",
+                "summary": "Get Pinned Messages",
                 "parameters": [
                     {
                         "type": "string",
@@ -716,7 +716,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Add a pinned message for the channel associated with the given ID",
+                "summary": "Add Pinned Message",
                 "parameters": [
                     {
                         "type": "string",
@@ -760,7 +760,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Delete a pinned message for the channel associated with the given ID",
+                "description": "Delete a pinned message for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -770,7 +770,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Delete a pinned message for the channel associated with the given ID",
+                "summary": "Delete Pinned Message",
                 "parameters": [
                     {
                         "type": "string",
@@ -826,7 +826,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Add a recipient to the group DM associated with the given ID",
+                "summary": "Group DM Add Recipient",
                 "parameters": [
                     {
                         "type": "string",
@@ -889,7 +889,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Remove a recipient from the group DM associated with the given ID",
+                "summary": "Group DM Remove Recipient",
                 "parameters": [
                     {
                         "type": "string",
@@ -935,7 +935,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Trigger the typing indicator in the given channel ID",
+                "description": "Trigger the typing indicator for the given channel ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -945,7 +945,7 @@ const docTemplate = `{
                 "tags": [
                     "Channels"
                 ],
-                "summary": "Trigger the typing indicator in the given channel ID",
+                "summary": "Trigger Typing Indicator",
                 "parameters": [
                     {
                         "type": "string",
@@ -994,7 +994,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Create a new guild",
+                "summary": "Create Guild",
                 "parameters": [
                     {
                         "description": "Guild object",
@@ -1045,7 +1045,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Get a guild by id",
+                "summary": "Get Guild",
                 "parameters": [
                     {
                         "type": "string",
@@ -1092,7 +1092,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Delete a guild by id",
+                "summary": "Delete Guild",
                 "parameters": [
                     {
                         "type": "string",
@@ -1139,7 +1139,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Modify a guild by id",
+                "summary": "Modify Guild",
                 "parameters": [
                     {
                         "type": "string",
@@ -1197,7 +1197,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Get a guild's channels by id",
+                "summary": "Get Guild Channels",
                 "parameters": [
                     {
                         "type": "string",
@@ -1244,7 +1244,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Create a new guild channel",
+                "summary": "Create Guild Channel",
                 "parameters": [
                     {
                         "type": "string",
@@ -1300,7 +1300,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Modify a guild's channel positions",
+                "summary": "Modify Guild Channel Positions",
                 "parameters": [
                     {
                         "type": "string",
@@ -1358,7 +1358,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "List a guild's members",
+                "summary": "List Guild Members",
                 "parameters": [
                     {
                         "type": "string",
@@ -1407,7 +1407,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Search a guild's members",
+                "summary": "Search Guild Members",
                 "parameters": [
                     {
                         "type": "string",
@@ -1469,7 +1469,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Get a guild member by id",
+                "summary": "Get Guild Member",
                 "parameters": [
                     {
                         "type": "string",
@@ -1523,7 +1523,7 @@ const docTemplate = `{
                 "tags": [
                     "Guilds"
                 ],
-                "summary": "Add a member to a guild",
+                "summary": "Add Guild Member",
                 "parameters": [
                     {
                         "type": "string",
@@ -2497,9 +2497,6 @@ const docTemplate = `{
         "guildsv1.ModifyGuildChannelPositionsRequest": {
             "type": "object",
             "properties": {
-                "guild_id": {
-                    "type": "string"
-                },
                 "positions": {
                     "type": "array",
                     "items": {

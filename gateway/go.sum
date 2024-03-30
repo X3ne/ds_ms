@@ -14,6 +14,8 @@ github.com/X3ne/ds_ms/api v0.0.0-20240330172609-6b51fb4cf553 h1:NDI/czDu4UqqzUE/
 github.com/X3ne/ds_ms/api v0.0.0-20240330172609-6b51fb4cf553/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/X3ne/ds_ms/api v0.0.0-20240330182908-edcd1ee85777 h1:WOlDVKIOGCR2FqUzvW165XUBfboR1efCsoiIxX8kkMQ=
 github.com/X3ne/ds_ms/api v0.0.0-20240330182908-edcd1ee85777/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240330183720-478f47e42239 h1:Ua5DKLQ1BweEVvySvEhmAXe95A1QhAQ98A2tVnJGte8=
+github.com/X3ne/ds_ms/api v0.0.0-20240330183720-478f47e42239/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/andybalholm/brotli v1.0.5/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.9.1/go.mod h1:i736AoUSYt75HyZLoJW9ERYxcy6eaN6h4BZXU064P/U=

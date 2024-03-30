@@ -46,7 +46,7 @@ func NewGuildsHandler(server *s.Server, channelsClient channelsv1connect.Channel
 }
 
 // CreateGuild godoc
-// @Summary Create a new guild
+// @Summary Create Guild
 // @Description Create a new guild
 // @Tags Guilds
 // @Accept json
@@ -79,7 +79,7 @@ func (h *GuildsHandler) CreateGuild(c echo.Context) error {
 }
 
 // GetGuild godoc
-// @Summary Get a guild by id
+// @Summary Get Guild
 // @Description Get a guild by id
 // @Tags Guilds
 // @Accept json
@@ -106,7 +106,7 @@ func (h *GuildsHandler) GetGuild(c echo.Context) error {
 }
 
 // ModifyGuild godoc
-// @Summary Modify a guild by id
+// @Summary Modify Guild
 // @Description Modify a guild by id
 // @Tags Guilds
 // @Accept json
@@ -145,7 +145,7 @@ func (h *GuildsHandler) ModifyGuild(c echo.Context) error {
 }
 
 // DeleteGuild godoc
-// @Summary Delete a guild by id
+// @Summary Delete Guild
 // @Description Delete a guild by id
 // @Tags Guilds
 // @Accept json
@@ -172,7 +172,7 @@ func (h *GuildsHandler) DeleteGuild(c echo.Context) error {
 }
 
 // GetGuildChannels godoc
-// @Summary Get a guild's channels by id
+// @Summary Get Guild Channels
 // @Description Get a guild's channels by id
 // @Tags Guilds
 // @Accept json
@@ -199,7 +199,7 @@ func (h *GuildsHandler) GetGuildChannels(c echo.Context) error {
 }
 
 // CreateGuildChannel godoc
-// @Summary Create a new guild channel
+// @Summary Create Guild Channel
 // @Description Create a new guild channel
 // @Tags Guilds
 // @Accept json
@@ -238,7 +238,7 @@ func (h *GuildsHandler) CreateGuildChannel(c echo.Context) error {
 }
 
 // ModifyGuildChannelPositions godoc
-// @Summary Modify a guild's channel positions
+// @Summary Modify Guild Channel Positions
 // @Description Modify a guild's channel positions
 // @Tags Guilds
 // @Accept json
@@ -272,7 +272,7 @@ func (h *GuildsHandler) ModifyGuildChannelPositions(c echo.Context) error {
 }
 
 // GetGuildMember godoc
-// @Summary Get a guild member by id
+// @Summary Get Guild Member
 // @Description Get a guild member by id
 // @Tags Guilds
 // @Accept json
@@ -302,7 +302,7 @@ func (h *GuildsHandler) GetGuildMember(c echo.Context) error {
 }
 
 // ListGuildMembers godoc
-// @Summary List a guild's members
+// @Summary List Guild Members
 // @Description List a guild's members
 // @Tags Guilds
 // @Accept json
@@ -329,7 +329,7 @@ func (h *GuildsHandler) ListGuildMembers(c echo.Context) error {
 }
 
 // SearchGuildMembers godoc
-// @Summary Search a guild's members
+// @Summary Search Guild Members
 // @Description Search a guild's members
 // @Tags Guilds
 // @Accept json
@@ -366,7 +366,7 @@ func (h *GuildsHandler) SearchGuildMembers(c echo.Context) error {
 }
 
 // AddGuildMember godoc
-// @Summary Add a member to a guild
+// @Summary Add Guild Member
 // @Description Add a member to a guild
 // @Tags Guilds
 // @Accept json
@@ -407,7 +407,7 @@ func (h *GuildsHandler) AddGuildMember(c echo.Context) error {
 }
 
 // ModifyCurrentMember godoc
-// @Summary Modify the current member of a guild
+// @Summary Modify Current Member
 // @Description Modify the current member of a guild
 // @Tags Guilds
 // @Accept json

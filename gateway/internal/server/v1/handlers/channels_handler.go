@@ -24,7 +24,7 @@ func NewChannelsHandler(server *s.Server, channelsClient channelsv1connect.Chann
 }
 
 // GetChannel godoc
-// @Summary Get channel by ID
+// @Summary Get Channel
 // @Description Get channel by ID
 // @Tags Channels
 // @Accept json
@@ -51,8 +51,8 @@ func (h *ChannelsHandler) GetChannel(c echo.Context) error {
 }
 
 // ModifyChannel godoc
-// @Summary Modify channel with given ID
-// @Description Modify channel with given ID
+// @Summary Modify Channel
+// @Description Modify channel by ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -85,8 +85,8 @@ func (h *ChannelsHandler) ModifyChannel(c echo.Context) error {
 }
 
 // DeleteChannel godoc
-// @Summary Delete the channel associated with the given ID
-// @Description Delete the channel associated with the given ID
+// @Summary Delete Channel
+// @Description Delete the channel by ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -110,8 +110,8 @@ func (h *ChannelsHandler) DeleteChannel(c echo.Context) error {
 }
 
 // GetChannelMessages godoc
-// @Summary Get messages for the channel associated with the given ID
-// @Description Get messages for the channel associated with the given ID
+// @Summary Get Channel Messages
+// @Description Get messages for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -146,8 +146,8 @@ func (h *ChannelsHandler) GetChannelMessages(c echo.Context) error {
 }
 
 // GetChannelMessage godoc
-// @Summary Get message by id for the channel associated with the given ID
-// @Description Get message by id for the channel associated with the given ID
+// @Summary Get message
+// @Description Get message by id for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -173,8 +173,8 @@ func (h *ChannelsHandler) GetChannelMessage(c echo.Context) error {
 }
 
 // CreateMessage godoc
-// @Summary Create a message for the channel associated with the given ID
-// @Description Create a message for the channel associated with the given ID
+// @Summary Create Message
+// @Description Create a message for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -210,8 +210,8 @@ func (h *ChannelsHandler) CreateMessage(c echo.Context) error {
 }
 
 // EditMessage godoc
-// @Summary Edit a message for the channel associated with the given ID
-// @Description Edit a message for the channel associated with the given ID
+// @Summary Edit Message
+// @Description Edit a message for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -246,8 +246,8 @@ func (h *ChannelsHandler) EditMessage(c echo.Context) error {
 }
 
 // DeleteMessage godoc
-// @Summary Delete a message for the channel associated with the given ID
-// @Description Delete a message for the channel associated with the given ID
+// @Summary Delete Message
+// @Description Delete a message for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -273,8 +273,8 @@ func (h *ChannelsHandler) DeleteMessage(c echo.Context) error {
 }
 
 // BulkDeleteMessages godoc
-// @Summary Bulk delete messages for the channel associated with the given ID
-// @Description Bulk delete messages for the channel associated with the given ID
+// @Summary Bulk Delete sMessages
+// @Description Bulk delete messages for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -306,8 +306,8 @@ func (h *ChannelsHandler) BulkDeleteMessages(c echo.Context) error {
 }
 
 // EditChannelPermissions godoc
-// @Summary Edit channel permissions for the channel associated with the given ID
-// @Description Edit channel permissions for the channel associated with the given ID
+// @Summary Edit Channel Permissions
+// @Description Edit channel permissions for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -343,8 +343,8 @@ func (h *ChannelsHandler) EditChannelPermissions(c echo.Context) error {
 }
 
 // DeleteChannelPermission godoc
-// @Summary Delete channel permissions for the channel associated with the given ID
-// @Description Delete channel permissions for the channel associated with the given ID
+// @Summary Delete Channel Permission
+// @Description Delete channel permissions for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -370,8 +370,8 @@ func (h *ChannelsHandler) DeleteChannelPermission(c echo.Context) error {
 }
 
 // TriggerTypingIndicator godoc
-// @Summary Trigger the typing indicator in the given channel ID
-// @Description Trigger the typing indicator in the given channel ID
+// @Summary Trigger Typing Indicator
+// @Description Trigger the typing indicator for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -395,8 +395,8 @@ func (h *ChannelsHandler) TriggerTypingIndicator(c echo.Context) error {
 }
 
 // GetPinnedMessages godoc
-// @Summary Get pinned messages for the channel associated with the given ID
-// @Description Get pinned messages for the channel associated with the given ID
+// @Summary Get Pinned Messages
+// @Description Get pinned messages for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -420,7 +420,7 @@ func (h *ChannelsHandler) GetPinnedMessages(c echo.Context) error {
 }
 
 // AddPinnedMessage godoc
-// @Summary Add a pinned message for the channel associated with the given ID
+// @Summary Add Pinned Message
 // @Description Add a pinned message for the channel associated with the given ID
 // @Tags Channels
 // @Accept json
@@ -447,8 +447,8 @@ func (h *ChannelsHandler) AddPinnedMessage(c echo.Context) error {
 }
 
 // DeletePinnedMessage godoc
-// @Summary Delete a pinned message for the channel associated with the given ID
-// @Description Delete a pinned message for the channel associated with the given ID
+// @Summary Delete Pinned Message
+// @Description Delete a pinned message for the given channel ID
 // @Tags Channels
 // @Accept json
 // @Produce json
@@ -474,7 +474,7 @@ func (h *ChannelsHandler) DeletePinnedMessage(c echo.Context) error {
 }
 
 // GroupDMAddRecipient godoc
-// @Summary Add a recipient to the group DM associated with the given ID
+// @Summary Group DM Add Recipient
 // @Description Add a recipient to the group DM associated with the given ID
 // @Tags Channels
 // @Accept json
@@ -510,7 +510,7 @@ func (h *ChannelsHandler) GroupDMAddRecipient(c echo.Context) error {
 }
 
 // GroupDMRemoveRecipient godoc
-// @Summary Remove a recipient from the group DM associated with the given ID
+// @Summary Group DM Remove Recipient
 // @Description Remove a recipient from the group DM associated with the given ID
 // @Tags Channels
 // @Accept json
