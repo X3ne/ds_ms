@@ -201,11 +201,14 @@ message GetGuildChannelsResponse {
 }
 
 message CreateGuildChannelRequest {
-  string guild_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string guild_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string name = 2 [(buf.validate.field) = {
     string: {
       min_len: 2,
