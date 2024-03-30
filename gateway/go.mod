@@ -4,7 +4,7 @@ go 1.22.1
 
 require (
 	connectrpc.com/connect v1.15.0
-	github.com/X3ne/ds_ms/api v0.0.0-20240330183720-478f47e42239
+	github.com/X3ne/ds_ms/api v0.0.0-20240330211356-5f730242e046
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/mvrilo/go-redoc v0.1.4
