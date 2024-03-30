@@ -472,3 +472,66 @@ func (h *ChannelsHandler) DeletePinnedMessage(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, pinnedResponse.Msg)
 }
+
+// GroupDMAddRecipient godoc
+// @Summary Add a recipient to the group DM associated with the given ID
+// @Description Add a recipient to the group DM associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param user.id path string true "User ID"
+// @Param request body channelsv1.GroupDMAddRecipientRequest true "Recipient data"
+// @Success 200 {object} channelsv1.GroupDMAddRecipientResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/recipients/{user.id} [put]
+func (h *ChannelsHandler) GroupDMAddRecipient(c echo.Context) error {
+	addRecipientRequest := new(channelsv1.GroupDMAddRecipientRequest)
+
+	if err := c.Bind(addRecipientRequest); err != nil {
+		return responses.ErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	addRecipientResponse, err := h.ChannelsClient.GroupDMAddRecipient(c.Request().Context(), &connect.Request[channelsv1.GroupDMAddRecipientRequest]{
+		Msg: &channelsv1.GroupDMAddRecipientRequest{
+			ChannelId:   c.Param("channel.id"),
+			UserId:      c.Param("user.id"),
+			Nick:        addRecipientRequest.Nick,
+			AccessToken: addRecipientRequest.AccessToken,
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, addRecipientResponse.Msg)
+}
+
+// GroupDMRemoveRecipient godoc
+// @Summary Remove a recipient from the group DM associated with the given ID
+// @Description Remove a recipient from the group DM associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param user.id path string true "User ID"
+// @Success 200 {object} channelsv1.GroupDMRemoveRecipientResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/recipients/{user.id} [delete]
+func (h *ChannelsHandler) GroupDMRemoveRecipient(c echo.Context) error {
+	removeRecipientResponse, err := h.ChannelsClient.GroupDMRemoveRecipient(c.Request().Context(), &connect.Request[channelsv1.GroupDMRemoveRecipientRequest]{
+		Msg: &channelsv1.GroupDMRemoveRecipientRequest{
+			ChannelId: c.Param("channel.id"),
+			UserId:    c.Param("user.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, removeRecipientResponse.Msg)
+}

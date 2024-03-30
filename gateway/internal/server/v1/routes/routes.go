@@ -39,6 +39,9 @@ func ConfigureV1Routes(server *s.Server) {
 	channels.PUT("/:channel.id/pins/:message.id", channelsHandler.AddPinnedMessage)
 	channels.DELETE("/:channel.id/pins/:message.id", channelsHandler.DeletePinnedMessage)
 
+	channels.PUT("/:channel.id/recipients", channelsHandler.GroupDMAddRecipient)
+	channels.DELETE("/:channel.id/recipients/:user.id", channelsHandler.GroupDMRemoveRecipient)
+
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
