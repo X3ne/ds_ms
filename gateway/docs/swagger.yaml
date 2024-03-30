@@ -426,6 +426,46 @@ definitions:
       width:
         type: integer
     type: object
+  guildsv1.CreateRequest:
+    properties:
+      icon:
+        description: TODO limit size
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+    type: object
+  guildsv1.CreateResponse:
+    properties:
+      guild:
+        $ref: '#/definitions/guildsv1.Guild'
+    type: object
+  guildsv1.Guild:
+    properties:
+      banner:
+        type: string
+      created_at:
+        type: integer
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      splash:
+        type: string
+      updated_at:
+        type: integer
+    type: object
   responses.Error:
     properties:
       code:
@@ -1092,4 +1132,36 @@ paths:
       summary: Trigger the typing indicator in the given channel ID
       tags:
       - Channels
+  /v1/guilds:
+    post:
+      consumes:
+      - application/json
+      description: Create a new guild
+      parameters:
+      - description: Guild object
+        in: body
+        name: guild
+        required: true
+        schema:
+          $ref: '#/definitions/guildsv1.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/guildsv1.CreateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new guild
+      tags:
+      - Guilds
 swagger: "2.0"

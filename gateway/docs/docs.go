@@ -972,6 +972,57 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/guilds": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create a new guild",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guilds"
+                ],
+                "summary": "Create a new guild",
+                "parameters": [
+                    {
+                        "description": "Guild object",
+                        "name": "guild",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/guildsv1.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/guildsv1.CreateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1611,6 +1662,67 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "width": {
+                    "type": "integer"
+                }
+            }
+        },
+        "guildsv1.CreateRequest": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "description": "TODO limit size",
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "guildsv1.CreateResponse": {
+            "type": "object",
+            "properties": {
+                "guild": {
+                    "$ref": "#/definitions/guildsv1.Guild"
+                }
+            }
+        },
+        "guildsv1.Guild": {
+            "type": "object",
+            "properties": {
+                "banner": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "splash": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "integer"
                 }
             }

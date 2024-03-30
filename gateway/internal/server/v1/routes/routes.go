@@ -3,8 +3,11 @@ package routes
 import (
 	"fmt"
 	"github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1/channelsv1connect"
+	"github.com/X3ne/ds_ms/api/gen/guilds_service/guilds/v1/guildsv1connect"
+	"github.com/X3ne/ds_ms/api/gen/users_service/users/v1/usersv1connect"
 	s "github.com/X3ne/ds_ms/gateway/internal/server"
 	"github.com/X3ne/ds_ms/gateway/internal/server/v1/handlers"
+	"github.com/labstack/echo/v4"
 	"github.com/mvrilo/go-redoc"
 	echoredoc "github.com/mvrilo/go-redoc/echo"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -13,14 +16,17 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func ConfigureV1Routes(server *s.Server) {
-	channelsClient := channelsv1connect.NewChannelsServiceClient(http.DefaultClient, "http://127.0.0.1:8082")
+type Clients struct {
+	ChannelsClient channelsv1connect.ChannelsServiceClient
+	UsersClient    usersv1connect.UsersServiceClient
+	GuildsClient   guildsv1connect.GuildsServiceClient
+}
 
-	channelsHandler := handlers.NewChannelsHandler(server, channelsClient)
+func configureChannelsRoutes(server *s.Server, group *echo.Group, clients *Clients) {
+	channelsHandler := handlers.NewChannelsHandler(server, clients.ChannelsClient)
 
-	v1 := server.Echo.Group("/v1")
+	channels := group.Group("/channels")
 
-	channels := v1.Group("/channels")
 	channels.GET("/:channel.id", channelsHandler.GetChannel)
 	channels.PATCH("/:channel.id", channelsHandler.ModifyChannel)
 	channels.DELETE("/:channel.id", channelsHandler.DeleteChannel)
@@ -44,13 +50,36 @@ func ConfigureV1Routes(server *s.Server) {
 	channels.PUT("/:channel.id/recipients", channelsHandler.GroupDMAddRecipient)
 	channels.DELETE("/:channel.id/recipients/:user.id", channelsHandler.GroupDMRemoveRecipient)
 
+	fmt.Println("Channels routes configured")
+}
+
+func configureGuildsRoutes(server *s.Server, group *echo.Group, clients *Clients) {
+	guildsHandler := handlers.NewGuildsHandler(server, clients.ChannelsClient, clients.GuildsClient)
+
+	guilds := group.Group("/guilds")
+
+	guilds.POST("", guildsHandler.CreateGuild)
+}
+
+func ConfigureV1Routes(server *s.Server) {
+	v1 := server.Echo.Group("/v1")
+
+	clients := &Clients{
+		ChannelsClient: channelsv1connect.NewChannelsServiceClient(http.DefaultClient, "http://127.0.0.1:8082"),
+		UsersClient:    usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8081"),
+		GuildsClient:   guildsv1connect.NewGuildsServiceClient(http.DefaultClient, "http://127.0.0.1:8083"),
+	}
+
+	configureChannelsRoutes(server, v1, clients)
+	configureGuildsRoutes(server, v1, clients)
+
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
 	v1.GET("/swagger/docs/*", echoSwagger.WrapHandler)
 
 	doc := redoc.Redoc{
-		Title:       "V1 Api doc",
+		Title:       "V1 Api docs",
 		Description: "1.0.0",
 		SpecFile:    "./docs/swagger.json",
 		SpecPath:    "/docs/swagger.json",
