@@ -102,11 +102,14 @@ message GetByIdResponse {
 }
 
 message UpdateRequest {
-  string   id = 2 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string   id = 2 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string  name = 3 [(buf.validate.field) = {
     string: {
       min_len: 2,
