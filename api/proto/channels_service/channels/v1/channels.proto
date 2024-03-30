@@ -581,16 +581,22 @@ message DeletePinnedMessageResponse {
 }
 
 message GroupDMAddRecipientRequest {
-  string channel_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
-  string user_id = 2 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string channel_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
+  string user_id = 2 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string access_token = 3 [(buf.validate.field) = {
     string: {
       min_len: 1,
