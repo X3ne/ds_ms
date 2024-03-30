@@ -6,6 +6,7 @@ import "buf/validate/validate.proto";
 import "channels_service/channels/v1/channels.proto";
 import "users_service/users/v1/users.proto";
 import "guilds_service/roles/v1/roles.proto";
+import "tagger/tagger.proto";
 
 service GuildsService {
   rpc Create (CreateRequest) returns (CreateResponse) {}
@@ -74,11 +75,14 @@ message CreateRequest {
     }
     ignore_empty: true,
   }]; // TODO limit size
-  string   owner_id = 3 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string   owner_id = 3 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
 }
 
 message CreateResponse {
