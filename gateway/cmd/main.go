@@ -7,11 +7,16 @@ import (
 	"github.com/X3ne/ds_ms/gateway/docs"
 )
 
-// @title Torrents API
-// @version 1.0.0
-// @description v1.0.0 Torrents API
+// @title           GoCord Gateway
+// @version         1.0
+// @description     This is the gateway specification for the GoCord project.
 
-// @BasePath /v1
+// @license.name  MIT
+// @license.url   https://opensource.org/licenses/MIT
+
+// @host      localhost:8079
+// @BasePath  /v1
+
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization

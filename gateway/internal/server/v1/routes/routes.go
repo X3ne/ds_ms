@@ -10,7 +10,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/mvrilo/go-redoc"
 	echoredoc "github.com/mvrilo/go-redoc/echo"
-	echoSwagger "github.com/swaggo/echo-swagger"
 	"net/http"
 
 	"github.com/labstack/echo/v4/middleware"
@@ -59,6 +58,16 @@ func configureGuildsRoutes(server *s.Server, group *echo.Group, clients *Clients
 	guilds := group.Group("/guilds")
 
 	guilds.POST("", guildsHandler.CreateGuild)
+	guilds.GET("/:guild.id", guildsHandler.GetGuild)
+	guilds.PATCH("/:guild.id", guildsHandler.ModifyGuild)
+	guilds.DELETE("/:guild.id", guildsHandler.DeleteGuild)
+
+	guilds.GET("/:guild.id/channels", guildsHandler.GetGuildChannels)
+	guilds.POST("/:guild.id/channels", guildsHandler.CreateGuildChannel)
+
+	guilds.GET("/:guild.id/members/:user.id", guildsHandler.GetGuildMember)
+	guilds.GET("/:guild.id/members", guildsHandler.ListGuildMembers)
+	guilds.GET("/:guild.id/members/search", guildsHandler.SearchGuildMembers)
 }
 
 func ConfigureV1Routes(server *s.Server) {
@@ -76,8 +85,6 @@ func ConfigureV1Routes(server *s.Server) {
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
-	v1.GET("/swagger/docs/*", echoSwagger.WrapHandler)
-
 	doc := redoc.Redoc{
 		Title:       "V1 Api docs",
 		Description: "1.0.0",
@@ -85,6 +92,8 @@ func ConfigureV1Routes(server *s.Server) {
 		SpecPath:    "/docs/swagger.json",
 		DocsPath:    "/v1/docs",
 	}
+
+	v1.Static("/docs", "./docs")
 
 	server.Echo.Use(echoredoc.New(doc))
 

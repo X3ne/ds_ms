@@ -30,7 +30,7 @@ func NewChannelsHandler(server *s.Server, channelsClient channelsv1connect.Chann
 // @Accept json
 // @Produce json
 // @Security ApiKeyAuth
-// @Param id path string true "Channel ID"
+// @Param channel.id path string true "Channel ID"
 // @Success 200 {object} channelsv1.Channel
 // @Failure 400 {object} responses.Error
 // @Failure 500 {object} responses.Error
