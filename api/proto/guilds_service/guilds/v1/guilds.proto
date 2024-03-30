@@ -262,11 +262,14 @@ message CreateGuildChannelResponse {
 }
 
 message ModifyGuildChannelPositionsRequest {
-  string guild_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string guild_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   repeated channels.v1.ChannelPosition positions = 2;
 }
 
@@ -292,11 +295,14 @@ message GetGuildMemberResponse {
 }
 
 message ListGuildMembersRequest {
-  string guild_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string guild_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   int32 limit = 2 [(buf.validate.field).int32.gt = 0];
   string after = 3 [(buf.validate.field) = {
     string: {
@@ -311,11 +317,14 @@ message ListGuildMembersResponse {
 }
 
 message SearchGuildMembersRequest {
-  string guild_id = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^[0-9]+$",
-    }
-  }];
+  string guild_id = 1 [
+    (buf.validate.field) = {
+      string: {
+        pattern: "^[0-9]+$",
+      }
+    },
+    (tagger.tags) = "swaggerignore:\"true\""
+  ];
   string query = 2 [(buf.validate.field) = {
     string: {
       min_len: 2,
