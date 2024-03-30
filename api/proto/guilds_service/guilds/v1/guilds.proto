@@ -59,6 +59,29 @@ message GuildMember {
   string        permissions = 8;
 }
 
+enum GuildChannelType {
+  GUILD_TEXT = 0;
+  GUILD_VOICE = 1;
+  GUILD_CATEGORY = 2;
+}
+
+message GuildChannel {
+  string            id = 1;
+  string            name = 2;
+  GuildChannelType  type = 3;
+  string            guild_id = 4;
+  int32             position = 5;
+  string            topic = 6;
+  int32             user_limit = 8;
+  string            parent_id = 11;
+  string            permissions = 12;
+  string            last_message_id = 13;
+  bool              is_nsfw = 14;
+  bool              is_voice = 15;
+  int64             created_at = 16;
+  int64             updated_at = 17;
+}
+
 message Ban {
   users.v1.User user = 1;
   string        reason = 2;
@@ -174,7 +197,7 @@ message GetGuildChannelsRequest {
 }
 
 message GetGuildChannelsResponse {
-  repeated channels.v1.Channel channels = 1;
+  repeated GuildChannel channels = 1;
 }
 
 message CreateGuildChannelRequest {
@@ -189,7 +212,7 @@ message CreateGuildChannelRequest {
       max_len: 100,
     }
   }];
-  channels.v1.ChannelType type = 3 [(buf.validate.field) = {
+  GuildChannelType type = 3 [(buf.validate.field) = {
     enum: {
       defined_only: true,
     }
@@ -232,7 +255,7 @@ message CreateGuildChannelRequest {
 }
 
 message CreateGuildChannelResponse {
-  channels.v1.Channel channel = 1;
+  GuildChannel channel = 1;
 }
 
 message ModifyGuildChannelPositionsRequest {
