@@ -1,4 +1,9 @@
 definitions:
+  channelsv1.AddPinnedMessageResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.Attachment:
     properties:
       content_type:
@@ -122,6 +127,11 @@ definitions:
       success:
         type: boolean
     type: object
+  channelsv1.DeletePinnedMessageResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.DeleteResponse:
     properties:
       success:
@@ -151,6 +161,13 @@ definitions:
         $ref: '#/definitions/channelsv1.Message'
     type: object
   channelsv1.GetChannelMessagesResponse:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/channelsv1.Message'
+        type: array
+    type: object
+  channelsv1.GetPinnedMessagesResponse:
     properties:
       messages:
         items:
@@ -839,6 +856,110 @@ paths:
       - ApiKeyAuth: []
       summary: Edit channel permissions for the channel associated with the given
         ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/pins:
+    get:
+      consumes:
+      - application/json
+      description: Get pinned messages for the channel associated with the given ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.GetPinnedMessagesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get pinned messages for the channel associated with the given ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/pins/{message.id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a pinned message for the channel associated with the given
+        ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: message.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.DeletePinnedMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a pinned message for the channel associated with the given ID
+      tags:
+      - Channels
+    put:
+      consumes:
+      - application/json
+      description: Add a pinned message for the channel associated with the given
+        ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: message.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.AddPinnedMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Add a pinned message for the channel associated with the given ID
       tags:
       - Channels
   /v1/channels/{channel.id}/typing:

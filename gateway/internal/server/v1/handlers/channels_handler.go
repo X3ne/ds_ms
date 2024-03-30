@@ -393,3 +393,82 @@ func (h *ChannelsHandler) TriggerTypingIndicator(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, typingResponse.Msg)
 }
+
+// GetPinnedMessages godoc
+// @Summary Get pinned messages for the channel associated with the given ID
+// @Description Get pinned messages for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Success 200 {object} channelsv1.GetPinnedMessagesResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/pins [get]
+func (h *ChannelsHandler) GetPinnedMessages(c echo.Context) error {
+	pinnedResponse, err := h.ChannelsClient.GetPinnedMessages(c.Request().Context(), &connect.Request[channelsv1.GetPinnedMessagesRequest]{
+		Msg: &channelsv1.GetPinnedMessagesRequest{
+			ChannelId: c.Param("channel.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, pinnedResponse.Msg)
+}
+
+// AddPinnedMessage godoc
+// @Summary Add a pinned message for the channel associated with the given ID
+// @Description Add a pinned message for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param message.id path string true "Message ID"
+// @Success 200 {object} channelsv1.AddPinnedMessageResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/pins/{message.id} [put]
+func (h *ChannelsHandler) AddPinnedMessage(c echo.Context) error {
+	pinnedResponse, err := h.ChannelsClient.AddPinnedMessage(c.Request().Context(), &connect.Request[channelsv1.AddPinnedMessageRequest]{
+		Msg: &channelsv1.AddPinnedMessageRequest{
+			ChannelId: c.Param("channel.id"),
+			MessageId: c.Param("message.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, pinnedResponse.Msg)
+}
+
+// DeletePinnedMessage godoc
+// @Summary Delete a pinned message for the channel associated with the given ID
+// @Description Delete a pinned message for the channel associated with the given ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Param message.id path string true "Message ID"
+// @Success 200 {object} channelsv1.DeletePinnedMessageResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/pins/{message.id} [delete]
+func (h *ChannelsHandler) DeletePinnedMessage(c echo.Context) error {
+	pinnedResponse, err := h.ChannelsClient.DeletePinnedMessage(c.Request().Context(), &connect.Request[channelsv1.DeletePinnedMessageRequest]{
+		Msg: &channelsv1.DeletePinnedMessageRequest{
+			ChannelId: c.Param("channel.id"),
+			MessageId: c.Param("message.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, pinnedResponse.Msg)
+}

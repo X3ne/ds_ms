@@ -35,6 +35,10 @@ func ConfigureV1Routes(server *s.Server) {
 
 	channels.POST("/:channel.id/typing", channelsHandler.TriggerTypingIndicator)
 
+	channels.GET("/:channel.id/pins", channelsHandler.GetPinnedMessages)
+	channels.PUT("/:channel.id/pins/:message.id", channelsHandler.AddPinnedMessage)
+	channels.DELETE("/:channel.id/pins/:message.id", channelsHandler.DeletePinnedMessage)
+
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
