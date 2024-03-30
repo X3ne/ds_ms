@@ -368,3 +368,28 @@ func (h *ChannelsHandler) DeleteChannelPermission(c echo.Context) error {
 
 	return responses.Response(c, http.StatusOK, deleteResponse.Msg)
 }
+
+// TriggerTypingIndicator godoc
+// @Summary Trigger the typing indicator in the given channel ID
+// @Description Trigger the typing indicator in the given channel ID
+// @Tags Channels
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param channel.id path string true "Channel ID"
+// @Success 200 {object} channelsv1.TriggerTypingIndicatorResponse
+// @Failure 400 {object} responses.Error
+// @Failure 500 {object} responses.Error
+// @Router /v1/channels/{channel.id}/typing [post]
+func (h *ChannelsHandler) TriggerTypingIndicator(c echo.Context) error {
+	typingResponse, err := h.ChannelsClient.TriggerTypingIndicator(c.Request().Context(), &connect.Request[channelsv1.TriggerTypingIndicatorRequest]{
+		Msg: &channelsv1.TriggerTypingIndicatorRequest{
+			ChannelId: c.Param("channel.id"),
+		},
+	})
+	if err != nil {
+		return responses.ConnectErrorResponse(c, err)
+	}
+
+	return responses.Response(c, http.StatusOK, typingResponse.Msg)
+}

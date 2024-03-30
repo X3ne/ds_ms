@@ -33,6 +33,8 @@ func ConfigureV1Routes(server *s.Server) {
 	channels.PUT("/:channel.id/permission/:overwrite.id", channelsHandler.EditChannelPermissions)
 	channels.DELETE("/:channel.id/permission/:overwrite.id", channelsHandler.DeleteChannelPermission)
 
+	channels.POST("/:channel.id/typing", channelsHandler.TriggerTypingIndicator)
+
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 

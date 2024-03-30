@@ -20,6 +20,8 @@ github.com/X3ne/ds_ms/api v0.0.0-20240328000219-5981ae60abc2 h1:ea1zFqsELSrQw+A2
 github.com/X3ne/ds_ms/api v0.0.0-20240328000219-5981ae60abc2/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/X3ne/ds_ms/api v0.0.0-20240328130804-f7e33c62b883 h1:C7yMsa4TY3rimjSU9lwYHSbwmPhl2ZASUlnBak1qrQ4=
 github.com/X3ne/ds_ms/api v0.0.0-20240328130804-f7e33c62b883/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
+github.com/X3ne/ds_ms/api v0.0.0-20240328134221-67a6404c9b72 h1:9U3G97oS/GA01x5T0092UpVnodbKC6ia3v+53v2V+wk=
+github.com/X3ne/ds_ms/api v0.0.0-20240328134221-67a6404c9b72/go.mod h1:2arP8vwOdKX+vZEKRmMi1AtDyO8dz6Q7mfgU+SM+bgs=
 github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 h1:DklsrG3dyBCFEj5IhUbnKptjxatkF07cF2ak3yi77so=
 github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2/go.mod h1:WaHUgvxTVq04UNunO+XhnAqY/wQc+bxr74GqbsZ/Jqw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

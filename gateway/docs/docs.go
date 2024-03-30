@@ -645,6 +645,55 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/channels/{channel.id}/typing": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Trigger the typing indicator in the given channel ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Channels"
+                ],
+                "summary": "Trigger the typing indicator in the given channel ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Channel ID",
+                        "name": "channel.id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/channelsv1.TriggerTypingIndicatorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -990,6 +1039,14 @@ const docTemplate = `{
                 },
                 "me": {
                     "description": "TODO add emoji",
+                    "type": "boolean"
+                }
+            }
+        },
+        "channelsv1.TriggerTypingIndicatorResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
                     "type": "boolean"
                 }
             }

@@ -232,6 +232,11 @@ definitions:
         description: TODO add emoji
         type: boolean
     type: object
+  channelsv1.TriggerTypingIndicatorResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
   channelsv1.UpdateMessageRequest:
     properties:
       content:
@@ -834,6 +839,37 @@ paths:
       - ApiKeyAuth: []
       summary: Edit channel permissions for the channel associated with the given
         ID
+      tags:
+      - Channels
+  /v1/channels/{channel.id}/typing:
+    post:
+      consumes:
+      - application/json
+      description: Trigger the typing indicator in the given channel ID
+      parameters:
+      - description: Channel ID
+        in: path
+        name: channel.id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/channelsv1.TriggerTypingIndicatorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Trigger the typing indicator in the given channel ID
       tags:
       - Channels
 swagger: "2.0"

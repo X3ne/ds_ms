@@ -4,7 +4,7 @@ go 1.22.1
 
 require (
 	connectrpc.com/connect v1.15.0
-	github.com/X3ne/ds_ms/api v0.0.0-20240328130804-f7e33c62b883
+	github.com/X3ne/ds_ms/api v0.0.0-20240328134221-67a6404c9b72
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.4
