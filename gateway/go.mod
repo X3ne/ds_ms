@@ -5,9 +5,9 @@ go 1.22.1
 require (
 	connectrpc.com/connect v1.15.0
 	github.com/X3ne/ds_ms/api v0.0.0-20240328144137-e1d29ea1e49f
-	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.11.4
+	github.com/mvrilo/go-redoc v0.1.4
 	github.com/swaggo/echo-swagger v1.4.1
 	github.com/swaggo/swag v1.16.3
 )
@@ -15,7 +15,6 @@ require (
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.33.0-20240221180331-f05a6f4403ce.1 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
-	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect

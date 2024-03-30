@@ -5,10 +5,12 @@ import (
 	"github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1/channelsv1connect"
 	s "github.com/X3ne/ds_ms/gateway/internal/server"
 	"github.com/X3ne/ds_ms/gateway/internal/server/v1/handlers"
+	"github.com/mvrilo/go-redoc"
+	echoredoc "github.com/mvrilo/go-redoc/echo"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"net/http"
 
 	"github.com/labstack/echo/v4/middleware"
-	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 func ConfigureV1Routes(server *s.Server) {
@@ -45,7 +47,17 @@ func ConfigureV1Routes(server *s.Server) {
 	// v1.Use(middleware.Logger())
 	v1.Use(middleware.Recover())
 
-	v1.GET("/docs/*", echoSwagger.WrapHandler)
+	v1.GET("/swagger/docs/*", echoSwagger.WrapHandler)
+
+	doc := redoc.Redoc{
+		Title:       "V1 Api doc",
+		Description: "1.0.0",
+		SpecFile:    "./docs/swagger.json",
+		SpecPath:    "/docs/swagger.json",
+		DocsPath:    "/v1/docs",
+	}
+
+	server.Echo.Use(echoredoc.New(doc))
 
 	fmt.Println("V1 routes configured")
 }
