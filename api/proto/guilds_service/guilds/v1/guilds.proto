@@ -52,7 +52,7 @@ message GuildMember {
   users.v1.User user = 1;
   string        nick = 2;
   string        avatar = 3;
-  repeated      int64 roles = 4;
+  repeated string roles = 4;
   int64         joined_at = 5;
   bool          deaf = 6;
   bool          mute = 7;
