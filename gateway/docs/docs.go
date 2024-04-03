@@ -3326,7 +3326,7 @@ const docTemplate = `{
                 "roles": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "string"
                     }
                 },
                 "user": {

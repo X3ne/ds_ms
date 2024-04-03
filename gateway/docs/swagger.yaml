@@ -671,7 +671,7 @@ definitions:
         type: string
       roles:
         items:
-          type: integer
+          type: string
         type: array
       user:
         $ref: '#/definitions/usersv1.User'
