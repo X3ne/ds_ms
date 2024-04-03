@@ -16,7 +16,8 @@ type Guild struct {
 	Banner      sql.NullString `db:"banner"`
 	Description sql.NullString `db:"description"`
 	OwnerID     string         `db:"owner_id" gorm:"not null"`
-	// Roles				[]int64					`db:"roles" gorm:"many2many:guild_roles;"`
+	//Roles       []        `db:"roles" gorm:"many2many:guild_roles;"`
+	//Members   []GuildMember `gorm:"foreignKey:GuildID;references:ID"`
 	CreatedAt time.Time `db:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `db:"updated_at" gorm:"autoUpdateTime"`
 }

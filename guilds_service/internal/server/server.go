@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"errors"
+	"github.com/X3ne/ds_ms/api/gen/channels_service/channels/v1/channelsv1connect"
 	"log"
 	"net/http"
 	"os"
@@ -31,8 +32,9 @@ func LaunchServer(cfg *config.Config, db *gorm.DB) {
 	api := http.NewServeMux()
 
 	api.Handle(guildsv1connect.NewGuildsServiceHandler(&handlers.GuildsServer{
-		Repository: repositories.NewGuildRepository(db),
-		UserClient: usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
+		Repository:     repositories.NewGuildRepository(db),
+		UsersClient:    usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
+		ChannelsClient: channelsv1connect.NewChannelsServiceClient(http.DefaultClient, "http://127.0.0.1:8082"),
 	}, errorsInterceptor))
 
 	mux := http.NewServeMux()
