@@ -75,8 +75,8 @@ func ConfigureV1Routes(server *s.Server) {
 
 	clients := &Clients{
 		ChannelsClient: channelsv1connect.NewChannelsServiceClient(http.DefaultClient, "http://127.0.0.1:8082"),
-		UsersClient:    usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8081"),
-		GuildsClient:   guildsv1connect.NewGuildsServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
+		UsersClient:    usersv1connect.NewUsersServiceClient(http.DefaultClient, "http://127.0.0.1:8080"),
+		GuildsClient:   guildsv1connect.NewGuildsServiceClient(http.DefaultClient, "http://127.0.0.1:8081"),
 	}
 
 	configureChannelsRoutes(server, v1, clients)
