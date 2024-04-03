@@ -138,12 +138,14 @@ message CreateRequest {
   string   owner_id = 3 [(buf.validate.field) = {
     string: {
       pattern: "^[0-9]+$",
-    }
+    },
+    ignore_empty: true,
   }];
   string   guild_id = 4 [(buf.validate.field) = {
     string: {
       pattern: "^[0-9]+$",
-    }
+    },
+    ignore_empty: true,
   }];
   ChannelType type = 5 [(buf.validate.field) = {
     enum: {
